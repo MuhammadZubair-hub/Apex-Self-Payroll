@@ -1,0 +1,130 @@
+import { StyleSheet } from 'react-native';
+import { scale } from '../../utils/responsive';
+
+export const helpSupportStyles = StyleSheet.create({
+  container: {
+    flex: 1,
+  },
+  scrollContent: {
+    padding: scale(16),
+    paddingBottom: scale(40),
+  },
+  banner: {
+    flexDirection: 'row',
+    alignItems: 'flex-start',
+    borderRadius: 14,
+    padding: scale(16),
+    marginBottom: scale(20),
+  },
+  bannerTitle: {
+    fontSize: 16,
+    fontFamily: 'PlusJakartaSans-Medium',
+  },
+  bannerText: {
+    fontSize: 13,
+    fontFamily: 'PlusJakartaSans-Regular',
+    marginTop: 3,
+    lineHeight: 18,
+  },
+  sectionTitle: {
+    fontSize: 15,
+    fontFamily: 'PlusJakartaSans-Medium',
+    marginBottom: scale(10),
+    marginTop: scale(4),
+  },
+  contactCard: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    borderRadius: 14,
+    padding: scale(14),
+    marginBottom: scale(10),
+    elevation: 2,
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.05,
+    shadowRadius: 6,
+  },
+  contactIconBox: {
+    width: 40,
+    height: 40,
+    borderRadius: 12,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  contactTitle: {
+    fontSize: 14,
+    fontFamily: 'PlusJakartaSans-Medium',
+  },
+  contactSubtitle: {
+    fontSize: 12,
+    fontFamily: 'PlusJakartaSans-Regular',
+    marginTop: 2,
+  },
+  faqCard: {
+    borderRadius: 14,
+    padding: scale(14),
+    marginBottom: scale(10),
+    elevation: 1,
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 1 },
+    shadowOpacity: 0.04,
+    shadowRadius: 4,
+  },
+  faqHeaderRow: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: scale(10),
+  },
+  faqQuestion: {
+    flex: 1,
+    fontSize: 13,
+    fontFamily: 'PlusJakartaSans-Medium',
+  },
+  faqAnswer: {
+    fontSize: 13,
+    fontFamily: 'PlusJakartaSans-Regular',
+    marginTop: scale(10),
+    lineHeight: 19,
+  },
+  reportCard: {
+    borderRadius: 14,
+    padding: scale(16),
+    marginBottom: scale(10),
+    elevation: 1,
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 1 },
+    shadowOpacity: 0.04,
+    shadowRadius: 4,
+  },
+  fieldLabel: {
+    fontSize: 13,
+    fontFamily: 'PlusJakartaSans-Medium',
+    marginBottom: scale(6),
+  },
+  textInput: {
+    borderWidth: 1,
+    borderRadius: 10,
+    paddingHorizontal: scale(14),
+    paddingVertical: scale(12),
+    fontSize: 14,
+    fontFamily: 'PlusJakartaSans-Regular',
+  },
+  textArea: {
+    minHeight: 90,
+    textAlignVertical: 'top',
+  },
+  sendButton: {
+    flexDirection: 'row',
+    justifyContent: 'center',
+    alignItems: 'center',
+    gap: scale(8),
+    borderRadius: 10,
+    paddingVertical: scale(13),
+    marginTop: scale(16),
+  },
+  sendButtonText: {
+    color: '#fff',
+    fontSize: 14,
+    fontFamily: 'PlusJakartaSans-SemiBold',
+  },
+});

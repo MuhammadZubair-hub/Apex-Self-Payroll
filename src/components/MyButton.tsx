@@ -1,5 +1,5 @@
 import React from "react";
-import { StyleSheet, Text, TouchableOpacity, ViewStyle } from "react-native";
+import { ActivityIndicator, StyleSheet, Text, TouchableOpacity, ViewStyle } from "react-native";
 // import { useTheme } from "../theme/ThemeContext";
 import { scale, } from "../utils/responsive";
 // import { useTheme } from "../theme/ThemeContex";
@@ -12,24 +12,14 @@ import { useThemeContext } from "../theme/ThemeContex";
 interface Props {
   text: string;
   onPress: () => void;
-  leftIcon?: boolean;
-  iconType?: string;
-  iconName?: string;
   disabled?: boolean;
+  loading?: boolean;
   style?: ViewStyle;
 }
 
-const MyButton = ({
-  text,
-  onPress,
-  leftIcon,
-  iconType,
-  iconName,
-  disabled,
-  style,
-}: Props) => {
+const MyButton = ({ text, onPress, disabled, loading, style }: Props) => {
   const { theme } = useThemeContext();
-  const colors = getColors(theme); 
+  const colors = getColors(theme);
 
   return (
     <TouchableOpacity
@@ -40,19 +30,9 @@ const MyButton = ({
       ]}
       onPress={onPress}
       activeOpacity={0.7}
-      disabled={disabled}
+      disabled={disabled || loading}
     >
-      {/* {leftIcon && (
-        <Icon
-          type={iconType}
-          name={iconName}
-          color="#fff"
-          size={scale(18)}
-          style={{ marginRight: scale(10) }}
-        />
-      )} */}
-
-      <Text style={[styles.text, { color: "#fff" }]}>{text}</Text>
+      {loading ? <ActivityIndicator color="#fff" /> : <Text style={[styles.text, { color: "#fff" }]}>{text}</Text>}
     </TouchableOpacity>
   );
 };

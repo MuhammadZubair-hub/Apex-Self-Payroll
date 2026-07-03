@@ -33,6 +33,10 @@
 	</dict>
 	<key>NSLocationWhenInUseUsageDescription</key>
 	<string/>
+	<key>NSCameraUsageDescription</key>
+	<string>Allow ESS to access your camera to capture attachments for leave requests.</string>
+	<key>NSPhotoLibraryUsageDescription</key>
+	<string>Allow ESS to access your photo library to attach documents to leave requests.</string>
 	<key>UILaunchStoryboardName</key>
 	<string>LaunchScreen</string>
 	<key>UIRequiredDeviceCapabilities</key>

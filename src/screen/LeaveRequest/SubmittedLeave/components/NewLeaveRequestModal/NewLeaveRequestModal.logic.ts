@@ -1,0 +1,210 @@
+import axios from 'axios';
+import { useCallback, useMemo, useState } from 'react';
+import { showMessage } from 'react-native-flash-message';
+import { launchCamera, launchImageLibrary } from 'react-native-image-picker';
+import { baseUrl, endPoints } from '../../../../../services/Constants/endPoints';
+import { CommonStyle } from '../../../../../utils/Common/CommonStyle';
+import { daysBetweenInclusive } from '../../../leaveRequest.constants';
+
+export interface NewLeaveRequestPayload {
+  leaveTypeId: number | string;
+  leaveTypeLabel: string;
+  fromDate: Date;
+  toDate: Date;
+  remarks: string;
+  attachmentPath: string;
+}
+
+interface UseNewLeaveRequestFormArgs {
+  leaveTypes: any[];
+  employeeId: number | string;
+  onSubmit: (payload: NewLeaveRequestPayload) => void | Promise<void>;
+  onClose: () => void;
+}
+
+export const useNewLeaveRequestForm = ({ leaveTypes, employeeId, onSubmit, onClose }: UseNewLeaveRequestFormArgs) => {
+  const [leaveTypeId, setLeaveTypeId] = useState<number | string | null>(null);
+  const [fromDate, setFromDate] = useState<Date | null>(null);
+  const [toDate, setToDate] = useState<Date | null>(null);
+  const [remarks, setRemarks] = useState('');
+  const [typePickerVisible, setTypePickerVisible] = useState(false);
+  const [submitting, setSubmitting] = useState(false);
+  const [attachment, setAttachment] = useState<{ name: string; remotePath: string } | null>(null);
+  const [attachmentUploading, setAttachmentUploading] = useState(false);
+  const [attachmentSourceVisible, setAttachmentSourceVisible] = useState(false);
+  const [datePicker, setDatePicker] = useState<{ visible: boolean; mode: 'from' | 'to' }>({
+    visible: false,
+    mode: 'from',
+  });
+
+  const normalizedTypes = useMemo(
+    () =>
+      leaveTypes.map((t) => ({
+        id: t.id ?? t.leaveID,
+        label: t.leaveName?.trim?.() ?? t.name ?? t.leaveType ?? 'Leave',
+        leaveBalance: t.leaveBalance ?? 0,
+      })),
+    [leaveTypes]
+  );
+
+  const selectedLeaveType = useMemo(
+    () => normalizedTypes.find((t) => t.id === leaveTypeId),
+    [normalizedTypes, leaveTypeId]
+  );
+
+  const totalDaysLabel = useMemo(() => {
+    if (!fromDate || !toDate) return '0 day';
+    const days = daysBetweenInclusive(fromDate, toDate);
+    if (days <= 0) return '0 day';
+    return days === 1 ? '1 day' : `${days} days`;
+  }, [fromDate, toDate]);
+
+  const resetForm = useCallback(() => {
+    setLeaveTypeId(null);
+    setFromDate(null);
+    setToDate(null);
+    setRemarks('');
+    setAttachment(null);
+  }, []);
+
+  const uploadAttachment = useCallback(
+    async (asset: { uri?: string; fileName?: string; type?: string }) => {
+      if (!asset.uri) return;
+      const fileName = asset.fileName || `attachment_${Date.now()}.jpg`;
+
+      setAttachmentUploading(true);
+      try {
+        const formData = new FormData();
+        formData.append('file', {
+          uri: asset.uri,
+          name: fileName,
+          type: asset.type || 'image/jpeg',
+        } as any);
+        formData.append('id', String(employeeId));
+
+        const r = await axios.post(`${baseUrl}${endPoints.UploadFileESS}`, formData, {
+          headers: { 'Content-Type': 'multipart/form-data' },
+        });
+
+        console.log('the reposen is ',r)
+
+        const remotePath = r.data.path;
+        if (r.data.status === 200) {
+          setAttachment({ name: fileName, remotePath });
+        } else {
+          showMessage({
+            message: 'Failed to upload attachment',
+            description: `${r.data.message}`,
+            type: 'danger',
+            style: CommonStyle.error,
+          });
+          setAttachment({ name: fileName, remotePath });
+        }
+      } catch (error) {
+        console.log('error uploading attachment', error);
+        showMessage({ message: 'Failed to upload attachment', type: 'danger', style: CommonStyle.error });
+      } finally {
+        setAttachmentUploading(false);
+      }
+    },
+    [employeeId]
+  );
+
+  const pickAndUploadAttachment = useCallback(() => setAttachmentSourceVisible(true), []);
+
+  const pickFromCamera = useCallback(async () => {
+    setAttachmentSourceVisible(false);
+    const result = await launchCamera({ mediaType: 'photo', quality: 0.7, saveToPhotos: true });
+    if (result.didCancel || result.errorCode || !result.assets?.[0]) return;
+    uploadAttachment(result.assets[0]);
+  }, [uploadAttachment]);
+
+  const pickFromLibrary = useCallback(async () => {
+    setAttachmentSourceVisible(false);
+    const result = await launchImageLibrary({ mediaType: 'photo', quality: 0.7 });
+    if (result.didCancel || result.errorCode || !result.assets?.[0]) return;
+    uploadAttachment(result.assets[0]);
+  }, [uploadAttachment]);
+
+  const handleClose = useCallback(() => {
+    resetForm();
+    onClose();
+  }, [resetForm, onClose]);
+
+  const handleDateConfirm = useCallback(
+    (date: Date | null) => {
+      if (datePicker.mode === 'from') {
+        setFromDate(date);
+        if (date && toDate && toDate < date) setToDate(null);
+      } else {
+        setToDate(date);
+      }
+      setDatePicker((prev) => ({ ...prev, visible: false }));
+    },
+    [datePicker.mode, toDate]
+  );
+
+  const handleSubmit = useCallback(async () => {
+    if (!selectedLeaveType) {
+      showMessage({ message: 'Please select a leave type', type: 'danger', style: CommonStyle.error });
+      return;
+    }
+    if (!fromDate) {
+      showMessage({ message: 'Please select a start date', type: 'danger', style: CommonStyle.error });
+      return;
+    }
+    if (!toDate) {
+      showMessage({ message: 'Please select an end date', type: 'danger', style: CommonStyle.error });
+      return;
+    }
+    if (toDate < fromDate) {
+      showMessage({ message: 'End date cannot be before start date', type: 'danger', style: CommonStyle.error });
+      return;
+    }
+    if (attachmentUploading) {
+      showMessage({ message: 'Your attachment is still uploading', type: 'warning' });
+      return;
+    }
+
+    setSubmitting(true);
+    await onSubmit({
+      leaveTypeId: selectedLeaveType.id,
+      leaveTypeLabel: selectedLeaveType.label,
+      fromDate,
+      toDate,
+      remarks,
+      attachmentPath: attachment?.remotePath || '',
+    });
+    setSubmitting(false);
+    resetForm();
+  }, [selectedLeaveType, fromDate, toDate, attachmentUploading, remarks, attachment, onSubmit, resetForm]);
+
+  return {
+    leaveTypeId,
+    setLeaveTypeId,
+    fromDate,
+    toDate,
+    remarks,
+    setRemarks,
+    typePickerVisible,
+    setTypePickerVisible,
+    submitting,
+    attachment,
+    setAttachment,
+    attachmentUploading,
+    attachmentSourceVisible,
+    setAttachmentSourceVisible,
+    datePicker,
+    setDatePicker,
+    normalizedTypes,
+    selectedLeaveType,
+    totalDaysLabel,
+    resetForm,
+    pickAndUploadAttachment,
+    pickFromCamera,
+    pickFromLibrary,
+    handleClose,
+    handleDateConfirm,
+    handleSubmit,
+  };
+};
