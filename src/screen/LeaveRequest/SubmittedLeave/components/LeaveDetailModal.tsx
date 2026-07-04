@@ -1,11 +1,13 @@
-import React from 'react';
-import { StyleSheet, Text, View } from 'react-native';
+import React, { useCallback, useState } from 'react';
+import { StyleSheet, Text, TouchableOpacity, View } from 'react-native';
+import { Fold } from 'react-native-animated-spinkit';
 import BottomSheet from '../../../../components/BottomSheet';
 import MyButton from '../../../../components/MyButton';
 import Icon from '../../../../components/Icons';
 import { sharedStyles } from '../../components/sharedStyles';
 import { formatDateRange, formatShortDate, getLeaveIconMeta, getStatusMeta } from '../../leaveRequest.constants';
 import { scale } from '../../../../utils/responsive';
+import { downloadAttachment } from '../../../../utils/downloadAttachment';
 
 interface DetailRow {
   icon: string;
@@ -44,6 +46,15 @@ const LeaveDetailModal = ({
   colors: any;
   onClose: () => void;
 }) => {
+  const [downloading, setDownloading] = useState(false);
+
+  const handleDownload = useCallback(async () => {
+    if (!item?.attachmentPath) return;
+    setDownloading(true);
+    await downloadAttachment(item.attachmentPath);
+    setDownloading(false);
+  }, [item?.attachmentPath]);
+
   if (!item) return null;
 
   const statusMeta = getStatusMeta(colors)[item.requestStatus] || getStatusMeta(colors).Pending;
@@ -84,6 +95,22 @@ const LeaveDetailModal = ({
       </View>
 
       <DetailSection title="Application Information" rows={infoRows} colors={colors} />
+
+      {item.attachmentPath ? (
+        <TouchableOpacity
+          style={[styles.attachmentRow, { borderColor: colors.borderColor }]}
+          onPress={handleDownload}
+          disabled={downloading}
+        >
+          <Icon type="Ionicons" name="document-attach-outline" size={18} color={colors.purple1} />
+          <Text style={[styles.attachmentText, { color: colors.textPrimary }]}>Attachment</Text>
+          {downloading ? (
+            <Fold size={20} color={colors.purple1} />
+          ) : (
+            <Icon type="Ionicons" name="download-outline" size={20} color={colors.purple1} />
+          )}
+        </TouchableOpacity>
+      ) : null}
     </BottomSheet>
   );
 };
@@ -91,6 +118,20 @@ const LeaveDetailModal = ({
 export default React.memo(LeaveDetailModal);
 
 const styles = StyleSheet.create({
+  attachmentRow: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: 10,
+    paddingVertical: scale(12),
+    paddingHorizontal: scale(14),
+    borderWidth: 1,
+    borderRadius: 10,
+  },
+  attachmentText: {
+    flex: 1,
+    fontSize: 14,
+    fontFamily: 'PlusJakartaSans-Medium',
+  },
   topRow: {
     flexDirection: 'row',
     alignItems: 'flex-start',

@@ -21,6 +21,10 @@ const CustomDrawerContent = (props: any) => {
 
   const drawerUserName = profileData?.name || 'Naveen Kumar';
 
+  const activeRouteName = props.state.routeNames[props.state.index];
+  const isActive = (routeName: string) => activeRouteName === routeName;
+  const tintFor = (routeName: string) => (isActive(routeName) ? colors.purple1 : colors.textSecondary);
+
   return (
     <SafeAreaView style={[styles.container, { backgroundColor: colors.primaryColor }]}>
       {/* Top Header - User Profile Section */}
@@ -58,10 +62,10 @@ const CustomDrawerContent = (props: any) => {
           <DrawerItem
             label="Dashboard"
             icon={({ size }) => (
-              <Icon name="grid" type="Ionicons" size={size} color={props.state.index === 0 ? colors.purple1 : colors.textSecondary} />
+              <Icon name="grid" type="Ionicons" size={size} color={tintFor('Home')} />
             )}
             onPress={() => props.navigation.navigate('Home')}
-            focused={props.state.index === 0}
+            focused={isActive('Home')}
             activeBackgroundColor={colors.lightPurple}
             activeTintColor={colors.purple1}
             inactiveTintColor={colors.textSecondary}
@@ -73,11 +77,11 @@ const CustomDrawerContent = (props: any) => {
           <DrawerItem
             label="Attendance"
             icon={({ size }) => (
-              <Icon name="calendar-outline" type="Ionicons" size={size} color={colors.textSecondary} />
+              <Icon name="calendar-outline" type="Ionicons" size={size} color={tintFor('attendance')} />
             )}
             onPress={() => props.navigation.navigate('attendance')}
-            focused={props.state.index === 1}
-             activeBackgroundColor={colors.lightPurple}
+            focused={isActive('attendance')}
+            activeBackgroundColor={colors.lightPurple}
             activeTintColor={colors.purple1}
             inactiveTintColor={colors.textSecondary}
             labelStyle={styles.drawerLabel}
@@ -88,9 +92,12 @@ const CustomDrawerContent = (props: any) => {
           <DrawerItem
             label="Leave Request"
             icon={({ size }) => (
-              <Icon name="document-text-outline" type="Ionicons" size={size} color={colors.textSecondary} />
+              <Icon name="document-text-outline" type="Ionicons" size={size} color={tintFor('Leaveapplication')} />
             )}
             onPress={() => props.navigation.navigate('Leaveapplication')}
+            focused={isActive('Leaveapplication')}
+            activeBackgroundColor={colors.lightPurple}
+            activeTintColor={colors.purple1}
             inactiveTintColor={colors.textSecondary}
             labelStyle={styles.drawerLabel}
             style={styles.drawerItem}
@@ -100,9 +107,12 @@ const CustomDrawerContent = (props: any) => {
           <DrawerItem
             label="Profile"
             icon={({ size }) => (
-              <Icon name="person-outline" type="Ionicons" size={size} color={colors.textSecondary} />
+              <Icon name="person-outline" type="Ionicons" size={size} color={tintFor('profile')} />
             )}
             onPress={() => props.navigation.navigate('profile')}
+            focused={isActive('profile')}
+            activeBackgroundColor={colors.lightPurple}
+            activeTintColor={colors.purple1}
             inactiveTintColor={colors.textSecondary}
             labelStyle={styles.drawerLabel}
             style={styles.drawerItem}
@@ -113,9 +123,12 @@ const CustomDrawerContent = (props: any) => {
             <DrawerItem
               label="Notifications"
               icon={({ size }) => (
-                <Icon name="notifications-outline" type="Ionicons" size={size} color={colors.textSecondary} />
+                <Icon name="notifications-outline" type="Ionicons" size={size} color={tintFor('notifications')} />
               )}
               onPress={() => props.navigation.navigate('notifications')}
+              focused={isActive('notifications')}
+              activeBackgroundColor={colors.lightPurple}
+              activeTintColor={colors.purple1}
               inactiveTintColor={colors.textSecondary}
               labelStyle={styles.drawerLabel}
               style={[styles.drawerItem, { flex: 1 }]}
@@ -127,9 +140,12 @@ const CustomDrawerContent = (props: any) => {
           <DrawerItem
             label="Settings"
             icon={({ size }) => (
-              <Icon name="settings-outline" type="Ionicons" size={size} color={colors.textSecondary} />
+              <Icon name="settings-outline" type="Ionicons" size={size} color={tintFor('settings')} />
             )}
             onPress={() => props.navigation.navigate('settings')}
+            focused={isActive('settings')}
+            activeBackgroundColor={colors.lightPurple}
+            activeTintColor={colors.purple1}
             inactiveTintColor={colors.textSecondary}
             labelStyle={styles.drawerLabel}
             style={styles.drawerItem}
@@ -139,9 +155,12 @@ const CustomDrawerContent = (props: any) => {
           <DrawerItem
             label="Help & Support"
             icon={({ size }) => (
-              <Icon name="help-circle-outline" type="Ionicons" size={size} color={colors.textSecondary} />
+              <Icon name="help-circle-outline" type="Ionicons" size={size} color={tintFor('support')} />
             )}
             onPress={() => props.navigation.navigate('support')}
+            focused={isActive('support')}
+            activeBackgroundColor={colors.lightPurple}
+            activeTintColor={colors.purple1}
             inactiveTintColor={colors.textSecondary}
             labelStyle={styles.drawerLabel}
             style={styles.drawerItem}
@@ -151,9 +170,12 @@ const CustomDrawerContent = (props: any) => {
           <DrawerItem
             label="About ESS"
             icon={({ size }) => (
-              <Icon name="information-circle-outline" type="Ionicons" size={size} color={colors.textSecondary} />
+              <Icon name="information-circle-outline" type="Ionicons" size={size} color={tintFor('about')} />
             )}
             onPress={() => props.navigation.navigate('about')}
+            focused={isActive('about')}
+            activeBackgroundColor={colors.lightPurple}
+            activeTintColor={colors.purple1}
             inactiveTintColor={colors.textSecondary}
             labelStyle={styles.drawerLabel}
             style={styles.drawerItem}

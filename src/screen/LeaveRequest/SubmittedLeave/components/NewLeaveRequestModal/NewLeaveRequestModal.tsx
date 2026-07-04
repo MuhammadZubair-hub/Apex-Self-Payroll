@@ -1,8 +1,10 @@
 import React from 'react';
-import { ActivityIndicator, Modal, ScrollView, StatusBar, Text, TextInput, TouchableOpacity, View } from 'react-native';
+import { Modal, ScrollView, StatusBar, Text, TextInput, TouchableOpacity, View } from 'react-native';
+import { Fold } from 'react-native-animated-spinkit';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import Icon from '../../../../../components/Icons';
 import MyButton from '../../../../../components/MyButton';
+import ModalFlashMessage from '../../../../../components/ModalFlashMessage';
 import { scale } from '../../../../../utils/responsive';
 import FieldLabel from '../../../components/FieldLabel';
 import { sharedStyles } from '../../../components/sharedStyles';
@@ -46,6 +48,7 @@ const NewLeaveRequestModal = ({ visible, colors, leaveTypes, employeeId, onClose
     pickAndUploadAttachment,
     pickFromCamera,
     pickFromLibrary,
+    pickPdfDocument,
     handleClose,
     handleDateConfirm,
     handleSubmit,
@@ -53,6 +56,7 @@ const NewLeaveRequestModal = ({ visible, colors, leaveTypes, employeeId, onClose
 
   return (
     <Modal visible={visible} animationType="slide" onRequestClose={handleClose}>
+      <ModalFlashMessage visible={visible} />
       <SafeAreaView style={[styles.container, { backgroundColor: colors.primaryColor }]}>
         <StatusBar backgroundColor={colors.primaryColor} barStyle="dark-content" />
 
@@ -155,10 +159,10 @@ const NewLeaveRequestModal = ({ visible, colors, leaveTypes, employeeId, onClose
                 <Text style={[styles.attachmentTitle, { color: colors.textPrimary }]}>
                   {attachmentUploading ? 'Uploading...' : 'Add supporting document'}
                 </Text>
-                <Text style={[styles.attachmentSubText, { color: colors.textSecondary }]}>JPG or PNG</Text>
+                <Text style={[styles.attachmentSubText, { color: colors.textSecondary }]}>JPG, PNG or PDF</Text>
               </View>
               {attachmentUploading ? (
-                <ActivityIndicator color={colors.purple1} />
+                <Fold size={20} color={colors.purple1} />
               ) : (
                 <Icon type="Ionicons" name="chevron-forward" size={18} color={colors.textSecondary} />
               )}
@@ -201,6 +205,7 @@ const NewLeaveRequestModal = ({ visible, colors, leaveTypes, employeeId, onClose
         colors={colors}
         onCamera={pickFromCamera}
         onLibrary={pickFromLibrary}
+        onDocument={pickPdfDocument}
         onClose={() => setAttachmentSourceVisible(false)}
       />
     </Modal>

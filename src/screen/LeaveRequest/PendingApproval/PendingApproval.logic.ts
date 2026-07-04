@@ -20,6 +20,7 @@ export const usePendingApprovals = (employeeId: number | string | undefined) => 
       setPendingApprovals(r.data?.status ? r.data.data || [] : []);
     } catch (error) {
       console.log('error fetching pending approvals', error);
+      showMessage({ message: 'Failed to fetch pending approvals', type: 'danger', style: CommonStyle.error });
     } finally {
       setLoadingApprovals(false);
       setRefreshing(false);

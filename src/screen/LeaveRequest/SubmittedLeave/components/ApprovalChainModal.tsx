@@ -1,5 +1,6 @@
 import React, { useCallback } from 'react';
-import { ActivityIndicator, FlatList, StyleSheet, Text, View } from 'react-native';
+import { FlatList, StyleSheet, Text, View } from 'react-native';
+import { Fold } from 'react-native-animated-spinkit';
 import BottomSheet from '../../../../components/BottomSheet';
 import MyButton from '../../../../components/MyButton';
 import { sharedStyles } from '../../components/sharedStyles';
@@ -59,7 +60,9 @@ const ApprovalChainModal = ({ visible, loading, chain, colors, onClose }: Approv
       footer={<MyButton text="Close" onPress={onClose} style={{ backgroundColor: colors.purple1, marginTop: scale(6) }} />}
     >
       {loading ? (
-        <ActivityIndicator color={colors.purple1} style={styles.spinner} />
+        <View style={styles.spinner}>
+          <Fold size={40} color={colors.purple1} />
+        </View>
       ) : chain.length === 0 ? (
         <Text style={[sharedStyles.emptyListSubText, { color: colors.textSecondary, textAlign: 'center', marginVertical: 30 }]}>
           No approval information available
@@ -82,6 +85,7 @@ export default React.memo(ApprovalChainModal);
 const styles = StyleSheet.create({
   spinner: {
     marginVertical: 30,
+    alignItems: 'center',
   },
   list: {
     maxHeight: scale(360),

@@ -24,6 +24,7 @@ export const endPoints = {
   GetApprovalDetailESS: 'ApproveESS/GetApprovalDetailESS',
   ApproveRejectDocumentESS: 'ApproveESS/ApproveRejectDocumentESS',
   UploadFileESS: 'ESSFileUpload/UploadFileESS',
+  DownloadFileESS: 'ESSFileUpload/DownloadFileESS',
 
 
 

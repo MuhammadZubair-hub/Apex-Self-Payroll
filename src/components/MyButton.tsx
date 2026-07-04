@@ -1,5 +1,6 @@
 import React from "react";
-import { ActivityIndicator, StyleSheet, Text, TouchableOpacity, ViewStyle } from "react-native";
+import { StyleSheet, Text, TouchableOpacity, ViewStyle } from "react-native";
+import { Fold } from "react-native-animated-spinkit";
 // import { useTheme } from "../theme/ThemeContext";
 import { scale, } from "../utils/responsive";
 // import { useTheme } from "../theme/ThemeContex";
@@ -32,7 +33,7 @@ const MyButton = ({ text, onPress, disabled, loading, style }: Props) => {
       activeOpacity={0.7}
       disabled={disabled || loading}
     >
-      {loading ? <ActivityIndicator color="#fff" /> : <Text style={[styles.text, { color: "#fff" }]}>{text}</Text>}
+      {loading ? <Fold size={28} color="#fff" /> : <Text style={[styles.text, { color: "#fff" }]}>{text}</Text>}
     </TouchableOpacity>
   );
 };

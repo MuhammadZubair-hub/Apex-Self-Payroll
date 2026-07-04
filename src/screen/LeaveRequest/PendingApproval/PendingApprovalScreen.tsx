@@ -1,10 +1,11 @@
 import React, { useCallback } from 'react';
-import { ActivityIndicator, FlatList, RefreshControl, Text, View } from 'react-native';
+import { FlatList, RefreshControl, Text, View } from 'react-native';
 import Icon from '../../../components/Icons';
 import { sharedStyles } from '../components/sharedStyles';
 import { usePendingApprovals } from './PendingApproval.logic';
 import PendingApprovalCard from './components/PendingApprovalCard';
 import ApproveRejectModal from './components/ApproveRejectModal';
+import ListSkeleton from '../components/ListSkeleton';
 
 interface PendingApprovalScreenProps {
   colors: any;
@@ -34,25 +35,25 @@ const PendingApprovalScreen = ({ colors, state }: PendingApprovalScreenProps) =>
 
   return (
     <>
-      <FlatList
-        data={pendingApprovals}
-        keyExtractor={keyExtractor}
-        renderItem={renderItem}
-        contentContainerStyle={sharedStyles.listContent}
-        showsVerticalScrollIndicator={false}
-        refreshControl={<RefreshControl refreshing={refreshing} onRefresh={onRefresh} colors={[colors.purple1]} />}
-        ListEmptyComponent={
-          !loadingApprovals ? (
+      {loadingApprovals && pendingApprovals.length === 0 ? (
+        <ListSkeleton colors={colors} />
+      ) : (
+        <FlatList
+          data={pendingApprovals}
+          keyExtractor={keyExtractor}
+          renderItem={renderItem}
+          contentContainerStyle={sharedStyles.listContent}
+          showsVerticalScrollIndicator={false}
+          refreshControl={<RefreshControl refreshing={refreshing} onRefresh={onRefresh} colors={[colors.purple1]} />}
+          ListEmptyComponent={
             <View style={sharedStyles.emptyListContainer}>
               <Icon type="Ionicons" name="checkmark-done-outline" size={56} color={colors.textSecondary} />
               <Text style={[sharedStyles.emptyListText, { color: colors.textPrimary }]}>No pending approvals</Text>
               <Text style={[sharedStyles.emptyListSubText, { color: colors.textSecondary }]}>You&apos;re all caught up</Text>
             </View>
-          ) : (
-            <ActivityIndicator style={{ marginTop: 40 }} color={colors.purple1} />
-          )
-        }
-      />
+          }
+        />
+      )}
 
       <ApproveRejectModal
         visible={!!actionTarget}

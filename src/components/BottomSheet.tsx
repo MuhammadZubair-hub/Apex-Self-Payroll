@@ -1,6 +1,7 @@
 import React from 'react';
 import { DimensionValue, Modal, ScrollView, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 import Icon from './Icons';
+import ModalFlashMessage from './ModalFlashMessage';
 import { scale } from '../utils/responsive';
 
 interface BottomSheetProps {
@@ -35,6 +36,7 @@ const BottomSheet = ({
 
   return (
     <Modal visible={visible} transparent animationType="slide" onRequestClose={onClose}>
+      <ModalFlashMessage visible={visible} />
       <View style={styles.overlay}>
         <TouchableOpacity style={StyleSheet.absoluteFill} activeOpacity={1} onPress={onClose} />
 

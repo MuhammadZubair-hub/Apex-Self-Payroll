@@ -27,6 +27,7 @@ const HomeScreen = () => {
     leaveModalVisible,
     openLeaveModal,
     closeLeaveModal,
+    goToAttendance,
   } = useHome();
 
   return (
@@ -46,7 +47,7 @@ const HomeScreen = () => {
           todayBottomText={todayBottomText}
         />
 
-        <AttendanceOverviewCard colors={colors} summary={attendanceSummary} />
+        <AttendanceOverviewCard colors={colors} summary={attendanceSummary} onPress={goToAttendance} />
 
         <InfoCardsRow
           colors={colors}

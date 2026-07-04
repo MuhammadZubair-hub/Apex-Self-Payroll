@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import {
   StyleSheet,
   Text,
@@ -19,6 +19,7 @@ interface Props {
   value: string;
   placeholder: string;
   onChangeText: (t: string) => void;
+  onFocus?: () => void;
   onBlur?: () => void;
   iconType?: string;
   iconName?: string;
@@ -34,6 +35,7 @@ const MyInput = ({
   value,
   placeholder,
   onChangeText,
+  onFocus,
   onBlur,
   iconType,
   iconName,
@@ -46,18 +48,20 @@ const MyInput = ({
 
 }: Props) => {
   const { theme } = useThemeContext();
-  const colors = getColors(theme); 
+  const colors = getColors(theme);
+  const [isFocused, setIsFocused] = useState(false);
 
   return (
     <View>
-      {label ? 
+      {label ?
       <Text style={{color: colors.textPrimary,marginBottom:verticalScale(8),fontSize:AppSizes.FONT_14,fontFamily:'PlusJakartaSans-Bold'}}>{label}</Text> : null}
 
       <View
         style={[
           styles.container,
           {
-            borderColor: colors.borderColor,
+            borderColor: isFocused ? colors.primarayheaderColor : colors.borderColor,
+            borderWidth: isFocused ? 1.5 : 1,
             backgroundColor: colors.secondPrimaryColor,
           },
           containerStyle,
@@ -68,7 +72,7 @@ const MyInput = ({
             type={iconType}
             name={iconName}
             size={scale(20)}
-            color={colors.purple1}
+            color={isFocused ? colors.primarayheaderColor : colors.purple1}
           />
         )}
 
@@ -77,7 +81,14 @@ const MyInput = ({
           placeholder={placeholder}
           placeholderTextColor={colors.textSecondary}
           onChangeText={onChangeText}
-          onBlur={onBlur}
+          onFocus={() => {
+            setIsFocused(true);
+            onFocus?.();
+          }}
+          onBlur={() => {
+            setIsFocused(false);
+            onBlur?.();
+          }}
           secureTextEntry={secure}
           editable={editable}
           keyboardType={keyboardType}

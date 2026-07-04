@@ -7,8 +7,6 @@
 // import { useThemeContext } from "@/src/theme/ThemeContex";
 // import { AppSizes } from "@/src/utils/AppSizes";
 // import { scale, verticalScale } from "@/src/utils/responsive";
-import { useNavigation } from "@react-navigation/native";
-import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 import React, { useState } from "react";
 import {
   Image,
@@ -25,16 +23,11 @@ import { useThemeContext } from "../../../theme/ThemeContex";
 import { getColors } from "../../../theme/color/theme";
 import { useLoginUser } from "./login";
 import { AppSizes } from "../../../utils/AppSizes";
+import Icon from "../../../components/Icons";
 import MyInput from "../../../components/MyInput";
 import MyButton from "../../../components/MyButton";
 import LoadingBaseModal from "../../../components/Loader/LoadingBaseModal";
 import { scale, verticalScale } from "../../../utils/responsive";
-
-type naviagtionprops = {
-  Login: undefined;
-  Drawer: undefined;
-  UpdatePassword: undefined;
-};
 
 const LoginScreen = () => {
   const { theme } = useThemeContext();
@@ -44,9 +37,6 @@ const LoginScreen = () => {
 
   const { handleLogin, isLoading, userCredentials, setUserCredentials } =
     useLoginUser();
-
-  const navigation =
-    useNavigation<NativeStackNavigationProp<naviagtionprops>>();
 
   // Purple gradient used for the background + illustration backdrop.
   // Falls back to a default purple pair if the active theme doesn't define them.
@@ -99,7 +89,7 @@ const LoginScreen = () => {
                   setUserCredentials((prev) => ({ ...prev, email: v }));
                 }}
                 iconType="Ionicons"
-                iconName="person"
+                iconName="person-outline"
                 containerStyle={styles.inputContainer}
               />
 
@@ -110,16 +100,15 @@ const LoginScreen = () => {
                 onChangeText={(v) => {
                   setUserCredentials((prev) => ({ ...prev, password: v }));
                 }}
-                // secure
-                iconType="MaterialIcons"
-                iconName="password"
+                iconType="Ionicons"
+                iconName="lock-closed-outline"
                 secure={isSecure}
                 containerStyle={styles.inputContainer}
-                // rightComponent={
-                //   <Icon name={isSecure ? "eye-off-outline" : "eye-outline"}
-                //     onPress={() => { setIsSecure(prev => !prev) }}
-                //     type={"Ionicons"} color={colors.purple1} />
-                // }
+                rightComponent={
+                  <Icon name={isSecure ? "eye-off-outline" : "eye-outline"}
+                    onPress={() => { setIsSecure(prev => !prev) }}
+                    type={"Ionicons"} color={colors.textSecondary} />
+                }
               />
 
               <MyButton

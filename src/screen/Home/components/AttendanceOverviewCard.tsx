@@ -6,13 +6,14 @@ import { homeStyles as styles } from '../Home.styles';
 interface AttendanceOverviewCardProps {
   colors: any;
   summary: { present: number; absent: number; pending: number; totalDays: number };
+  onPress: () => void;
 }
 
-const AttendanceOverviewCard = ({ colors, summary }: AttendanceOverviewCardProps) => (
-  <TouchableOpacity style={[styles.card, { backgroundColor: colors.secondPrimaryColor }]} activeOpacity={0.85}>
+const AttendanceOverviewCard = ({ colors, summary, onPress }: AttendanceOverviewCardProps) => (
+  <TouchableOpacity style={[styles.card, { backgroundColor: colors.secondPrimaryColor }]} onPress={onPress} activeOpacity={0.85}>
     <View style={styles.attendanceStatusRow}>
       <Text style={[styles.cardTitle, { color: colors.textPrimary, marginBottom: 0 }]}>Attendance Overview</Text>
-      <TouchableOpacity>
+      <TouchableOpacity onPress={onPress}>
         <Text style={[styles.viewDetailsText, { color: colors.purple1 }]}>View Details</Text>
       </TouchableOpacity>
     </View>

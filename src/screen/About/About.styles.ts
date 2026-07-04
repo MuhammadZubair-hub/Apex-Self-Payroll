@@ -22,8 +22,8 @@ export const aboutStyles = StyleSheet.create({
     shadowRadius: 6,
   },
   logo: {
-    width: 96,
-    height: 96,
+    width: '72%',
+    aspectRatio: 4.12,
     marginBottom: scale(12),
   },
   appName: {

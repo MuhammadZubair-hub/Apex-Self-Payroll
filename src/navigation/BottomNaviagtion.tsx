@@ -1,4 +1,3 @@
-import { StyleSheet, Text, View } from 'react-native'
 import React from 'react'
 import { useThemeContext } from '../theme/ThemeContex';
 import { getColors } from '../theme/color/theme';
@@ -20,7 +19,7 @@ const BottomNaviagtion = () => {
                 tabBarIcon: ({ focused, color, size }) => {
                     let iconName: any;
 
-                    if (route.name === 'index') {
+                    if (route.name === 'Home') {
                         iconName = focused ? 'home' : 'home-outline';
                     } else if (route.name === 'notifications') {
                         iconName = focused ? 'notifications' : 'notifications-outline';
@@ -49,5 +48,3 @@ const BottomNaviagtion = () => {
 }
 
 export default BottomNaviagtion
-
-const styles = StyleSheet.create({})

@@ -1,47 +1,25 @@
-import { ActivityIndicator, Modal, View } from 'react-native';
-// import { useTheme } from '../../theme/ThemeContex';
-// import LottieView from 'lottie-react-native';
-import { AppSizes } from '../../utils/AppSizes';
+import React from 'react';
+import { Modal, StyleSheet, Text, View } from 'react-native';
+import { Fold } from 'react-native-animated-spinkit';
 import { useThemeContext } from '../../theme/ThemeContex';
 import { getColors } from '../../theme/color/theme';
+import { scale } from '../../utils/responsive';
 
 interface LoadingModalProps {
   visible: boolean;
+  label?: string;
 }
-const LoadingBaseModal = ({ visible = false }: LoadingModalProps) => {
+
+const LoadingBaseModal = ({ visible = false, label = 'Loading...' }: LoadingModalProps) => {
   const { theme } = useThemeContext();
-  const colors = getColors(theme); 
+  const colors = getColors(theme);
+
   return (
-    <Modal visible={visible} transparent={true} animationType="none">
-      <View
-        style={{
-          flex: 1,
-          backgroundColor: 'rgba(255, 255, 255, 0.7)',
-          justifyContent: 'center',
-          alignItems: 'center',
-        }}
-      >
-        <View
-          style={{
-            backgroundColor: colors.secondPrimaryColor,
-            borderColor: colors.borderColor,
-            // shadowColor: colors.secondary,
-            borderRadius: AppSizes.Z_10,
-            shadowOpacity: 0.9,
-            // elevation: 9,
-            padding: AppSizes.MH_15,
-            width: '45%',
-            justifyContent: 'center',
-          }}
-        >
-          <ActivityIndicator size={'large'} color={colors.purple1} />
-          {/* <LottieView
-            resizeMode="cover"
-            source={require('./LoadingSquare.json')}
-            style={{ height: 120, width: 120, alignSelf: 'center' }}
-            autoPlay
-            loop
-          /> */}
+    <Modal visible={visible} transparent animationType="fade" statusBarTranslucent>
+      <View style={styles.overlay}>
+        <View style={[styles.card, { backgroundColor: colors.secondPrimaryColor }]}>
+          <Fold size={44} color={colors.purple1} />
+          <Text style={[styles.label, { color: colors.textSecondary }]}>{label}</Text>
         </View>
       </View>
     </Modal>
@@ -49,3 +27,30 @@ const LoadingBaseModal = ({ visible = false }: LoadingModalProps) => {
 };
 
 export default LoadingBaseModal;
+
+const styles = StyleSheet.create({
+  overlay: {
+    flex: 1,
+    backgroundColor: 'rgba(15, 23, 42, 0.45)',
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  card: {
+    minWidth: scale(140),
+    alignItems: 'center',
+    justifyContent: 'center',
+    borderRadius: 20,
+    paddingVertical: scale(28),
+    paddingHorizontal: scale(32),
+    elevation: 8,
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 6 },
+    shadowOpacity: 0.2,
+    shadowRadius: 14,
+  },
+  label: {
+    marginTop: scale(14),
+    fontSize: 13,
+    fontFamily: 'PlusJakartaSans-Medium',
+  },
+});

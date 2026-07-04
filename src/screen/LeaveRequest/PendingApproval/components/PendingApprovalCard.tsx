@@ -1,9 +1,11 @@
-import React, { useMemo } from 'react';
+import React, { useCallback, useMemo, useState } from 'react';
 import { Text, TouchableOpacity, View } from 'react-native';
+import { Fold } from 'react-native-animated-spinkit';
 import Icon from '../../../../components/Icons';
 import { sharedStyles } from '../../components/sharedStyles';
 import { formatDateRange, getLeaveIconMeta } from '../../leaveRequest.constants';
 import { pendingApprovalStyles as styles } from '../PendingApproval.styles';
+import { downloadAttachment } from '../../../../utils/downloadAttachment';
 
 interface PendingApprovalCardProps {
   item: any;
@@ -16,6 +18,13 @@ const PendingApprovalCard = ({ item, colors, onApprove, onReject }: PendingAppro
   const iconMeta = useMemo(() => getLeaveIconMeta(colors, item.leaveName), [colors, item.leaveName]);
   const requesterName = item.name || item.employeeName || 'Employee';
   const days = item.noOfDaysLeaveReq ?? item.days;
+  const [downloading, setDownloading] = useState(false);
+
+  const handleDownload = useCallback(async () => {
+    setDownloading(true);
+    await downloadAttachment(item.attachmentPath);
+    setDownloading(false);
+  }, [item.attachmentPath]);
 
   return (
     <View style={[sharedStyles.card, styles.card, { backgroundColor: colors.secondPrimaryColor }]}>
@@ -44,6 +53,22 @@ const PendingApprovalCard = ({ item, colors, onApprove, onReject }: PendingAppro
         <Text style={[styles.remarks, { color: colors.textSecondary }]} numberOfLines={2}>
           &quot;{item.remarks}&quot;
         </Text>
+      ) : null}
+
+      {item.attachmentPath ? (
+        <TouchableOpacity
+          style={[styles.attachmentRow, { borderColor: colors.borderColor }]}
+          onPress={handleDownload}
+          disabled={downloading}
+        >
+          <Icon type="Ionicons" name="document-attach-outline" size={14} color={colors.purple1} />
+          <Text style={[styles.attachmentText, { color: colors.purple1 }]}>Attachment</Text>
+          {downloading ? (
+            <Fold size={14} color={colors.purple1} />
+          ) : (
+            <Icon type="Ionicons" name="download-outline" size={14} color={colors.purple1} />
+          )}
+        </TouchableOpacity>
       ) : null}
 
       <View style={styles.actionsRow}>

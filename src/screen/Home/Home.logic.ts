@@ -1,3 +1,4 @@
+import { useNavigation } from '@react-navigation/native';
 import { useCallback, useEffect, useMemo, useState } from 'react';
 import { useSelector } from 'react-redux';
 import { getUser } from '../../redux/slices/authSlice';
@@ -12,6 +13,7 @@ export const useHome = () => {
   const { theme } = useThemeContext();
   const colors = useMemo(() => getColors(theme), [theme]);
   const userData = useSelector(getUser);
+  const navigation = useNavigation<any>();
 
   const [loading, setLoading] = useState(true);
   const [refreshing, setRefreshing] = useState(false);
@@ -122,6 +124,7 @@ export const useHome = () => {
 
   const openLeaveModal = useCallback(() => setLeaveModalVisible(true), []);
   const closeLeaveModal = useCallback(() => setLeaveModalVisible(false), []);
+  const goToAttendance = useCallback(() => navigation.navigate('attendance'), [navigation]);
 
   return {
     colors,
@@ -138,5 +141,6 @@ export const useHome = () => {
     leaveModalVisible,
     openLeaveModal,
     closeLeaveModal,
+    goToAttendance,
   };
 };

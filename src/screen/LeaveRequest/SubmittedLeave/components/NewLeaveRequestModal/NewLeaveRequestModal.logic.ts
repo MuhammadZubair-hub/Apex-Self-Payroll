@@ -2,9 +2,16 @@ import axios from 'axios';
 import { useCallback, useMemo, useState } from 'react';
 import { showMessage } from 'react-native-flash-message';
 import { launchCamera, launchImageLibrary } from 'react-native-image-picker';
+import { errorCodes, isErrorWithCode, pick, types } from '@react-native-documents/picker';
 import { baseUrl, endPoints } from '../../../../../services/Constants/endPoints';
 import { CommonStyle } from '../../../../../utils/Common/CommonStyle';
 import { daysBetweenInclusive } from '../../../leaveRequest.constants';
+
+const EXTENSION_BY_MIME: Record<string, string> = {
+  'image/jpeg': 'jpg',
+  'image/png': 'png',
+  'application/pdf': 'pdf',
+};
 
 export interface NewLeaveRequestPayload {
   leaveTypeId: number | string;
@@ -70,7 +77,8 @@ export const useNewLeaveRequestForm = ({ leaveTypes, employeeId, onSubmit, onClo
   const uploadAttachment = useCallback(
     async (asset: { uri?: string; fileName?: string; type?: string }) => {
       if (!asset.uri) return;
-      const fileName = asset.fileName || `attachment_${Date.now()}.jpg`;
+      const extension = EXTENSION_BY_MIME[asset.type || ''] || 'jpg';
+      const fileName = asset.fileName || `attachment_${Date.now()}.${extension}`;
 
       setAttachmentUploading(true);
       try {
@@ -126,6 +134,18 @@ export const useNewLeaveRequestForm = ({ leaveTypes, employeeId, onSubmit, onClo
     uploadAttachment(result.assets[0]);
   }, [uploadAttachment]);
 
+  const pickPdfDocument = useCallback(async () => {
+    setAttachmentSourceVisible(false);
+    try {
+      const [result] = await pick({ type: [types.pdf] });
+      uploadAttachment({ uri: result.uri, fileName: result.name || undefined, type: result.type || 'application/pdf' });
+    } catch (error) {
+      if (isErrorWithCode(error) && error.code === errorCodes.OPERATION_CANCELED) return;
+      console.log('error picking document', error);
+      showMessage({ message: 'Failed to open document picker', type: 'danger', style: CommonStyle.error });
+    }
+  }, [uploadAttachment]);
+
   const handleClose = useCallback(() => {
     resetForm();
     onClose();
@@ -162,7 +182,7 @@ export const useNewLeaveRequestForm = ({ leaveTypes, employeeId, onSubmit, onClo
       return;
     }
     if (attachmentUploading) {
-      showMessage({ message: 'Your attachment is still uploading', type: 'warning' });
+      showMessage({ message: 'Your attachment is still uploading', type: 'warning', style: CommonStyle.warning });
       return;
     }
 
@@ -203,6 +223,7 @@ export const useNewLeaveRequestForm = ({ leaveTypes, employeeId, onSubmit, onClo
     pickAndUploadAttachment,
     pickFromCamera,
     pickFromLibrary,
+    pickPdfDocument,
     handleClose,
     handleDateConfirm,
     handleSubmit,
