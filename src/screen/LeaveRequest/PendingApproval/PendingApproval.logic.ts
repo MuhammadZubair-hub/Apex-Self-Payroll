@@ -19,6 +19,7 @@ export const usePendingApprovals = (employeeId: number | string | undefined) => 
   const fetchPendingApprovals = useCallback(async () => {
     if (!employeeId) return;
     try {
+      console.log(' i am called ')
       const r = await axios.get(`${baseUrl}${endPoints.PendingLeaveApplicationsListESS}?UserId=${employeeId}`);
       setPendingApprovals(r.data?.status ? r.data.data || [] : []);
     } catch (error) {
@@ -47,9 +48,15 @@ export const usePendingApprovals = (employeeId: number | string | undefined) => 
     async (remarks: string) => {
       if (!actionTarget) return;
       const { item, decision } = actionTarget;
-      const leaveId = item.fkid ?? item.leaveID ?? item.id;
+      const leaveId = item.id;
       const pendingAtId = item.pendingAtId ?? employeeId;
       const now = new Date();
+
+      console.log('action traget is this :', actionTarget);
+
+      console.log('', toDateOnlyString(now), leaveId, pendingAtId,
+        remarks,
+        decision)
 
       try {
         const r = await axios.post(`${baseUrl}${endPoints.ApproveRejectDocumentESS}`, {
@@ -61,15 +68,22 @@ export const usePendingApprovals = (employeeId: number | string | undefined) => 
           remarks,
           requestStatus: decision,
         });
-        if (r.data?.status === false) {
-          showThemedMessage(colors, {
-            message: r.data?.message || `Failed to ${decision.toLowerCase()} request`,
-            type: 'danger',
-          });
-          return;
-        }
+
+        console.log('this is response', r);
+
         setActionTarget(null);
-        showThemedMessage(colors, { message: `Leave request ${decision.toLowerCase()} successfully`, type: 'success' });
+        // The BottomSheet holds the app's FlashMessage instance while it's open (see
+        // ModalFlashMessage) and only unholds it in an effect cleanup that fires after this
+        // closes - showing the toast synchronously here sends it to the instance that's
+        // mid-close, so it never renders. Deferring past the close animation lets it land
+        // on the root FlashMessage instead.
+        console.log(r.data.status)
+        if (r.data.status !== 1) {
+          showThemedMessage(colors, { message: `Failed to ${decision.toLowerCase()} ${r.data.message}`, type: 'danger' });
+        }
+        setTimeout(() => {
+          showThemedMessage(colors, { message: `Leave request ${decision.toLowerCase()} successfully`, type: 'success' });
+        }, 300);
         fetchPendingApprovals();
       } catch (error) {
         console.log('error approving/rejecting leave request', error);

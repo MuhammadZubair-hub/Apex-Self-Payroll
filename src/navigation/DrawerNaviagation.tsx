@@ -10,6 +10,7 @@ import CustomDrawerContent from '../components/CustomDrawerContent';
 import Profile from '../screen/Profile/ProfileScreen';
 import SettingsStackNavigator from './SettingsStackNavigator';
 import RequestLetterScreen from '../screen/RequestLetter/RequestLetterScreen';
+import LeaveCalendarHistoryScreen from '../screen/LeaveCalendarHistory/LeaveCalendarHistoryScreen';
 
 const DrawerNaviagation = () => {
     const { theme } = useThemeContext();
@@ -66,6 +67,13 @@ const DrawerNaviagation = () => {
                         title: 'Request Letter',
                     }}
                     component={RequestLetterScreen}
+                />
+                <Drawer.Screen
+                    name="leaveCalendarHistory"
+                    options={{
+                        title: 'Leave Calendar',
+                    }}
+                    component={LeaveCalendarHistoryScreen}
                 />
                 <Drawer.Screen
                     name="settings"

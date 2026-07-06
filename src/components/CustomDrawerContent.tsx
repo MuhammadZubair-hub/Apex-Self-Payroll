@@ -15,6 +15,8 @@ const CustomDrawerContent = (props: any) => {
   const dispatch = useDispatch();
   const profileData = useSelector(getUserProfileData);
 
+  // console.log(' the profile data is ',profileData);
+
  const handleLogout = () => {
     Alert.alert(
       'Logout',
@@ -60,7 +62,7 @@ const CustomDrawerContent = (props: any) => {
               {drawerUserName}
             </Text>
             <Text style={[styles.userSubText, { color: 'rgba(255,255,255,0.85)' }]}>
-              {profileData?.code || 'EMP2'} • {profileData?.role || 'Software Engineer'}
+              {profileData?.legacyCode || 'EMP2'} • {profileData?.role || 'Software Engineer'}
             </Text>
             <Text style={[styles.userSubText, { color: 'rgba(255,255,255,0.85)' }]}>
               {profileData?.department || 'IT Department'}
@@ -137,6 +139,21 @@ const CustomDrawerContent = (props: any) => {
             style={styles.drawerItem}
           />
 
+          {/* Leave Calendar */}
+          <DrawerItem
+            label="Leave Calendar"
+            icon={({ size }) => (
+              <Icon name="people-outline" type="Ionicons" size={size} color={tintFor('leaveCalendarHistory')} />
+            )}
+            onPress={() => props.navigation.navigate('leaveCalendarHistory')}
+            focused={isActive('leaveCalendarHistory')}
+            activeBackgroundColor={colors.lightPurple}
+            activeTintColor={colors.purple1}
+            inactiveTintColor={colors.textSecondary}
+            labelStyle={styles.drawerLabel}
+            style={styles.drawerItem}
+          />
+
           {/* Profile */}
           <DrawerItem
             label="Profile"
@@ -154,7 +171,7 @@ const CustomDrawerContent = (props: any) => {
 
           {/* Notifications with Badge */}
           <View style={styles.notificationItemContainer}>
-            <DrawerItem
+            {/* <DrawerItem
               label="Notifications"
               icon={({ size }) => (
                 <Icon name="notifications-outline" type="Ionicons" size={size} color={tintFor('notifications')} />
@@ -166,7 +183,7 @@ const CustomDrawerContent = (props: any) => {
               inactiveTintColor={colors.textSecondary}
               labelStyle={styles.drawerLabel}
               style={[styles.drawerItem, { flex: 1 }]}
-            />
+            /> */}
             {/* <View style={styles.redDotBadge} /> */}
           </View>
 

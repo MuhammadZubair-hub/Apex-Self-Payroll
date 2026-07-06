@@ -18,7 +18,7 @@ export const useSettings = () => {
   const designation = profileData?.designation || 'N/A';
   const profileImage = profileData?.profileImage;
 
-  const goToProfile = useCallback(() => navigation.navigate('profile'), [navigation]);
+  const goToProfile = useCallback(() => navigation.navigate('Profilescreen'), [navigation]);
   const goToSupport = useCallback(() => navigation.navigate('support'), [navigation]);
   const goToAbout = useCallback(() => navigation.navigate('about'), [navigation]);
   const handleLogout = useCallback(() => dispatch(logout()), [dispatch]);

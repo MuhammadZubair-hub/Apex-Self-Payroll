@@ -83,7 +83,7 @@ const LeaveFilterModal = ({
         onPress={() => onOpenDatePicker('from')}
       >
         <Text style={[styles.dateFieldText, { color: fromDate ? colors.textPrimary : colors.textSecondary }]}>
-          {fromDate ? formatShortDate(fromDate) : 'Any'}
+          {fromDate ? formatShortDate(fromDate) : new Date().toISOString().split('T',1)}
         </Text>
         <Icon type="Ionicons" name="calendar-outline" size={18} color={colors.textSecondary} />
       </TouchableOpacity>
@@ -94,7 +94,7 @@ const LeaveFilterModal = ({
         onPress={() => onOpenDatePicker('to')}
       >
         <Text style={[styles.dateFieldText, { color: toDate ? colors.textPrimary : colors.textSecondary }]}>
-          {toDate ? formatShortDate(toDate) : 'Any'}
+          {toDate ? formatShortDate(toDate) : new Date().toISOString().split('T',1)}
         </Text>
         <Icon type="Ionicons" name="calendar-outline" size={18} color={colors.textSecondary} />
       </TouchableOpacity>

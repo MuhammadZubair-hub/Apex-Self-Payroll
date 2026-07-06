@@ -11,6 +11,8 @@ import InfoCardsRow from './components/InfoCardsRow';
 // import QuickActionsGrid from './components/QuickActionsGrid';
 import LeaveBalanceModal from './components/LeaveBalanceModal';
 import RequestLetterCard from './components/RequestLetterCard';
+import PendingApprovalCard from './components/PendingApprovalCard';
+import AttendanceCalendarCard from './components/AttendanceCalendar/AttendanceCalendarCard';
 
 const HomeScreen = () => {
   const {
@@ -26,10 +28,12 @@ const HomeScreen = () => {
     todayStatusMeta,
     todayBottomText,
     leaveModalVisible,
+    pendingrequ,
     openLeaveModal,
     closeLeaveModal,
     goToAttendance,
     goToRequestLetter,
+    goToPendingApprovals,
   } = useHome();
 
   return (
@@ -61,7 +65,13 @@ const HomeScreen = () => {
           onPressLeaveBalance={openLeaveModal}
         />
 
+        {pendingrequ.length > 0 && (
+          <PendingApprovalCard colors={colors} count={pendingrequ.length} onPress={goToPendingApprovals} />
+        )}
         <RequestLetterCard colors={colors} onPress={goToRequestLetter} />
+
+        <AttendanceCalendarCard />
+
 
         {/* <QuickActionsGrid colors={colors} /> */}
       </ScrollView>

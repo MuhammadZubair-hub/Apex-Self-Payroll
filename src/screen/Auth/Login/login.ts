@@ -14,7 +14,7 @@ export const useLoginUser = () => {
   const [userCredentials, setUserCredentials] = useState<{
     email: string;
     password: string;
-  }>({ email: "Zubairess", password: "Zubair123" });
+  }>({ email: "", password: "" });
   const [isLoading, setIsLoading] = useState(false);
   const dispatch = useDispatch();
 //   const router = useRouter();
@@ -63,7 +63,7 @@ export const useLoginUser = () => {
         userCredentials.password.trim(),
       );
 
-      console.log("API Response:", response.data.data.data.employeeId);
+      console.log("API Response:", response.data.data);
       if (response?.success) {
         const profileData = await fetchProfileData(response.data.data.data.employeeId);
 

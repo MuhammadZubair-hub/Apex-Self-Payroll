@@ -37,11 +37,11 @@ const ProfileScreen = () => {
         size={AppSizes.ICON_30}
         color={colors.textPrimary}
         onPress={() => navigation.toggleDrawer()}
-        style={{position:'absolute',top:8,left:20}}
+        style={{ position: 'absolute', top: 18, left: 20, zIndex: 1 }}
       />
 
       <Text
-        style={{ alignSelf: 'center', fontSize: AppSizes.FONT_22, color: colors.textPrimary, fontFamily: 'PlusJakartaSans-Bold', }}
+        style={{ alignSelf: 'center', fontSize: AppSizes.FONT_22, color: colors.textPrimary, fontFamily: 'PlusJakartaSans-Bold', marginTop: 18 }}
       >Profile</Text>
 
       <ScrollView showsVerticalScrollIndicator={false} contentContainerStyle={styles.scrollContent}>

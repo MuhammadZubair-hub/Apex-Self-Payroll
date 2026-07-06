@@ -17,6 +17,7 @@ export const useHome = () => {
   const [loading, setLoading] = useState(true);
   const [refreshing, setRefreshing] = useState(false);
   const [upcomingHolidays, setUpcomingHolidays] = useState<any[]>([]);
+  const [pendingrequ, SetPendingLeaveRequest] = useState<any[]>([]);
   const [leaveBalance, setLeaveBalance] = useState<any[]>([]);
   const [todayAttendance, setTodayAttendance] = useState<any>(null);
   const [monthlyAttendance, setMonthlyAttendance] = useState<any[]>([]);
@@ -81,24 +82,28 @@ export const useHome = () => {
       const upcomingHolidaysUrl = `${baseUrl}ESSDashboard/GetUpcomingHolidays?EmployeeId=${userData.employeeId}`;
       const employeeLeaveUrl = `${baseUrl}ESSDashboard/GetEmployeeLeavesInfo?employeeId=${userData.employeeId}`;
       const todayAttendanceUrl = `${baseUrl}${endPoints.TodayAttendance}?employeeId=${userData.employeeId}`;
+      const pendingRequestUrl = `${baseUrl}${endPoints.PendingLeaveApplicationsListESS}?UserId=${userData.employeeId}`;
       const monthlyAttendanceUrl = `${baseUrl}${endPoints.MonthlyAttendance}?EmployeeId=${userData.employeeId}&Month=${now.getMonth() + 1}&Year=${now.getFullYear()}`;
 
-      const [holidaysResponse, leaveResponse, todayAttendanceResponse, monthlyAttendanceResponse] = await Promise.all([
+      const [holidaysResponse, leaveResponse, todayAttendanceResponse, monthlyAttendanceResponse,PendngRequest] = await Promise.all([
         fetch(upcomingHolidaysUrl),
         fetch(employeeLeaveUrl),
         fetch(todayAttendanceUrl),
         fetch(monthlyAttendanceUrl),
+        fetch(pendingRequestUrl)
       ]);
 
       const holidaysData = await holidaysResponse.json();
       const leaveData = await leaveResponse.json();
       const todayAttendanceData = await todayAttendanceResponse.json();
       const monthlyAttendanceData = await monthlyAttendanceResponse.json();
+      const pendingRequestData = await PendngRequest.json();
 
       if (holidaysData.status) setUpcomingHolidays(holidaysData.data || []);
       if (leaveData.status) setLeaveBalance(leaveData.data || []);
       if (todayAttendanceData.status) setTodayAttendance(todayAttendanceData.data || null);
       if (monthlyAttendanceData.status) setMonthlyAttendance(monthlyAttendanceData.data || []);
+      if (pendingRequestData.status) SetPendingLeaveRequest(pendingRequestData.data || []);
     } catch (err) {
       console.error('Error fetching dashboard data:', err);
       showThemedMessage(colors, { message: `Error fetching dashboard data: ${err}`, type: 'danger' });
@@ -121,6 +126,10 @@ export const useHome = () => {
   const closeLeaveModal = useCallback(() => setLeaveModalVisible(false), []);
   const goToAttendance = useCallback(() => navigation.navigate('attendance'), [navigation]);
   const goToRequestLetter = useCallback(() => navigation.navigate('requestLetter'), [navigation]);
+  const goToPendingApprovals = useCallback(
+    () => navigation.navigate('leaveRequest', { section: 'APPROVALS' }),
+    [navigation]
+  );
 
   return {
     colors,
@@ -135,9 +144,11 @@ export const useHome = () => {
     todayStatusMeta,
     todayBottomText,
     leaveModalVisible,
+    pendingrequ,
     openLeaveModal,
     closeLeaveModal,
     goToAttendance,
     goToRequestLetter,
+    goToPendingApprovals,
   };
 };

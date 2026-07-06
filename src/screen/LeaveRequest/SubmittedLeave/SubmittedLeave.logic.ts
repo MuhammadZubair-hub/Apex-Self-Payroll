@@ -124,6 +124,7 @@ export const useSubmittedLeave = (employeeId: number | string | undefined, profi
     setStatusFilter('ALL');
     setFilterFromDate(null);
     setFilterToDate(null);
+    closeFilterModal();
   }, []);
 
   const handleNewRequestSubmit = useCallback(

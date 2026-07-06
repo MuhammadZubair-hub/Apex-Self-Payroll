@@ -1,4 +1,5 @@
-import { useMemo, useState } from 'react';
+import { useRoute } from '@react-navigation/native';
+import { useEffect, useMemo, useState } from 'react';
 import { useSelector } from 'react-redux';
 import { getUser, getUserProfileData } from '../../redux/slices/authSlice';
 import { getColors } from '../../theme/color/theme';
@@ -16,7 +17,15 @@ export const useLeaveRequest = () => {
   const profileData = useSelector(getUserProfileData);
   const employeeId = user?.employeeId;
 
-  const [activeSection, setActiveSection] = useState<LeaveRequestSection>('SUBMITTED');
+  const route = useRoute<any>();
+  const [activeSection, setActiveSection] = useState<LeaveRequestSection>(route.params?.section ?? 'SUBMITTED');
+
+  // Landing here via navigation.navigate('leaveRequest', { section: 'APPROVALS' }) (e.g. from
+  // the Home dashboard's pending-approvals card) should jump straight to that tab even if this
+  // screen instance is already mounted and route.params changes on a subsequent navigate.
+  useEffect(() => {
+    if (route.params?.section) setActiveSection(route.params.section);
+  }, [route.params?.section]);
 
   // Both tabs' data is fetched here (rather than lazily inside each tab) so the
   // Pending Approval badge count stays accurate even while viewing the Submitted tab.

@@ -26,6 +26,9 @@ export const endPoints = {
   UploadFileESS: 'ESSFileUpload/UploadFileESS',
   DownloadFileESS: 'ESSFileUpload/DownloadFileESS',
   SendEmail: 'ESSDashboard/SendEmail',
+  GetDeparmentsESS: 'ESSDashboard/GetDeparmentsESS',
+  GetApprovedLeavesCalenderESS: 'ESSDashboard/GetApprovedLeavesCalenderESS',
+  GetAllManagers: 'ESSDashboard/GetAllManagers',
 
 
 
