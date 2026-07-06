@@ -1,5 +1,5 @@
 import React, { useMemo } from 'react';
-import { Image, Platform, ScrollView, Text, View } from 'react-native';
+import { Image, Platform, ScrollView, StatusBar, Text, View } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { useThemeContext } from '../../theme/ThemeContex';
 import { getColors } from '../../theme/color/theme';
@@ -16,8 +16,17 @@ const AboutScreen = () => {
 
   return (
     <SafeAreaView style={[styles.container, { backgroundColor: colors.primaryColor }]}>
-      <PrimaryHeader headerText="About ESS" />
+      
+      <StatusBar backgroundColor={colors.primarayheaderColor} barStyle={theme === 'dark' ? 'light-content' : 'dark-content'} />
+           
+      <PrimaryHeader
+        showBackButton
+        alignTextCenter
+        headerText="About ESS"
+      />
 
+
+     
       <ScrollView showsVerticalScrollIndicator={false} contentContainerStyle={styles.scrollContent}>
         <View style={[styles.heroCard, { backgroundColor: colors.secondPrimaryColor }]}>
           <Image

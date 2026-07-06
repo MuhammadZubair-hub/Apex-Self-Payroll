@@ -1,11 +1,10 @@
 import { useCallback, useMemo, useState } from 'react';
 import { Linking } from 'react-native';
-import { showMessage } from 'react-native-flash-message';
 import { useSelector } from 'react-redux';
 import { getUser, getUserProfileData } from '../../redux/slices/authSlice';
 import { getColors } from '../../theme/color/theme';
 import { useThemeContext } from '../../theme/ThemeContex';
-import { CommonStyle } from '../../utils/Common/CommonStyle';
+import { showThemedMessage } from '../../utils/flashMessage';
 import { SUPPORT_EMAIL, SUPPORT_PHONE } from './helpSupport.constants';
 
 export const useHelpSupport = () => {
@@ -30,11 +29,10 @@ export const useHelpSupport = () => {
 
   const sendIssueReport = useCallback(() => {
     if (!issueTitle.trim() || !issueDescription.trim()) {
-      showMessage({
+      showThemedMessage(colors, {
         message: 'Missing information',
         description: 'Please add a title and description before sending.',
         type: 'danger',
-        style: CommonStyle.error,
       });
       return;
     }
@@ -49,14 +47,13 @@ export const useHelpSupport = () => {
         setIssueDescription('');
       })
       .catch(() => {
-        showMessage({
+        showThemedMessage(colors, {
           message: 'Unable to open mail app',
           description: `Please email us directly at ${SUPPORT_EMAIL}`,
           type: 'danger',
-          style: CommonStyle.error,
         });
       });
-  }, [issueTitle, issueDescription, profileData, user]);
+  }, [issueTitle, issueDescription, profileData, user, colors]);
 
   const contactMethods = useMemo(
     () => [
@@ -84,6 +81,7 @@ export const useHelpSupport = () => {
 
   return {
     colors,
+    theme,
     expandedIndex,
     toggleFaq,
     issueTitle,

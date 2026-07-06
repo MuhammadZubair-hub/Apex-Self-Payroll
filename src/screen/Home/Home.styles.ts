@@ -78,7 +78,7 @@ export const homeStyles = StyleSheet.create({
 
   // Attendance Overview
   viewDetailsText: {
-    fontSize: 13,
+    fontSize: 11,
     fontFamily: 'PlusJakartaSans-Medium',
   },
   statsRow: {
@@ -166,6 +166,16 @@ export const homeStyles = StyleSheet.create({
     marginTop: 2,
   },
 
+  // Request Letter card
+  requestLetterCard: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: scale(12),
+  },
+  requestLetterBody: {
+    flex: 1,
+  },
+
   // Quick Actions
   sectionTitle: {
     fontSize: 18,
@@ -240,6 +250,6 @@ export const homeStyles = StyleSheet.create({
     alignItems: 'center',
     paddingTop: scale(14),
     marginTop: scale(4),
-    borderTopWidth: 1,
+    // borderTopWidth: 1,
   },
 });

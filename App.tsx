@@ -14,11 +14,25 @@ import FlashMessage from 'react-native-flash-message';
 import { store, persistor } from './src/redux/store';
 import RootNaviagtion from './src/navigation/RootNaviagtion';
 import ThemeProviderContext from './src/theme/ThemeContex';
+import { useEffect, useState } from 'react';
+import SplashScreen from './src/screen/Splasscreen';
 // import { store } from './src/store/store';
 // import RootNavigator from './src/navigation/RootNavigator';
 
 function App() {
   const isDarkMode = useColorScheme() === 'dark';
+   const [isLoading, setIsLoading] = useState(true);
+
+  useEffect(() => {
+    // Show splash for 3 seconds, then navigate to main app
+    setTimeout(() => {
+      setIsLoading(false);
+    }, 3000);
+  }, []);
+
+  if (isLoading) {
+    return <SplashScreen />;
+  }
 
   return (
     <GestureHandlerRootView style={{ flex: 1 }}>

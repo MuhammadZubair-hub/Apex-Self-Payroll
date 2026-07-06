@@ -14,11 +14,7 @@ const LeaveRequestScreen = () => {
   return (
     <SafeAreaView style={[styles.container, { backgroundColor: colors.primaryColor }]}>
       <StatusBar backgroundColor={colors.primarayheaderColor} barStyle="dark-content" />
-      <PrimaryHeader
-        headerText="Leave Requests"
-        rightIconName={isSubmitted ? (submitted.searchVisible ? 'close' : 'search') : undefined}
-        onRightIconPress={submitted.toggleSearch}
-      />
+      <PrimaryHeader headerText="Leave Requests" />
 
       <View style={[styles.sectionSwitcher, { backgroundColor: colors.secondPrimaryColor }]}>
         <TouchableOpacity

@@ -1,13 +1,16 @@
 import axios from 'axios';
-import { useCallback, useEffect, useState } from 'react';
-import { showMessage } from 'react-native-flash-message';
+import { useCallback, useEffect, useMemo, useState } from 'react';
+import { getColors } from '../../../theme/color/theme';
+import { useThemeContext } from '../../../theme/ThemeContex';
 import { baseUrl, endPoints } from '../../../services/Constants/endPoints';
-import { CommonStyle } from '../../../utils/Common/CommonStyle';
+import { showThemedMessage } from '../../../utils/flashMessage';
 import { toDateOnlyString } from '../leaveRequest.constants';
 
 type Decision = 'Approved' | 'Rejected';
 
 export const usePendingApprovals = (employeeId: number | string | undefined) => {
+  const { theme } = useThemeContext();
+  const colors = useMemo(() => getColors(theme), [theme]);
   const [pendingApprovals, setPendingApprovals] = useState<any[]>([]);
   const [loadingApprovals, setLoadingApprovals] = useState(true);
   const [refreshing, setRefreshing] = useState(false);
@@ -20,12 +23,12 @@ export const usePendingApprovals = (employeeId: number | string | undefined) => 
       setPendingApprovals(r.data?.status ? r.data.data || [] : []);
     } catch (error) {
       console.log('error fetching pending approvals', error);
-      showMessage({ message: 'Failed to fetch pending approvals', type: 'danger', style: CommonStyle.error });
+      showThemedMessage(colors, { message: 'Failed to fetch pending approvals', type: 'danger' });
     } finally {
       setLoadingApprovals(false);
       setRefreshing(false);
     }
-  }, [employeeId]);
+  }, [employeeId, colors]);
 
   useEffect(() => {
     fetchPendingApprovals();
@@ -59,26 +62,21 @@ export const usePendingApprovals = (employeeId: number | string | undefined) => 
           requestStatus: decision,
         });
         if (r.data?.status === false) {
-          showMessage({
+          showThemedMessage(colors, {
             message: r.data?.message || `Failed to ${decision.toLowerCase()} request`,
             type: 'danger',
-            style: CommonStyle.error,
           });
           return;
         }
         setActionTarget(null);
-        showMessage({
-          message: `Leave request ${decision.toLowerCase()} successfully`,
-          type: 'success',
-          style: CommonStyle.sucsses,
-        });
+        showThemedMessage(colors, { message: `Leave request ${decision.toLowerCase()} successfully`, type: 'success' });
         fetchPendingApprovals();
       } catch (error) {
         console.log('error approving/rejecting leave request', error);
-        showMessage({ message: `Failed to ${decision.toLowerCase()} request`, type: 'danger', style: CommonStyle.error });
+        showThemedMessage(colors, { message: `Failed to ${decision.toLowerCase()} request`, type: 'danger' });
       }
     },
-    [actionTarget, employeeId, fetchPendingApprovals]
+    [actionTarget, employeeId, fetchPendingApprovals, colors]
   );
 
   return {

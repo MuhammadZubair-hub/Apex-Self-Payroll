@@ -1,4 +1,3 @@
-import { StyleSheet, Text, View } from 'react-native'
 import React from 'react'
 import { useThemeContext } from '../theme/ThemeContex';
 import { getColors } from '../theme/color/theme';
@@ -7,10 +6,10 @@ import { createDrawerNavigator } from '@react-navigation/drawer';
 import BottomNaviagtion from './BottomNaviagtion';
 import AttandenceScreen from '../screen/Attandance/AttandenceScreen';
 import LeaveRequestScreen from '../screen/LeaveRequest/LeaveRequestScreen';
-import HelpSupport from '../screen/About/HelpSupport';
-import AboutScreen from '../screen/About/AboutScreen';
 import CustomDrawerContent from '../components/CustomDrawerContent';
 import Profile from '../screen/Profile/ProfileScreen';
+import SettingsStackNavigator from './SettingsStackNavigator';
+import RequestLetterScreen from '../screen/RequestLetter/RequestLetterScreen';
 
 const DrawerNaviagation = () => {
     const { theme } = useThemeContext();
@@ -62,18 +61,18 @@ const DrawerNaviagation = () => {
                     component={LeaveRequestScreen}
                 />
                 <Drawer.Screen
-                    name="support"
+                    name="requestLetter"
                     options={{
-                        title: 'Help & Support',
+                        title: 'Request Letter',
                     }}
-                    component={HelpSupport}
+                    component={RequestLetterScreen}
                 />
                 <Drawer.Screen
-                    name="about"
+                    name="settings"
                     options={{
-                        title: 'About ESS',
+                        title: 'Settings',
                     }}
-                    component={AboutScreen}
+                    component={SettingsStackNavigator}
                 />
             </Drawer.Navigator>
         </GestureHandlerRootView>
@@ -81,5 +80,3 @@ const DrawerNaviagation = () => {
 }
 
 export default DrawerNaviagation
-
-const styles = StyleSheet.create({})

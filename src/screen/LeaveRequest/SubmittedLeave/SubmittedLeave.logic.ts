@@ -1,18 +1,28 @@
 import axios from 'axios';
 import { useCallback, useEffect, useMemo, useState } from 'react';
-import { showMessage } from 'react-native-flash-message';
+import { getColors } from '../../../theme/color/theme';
+import { useThemeContext } from '../../../theme/ThemeContex';
 import { baseUrl, endPoints } from '../../../services/Constants/endPoints';
-import { CommonStyle } from '../../../utils/Common/CommonStyle';
+import { showThemedMessage } from '../../../utils/flashMessage';
 import { daysBetweenInclusive, toMidnightISOString } from '../leaveRequest.constants';
 import { NewLeaveRequestPayload } from './components/NewLeaveRequestModal/NewLeaveRequestModal.logic';
 
 export const useSubmittedLeave = (employeeId: number | string | undefined, profileData: any) => {
+  const { theme } = useThemeContext();
+  const colors = useMemo(() => getColors(theme), [theme]);
   const [leaveApplications, setLeaveApplications] = useState<any[]>([]);
   const [loadingApplications, setLoadingApplications] = useState(true);
   const [statusFilter, setStatusFilter] = useState('ALL');
-  const [searchVisible, setSearchVisible] = useState(false);
   const [searchText, setSearchText] = useState('');
   const [refreshing, setRefreshing] = useState(false);
+
+  const [filterModalVisible, setFilterModalVisible] = useState(false);
+  const [filterFromDate, setFilterFromDate] = useState<Date | null>(null);
+  const [filterToDate, setFilterToDate] = useState<Date | null>(null);
+  const [filterDatePicker, setFilterDatePicker] = useState<{ visible: boolean; mode: 'from' | 'to' }>({
+    visible: false,
+    mode: 'from',
+  });
 
   const [leaveType, setLeaveType] = useState<any[]>([]);
 
@@ -25,12 +35,16 @@ export const useSubmittedLeave = (employeeId: number | string | undefined, profi
 
   const filteredApplications = useMemo(() => {
     return leaveApplications.filter((item) => {
-      const matchesTab = statusFilter === 'ALL' || item.requestStatus === statusFilter;
+      const matchesStatus = statusFilter === 'ALL' || item.requestStatus === statusFilter;
       const haystack = `${item.leaveName || ''} ${item.remarks || ''}`.toLowerCase();
       const matchesSearch = !searchText.trim() || haystack.includes(searchText.trim().toLowerCase());
-      return matchesTab && matchesSearch;
+      const matchesFrom = !filterFromDate || new Date(item.toDate) >= filterFromDate;
+      const matchesTo = !filterToDate || new Date(item.fromDate) <= filterToDate;
+      return matchesStatus && matchesSearch && matchesFrom && matchesTo;
     });
-  }, [leaveApplications, statusFilter, searchText]);
+  }, [leaveApplications, statusFilter, searchText, filterFromDate, filterToDate]);
+
+  const hasActiveFilters = statusFilter !== 'ALL' || !!filterFromDate || !!filterToDate;
 
   const fetchLeaveTypes = useCallback(async () => {
     try {
@@ -48,12 +62,12 @@ export const useSubmittedLeave = (employeeId: number | string | undefined, profi
       setLeaveApplications(r.data?.status ? r.data.data || [] : []);
     } catch (error) {
       console.log('error fetching leave applications', error);
-      showMessage({ message: 'Failed to fetch leave applications', type: 'danger', style: CommonStyle.error });
+      showThemedMessage(colors, { message: 'Failed to fetch leave applications', type: 'danger' });
     } finally {
       setLoadingApplications(false);
       setRefreshing(false);
     }
-  }, [employeeId]);
+  }, [employeeId, colors]);
 
   useEffect(() => {
     fetchLeaveTypes();
@@ -87,9 +101,29 @@ export const useSubmittedLeave = (employeeId: number | string | undefined, profi
   const openFormModal = useCallback(() => setFormModalVisible(true), []);
   const closeFormModal = useCallback(() => setFormModalVisible(false), []);
 
-  const toggleSearch = useCallback(() => {
-    setSearchVisible((v) => !v);
-    setSearchText('');
+  const openFilterModal = useCallback(() => setFilterModalVisible(true), []);
+  const closeFilterModal = useCallback(() => setFilterModalVisible(false), []);
+
+  const openFilterDatePicker = useCallback((mode: 'from' | 'to') => setFilterDatePicker({ visible: true, mode }), []);
+  const closeFilterDatePicker = useCallback(() => setFilterDatePicker((prev) => ({ ...prev, visible: false })), []);
+
+  const confirmFilterDate = useCallback(
+    (date: Date | null) => {
+      if (filterDatePicker.mode === 'from') {
+        setFilterFromDate(date);
+        if (date && filterToDate && filterToDate < date) setFilterToDate(null);
+      } else {
+        setFilterToDate(date);
+      }
+      setFilterDatePicker((prev) => ({ ...prev, visible: false }));
+    },
+    [filterDatePicker.mode, filterToDate]
+  );
+
+  const resetFilters = useCallback(() => {
+    setStatusFilter('ALL');
+    setFilterFromDate(null);
+    setFilterToDate(null);
   }, []);
 
   const handleNewRequestSubmit = useCallback(
@@ -131,22 +165,18 @@ export const useSubmittedLeave = (employeeId: number | string | undefined, profi
 
         const r = await axios.post(`${baseUrl}${endPoints.PostLeaveApplicationWithKPIs}`, body);
         if (r.data?.status === false) {
-          showMessage({
-            message: r.data?.message || 'Failed to submit leave request',
-            type: 'danger',
-            style: CommonStyle.error,
-          });
+          showThemedMessage(colors, { message: r.data?.message || 'Failed to submit leave request', type: 'danger' });
           return;
         }
         setFormModalVisible(false);
-        showMessage({ message: 'Leave request submitted successfully', type: 'success', style: CommonStyle.sucsses });
+        showThemedMessage(colors, { message: 'Leave request submitted successfully', type: 'success' });
         fetchLeaveApplications();
       } catch (error) {
         console.log('error submitting leave request', error);
-        showMessage({ message: 'Failed to submit leave request', type: 'danger', style: CommonStyle.error });
+        showThemedMessage(colors, { message: 'Failed to submit leave request', type: 'danger' });
       }
     },
-    [employeeId, profileData, fetchLeaveApplications]
+    [employeeId, profileData, fetchLeaveApplications, colors]
   );
 
   return {
@@ -154,7 +184,6 @@ export const useSubmittedLeave = (employeeId: number | string | undefined, profi
     loadingApplications,
     statusFilter,
     setStatusFilter,
-    searchVisible,
     searchText,
     setSearchText,
     refreshing,
@@ -165,13 +194,23 @@ export const useSubmittedLeave = (employeeId: number | string | undefined, profi
     selectedApplication,
     formModalVisible,
     filteredApplications,
+    hasActiveFilters,
+    filterModalVisible,
+    openFilterModal,
+    closeFilterModal,
+    filterFromDate,
+    filterToDate,
+    filterDatePicker,
+    openFilterDatePicker,
+    closeFilterDatePicker,
+    confirmFilterDate,
+    resetFilters,
     onRefresh,
     openApprovalChain,
     closeApprovalChain,
     closeSelectedApplication,
     openFormModal,
     closeFormModal,
-    toggleSearch,
     setSelectedApplication,
     handleNewRequestSubmit,
   };

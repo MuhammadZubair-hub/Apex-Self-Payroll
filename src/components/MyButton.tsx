@@ -16,9 +16,10 @@ interface Props {
   disabled?: boolean;
   loading?: boolean;
   style?: ViewStyle;
+  textColor?: string;
 }
 
-const MyButton = ({ text, onPress, disabled, loading, style }: Props) => {
+const MyButton = ({ text, onPress, disabled, loading, style, textColor = "#fff" }: Props) => {
   const { theme } = useThemeContext();
   const colors = getColors(theme);
 
@@ -33,7 +34,7 @@ const MyButton = ({ text, onPress, disabled, loading, style }: Props) => {
       activeOpacity={0.7}
       disabled={disabled || loading}
     >
-      {loading ? <Fold size={28} color="#fff" /> : <Text style={[styles.text, { color: "#fff" }]}>{text}</Text>}
+      {loading ? <Fold size={28} color={textColor} /> : <Text style={[styles.text, { color: textColor }]}>{text}</Text>}
     </TouchableOpacity>
   );
 };

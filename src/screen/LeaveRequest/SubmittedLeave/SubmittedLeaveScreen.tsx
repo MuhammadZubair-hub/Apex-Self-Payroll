@@ -2,13 +2,13 @@ import React, { useCallback } from 'react';
 import { FlatList, RefreshControl, Text, TextInput, TouchableOpacity, View } from 'react-native';
 import Icon from '../../../components/Icons';
 import { sharedStyles } from '../components/sharedStyles';
-import { STATUS_TABS } from '../leaveRequest.constants';
 import { submittedLeaveStyles as styles } from './SubmittedLeave.styles';
 import { useSubmittedLeave } from './SubmittedLeave.logic';
 import LeaveApplicationCard from './components/LeaveApplicationCard';
 import LeaveDetailModal from './components/LeaveDetailModal';
 import ApprovalChainModal from './components/ApprovalChainModal';
 import NewLeaveRequestModal from './components/NewLeaveRequestModal/NewLeaveRequestModal';
+import LeaveFilterModal from './components/LeaveFilterModal';
 import ListSkeleton from '../components/ListSkeleton';
 
 interface SubmittedLeaveScreenProps {
@@ -22,7 +22,6 @@ const SubmittedLeaveScreen = ({ colors, employeeId, state }: SubmittedLeaveScree
     loadingApplications,
     statusFilter,
     setStatusFilter,
-    searchVisible,
     searchText,
     setSearchText,
     refreshing,
@@ -33,6 +32,17 @@ const SubmittedLeaveScreen = ({ colors, employeeId, state }: SubmittedLeaveScree
     selectedApplication,
     formModalVisible,
     filteredApplications,
+    hasActiveFilters,
+    filterModalVisible,
+    openFilterModal,
+    closeFilterModal,
+    filterFromDate,
+    filterToDate,
+    filterDatePicker,
+    openFilterDatePicker,
+    closeFilterDatePicker,
+    confirmFilterDate,
+    resetFilters,
     onRefresh,
     openApprovalChain,
     closeApprovalChain,
@@ -53,30 +63,28 @@ const SubmittedLeaveScreen = ({ colors, employeeId, state }: SubmittedLeaveScree
 
   return (
     <>
-      {searchVisible && (
+      <View style={styles.searchFilterRow}>
         <View style={[styles.searchRow, { borderColor: colors.borderColor, backgroundColor: colors.secondPrimaryColor }]}>
           <Icon type="Ionicons" name="search" size={18} color={colors.textSecondary} />
           <TextInput
-            autoFocus
             value={searchText}
             onChangeText={setSearchText}
-            placeholder="Search leave applications"
+            placeholder="Search by leave type"
             placeholderTextColor={colors.textSecondary}
             style={[styles.searchInput, { color: colors.textPrimary }]}
           />
         </View>
-      )}
 
-      <View style={styles.tabsRow}>
-        {STATUS_TABS.map((tab) => {
-          const active = statusFilter === tab.key;
-          return (
-            <TouchableOpacity key={tab.key} style={styles.tabItem} onPress={() => setStatusFilter(tab.key)}>
-              <Text style={[styles.tabText, { color: active ? colors.purple1 : colors.textSecondary }]}>{tab.label}</Text>
-              {active && <View style={[styles.tabIndicator, { backgroundColor: colors.purple1 }]} />}
-            </TouchableOpacity>
-          );
-        })}
+        <TouchableOpacity
+          style={[
+            styles.filterButton,
+            { borderColor: hasActiveFilters ? colors.purple1 : colors.borderColor, backgroundColor: colors.secondPrimaryColor },
+          ]}
+          onPress={openFilterModal}
+        >
+          <Icon type="Ionicons" name="options-outline" size={20} color={hasActiveFilters ? colors.purple1 : colors.textSecondary} />
+          {hasActiveFilters && <View style={[styles.filterDot, { backgroundColor: colors.purple1 }]} />}
+        </TouchableOpacity>
       </View>
 
       {loadingApplications && filteredApplications.length === 0 ? (
@@ -102,6 +110,21 @@ const SubmittedLeaveScreen = ({ colors, employeeId, state }: SubmittedLeaveScree
       <TouchableOpacity style={[styles.fab, { backgroundColor: colors.purple1 }]} onPress={openFormModal} activeOpacity={0.85}>
         <Icon type="Ionicons" name="add" size={28} color="#fff" />
       </TouchableOpacity>
+
+      <LeaveFilterModal
+        visible={filterModalVisible}
+        colors={colors}
+        statusFilter={statusFilter}
+        onSelectStatus={setStatusFilter}
+        fromDate={filterFromDate}
+        toDate={filterToDate}
+        datePicker={filterDatePicker}
+        onOpenDatePicker={openFilterDatePicker}
+        onCloseDatePicker={closeFilterDatePicker}
+        onConfirmDate={confirmFilterDate}
+        onReset={resetFilters}
+        onClose={closeFilterModal}
+      />
 
       <LeaveDetailModal visible={!!selectedApplication} item={selectedApplication} colors={colors} onClose={closeSelectedApplication} />
 

@@ -2,11 +2,18 @@ import { StyleSheet } from 'react-native';
 import { scale } from '../../../utils/responsive';
 
 export const submittedLeaveStyles = StyleSheet.create({
-  searchRow: {
+  searchFilterRow: {
     flexDirection: 'row',
     alignItems: 'center',
     marginHorizontal: scale(16),
     marginTop: scale(12),
+    marginBottom: scale(8),
+    gap: scale(10),
+  },
+  searchRow: {
+    flex: 1,
+    flexDirection: 'row',
+    alignItems: 'center',
     paddingHorizontal: scale(12),
     paddingVertical: scale(8),
     borderRadius: 10,
@@ -19,26 +26,21 @@ export const submittedLeaveStyles = StyleSheet.create({
     fontFamily: 'PlusJakartaSans-Regular',
     padding: 0,
   },
-  tabsRow: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    paddingHorizontal: scale(16),
-    marginTop: scale(14),
-    marginBottom: scale(6),
-  },
-  tabItem: {
+  filterButton: {
+    width: scale(42),
+    height: scale(42),
+    borderRadius: 10,
+    borderWidth: 1,
+    justifyContent: 'center',
     alignItems: 'center',
-    paddingBottom: scale(8),
   },
-  tabText: {
-    fontSize: 13,
-    fontFamily: 'PlusJakartaSans-Medium',
-  },
-  tabIndicator: {
-    height: 2,
-    width: '100%',
-    borderRadius: 1,
-    marginTop: 6,
+  filterDot: {
+    position: 'absolute',
+    top: 6,
+    right: 6,
+    width: 8,
+    height: 8,
+    borderRadius: 4,
   },
   fab: {
     position: 'absolute',

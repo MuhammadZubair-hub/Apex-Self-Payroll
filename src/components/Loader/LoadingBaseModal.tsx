@@ -18,8 +18,8 @@ const LoadingBaseModal = ({ visible = false, label = 'Loading...' }: LoadingModa
     <Modal visible={visible} transparent animationType="fade" statusBarTranslucent>
       <View style={styles.overlay}>
         <View style={[styles.card, { backgroundColor: colors.secondPrimaryColor }]}>
-          <Fold size={44} color={colors.purple1} />
-          <Text style={[styles.label, { color: colors.textSecondary }]}>{label}</Text>
+          <Fold size={44} color={colors.primarayheaderColor} />
+          {/* <Text style={[styles.label, { color: colors.textSecondary }]}>{label}</Text> */}
         </View>
       </View>
     </Modal>

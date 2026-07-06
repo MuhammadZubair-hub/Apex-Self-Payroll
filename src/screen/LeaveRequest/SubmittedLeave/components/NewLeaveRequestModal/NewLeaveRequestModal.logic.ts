@@ -1,11 +1,13 @@
 import axios from 'axios';
 import { useCallback, useMemo, useState } from 'react';
-import { showMessage } from 'react-native-flash-message';
 import { launchCamera, launchImageLibrary } from 'react-native-image-picker';
 import { errorCodes, isErrorWithCode, pick, types } from '@react-native-documents/picker';
+import { getColors } from '../../../../../theme/color/theme';
+import { useThemeContext } from '../../../../../theme/ThemeContex';
 import { baseUrl, endPoints } from '../../../../../services/Constants/endPoints';
-import { CommonStyle } from '../../../../../utils/Common/CommonStyle';
+import { showThemedMessage } from '../../../../../utils/flashMessage';
 import { daysBetweenInclusive } from '../../../leaveRequest.constants';
+import { Alert } from 'react-native';
 
 const EXTENSION_BY_MIME: Record<string, string> = {
   'image/jpeg': 'jpg',
@@ -30,6 +32,8 @@ interface UseNewLeaveRequestFormArgs {
 }
 
 export const useNewLeaveRequestForm = ({ leaveTypes, employeeId, onSubmit, onClose }: UseNewLeaveRequestFormArgs) => {
+  const { theme } = useThemeContext();
+  const colors = useMemo(() => getColors(theme), [theme]);
   const [leaveTypeId, setLeaveTypeId] = useState<number | string | null>(null);
   const [fromDate, setFromDate] = useState<Date | null>(null);
   const [toDate, setToDate] = useState<Date | null>(null);
@@ -39,6 +43,7 @@ export const useNewLeaveRequestForm = ({ leaveTypes, employeeId, onSubmit, onClo
   const [attachment, setAttachment] = useState<{ name: string; remotePath: string } | null>(null);
   const [attachmentUploading, setAttachmentUploading] = useState(false);
   const [attachmentSourceVisible, setAttachmentSourceVisible] = useState(false);
+  const [confirmModalVisible, setConfirmModalVisible] = useState(false);
   const [datePicker, setDatePicker] = useState<{ visible: boolean; mode: 'from' | 'to' }>({
     visible: false,
     mode: 'from',
@@ -94,28 +99,27 @@ export const useNewLeaveRequestForm = ({ leaveTypes, employeeId, onSubmit, onClo
           headers: { 'Content-Type': 'multipart/form-data' },
         });
 
-        console.log('the reposen is ',r)
+        console.log('the reposen is ', r.status)
 
         const remotePath = r.data.path;
-        if (r.data.status === 200) {
+        if (r.status === 200) {
           setAttachment({ name: fileName, remotePath });
         } else {
-          showMessage({
+          showThemedMessage(colors, {
             message: 'Failed to upload attachment',
             description: `${r.data.message}`,
             type: 'danger',
-            style: CommonStyle.error,
           });
           setAttachment({ name: fileName, remotePath });
         }
       } catch (error) {
         console.log('error uploading attachment', error);
-        showMessage({ message: 'Failed to upload attachment', type: 'danger', style: CommonStyle.error });
+        showThemedMessage(colors, { message: 'Failed to upload attachment', type: 'danger' });
       } finally {
         setAttachmentUploading(false);
       }
     },
-    [employeeId]
+    [employeeId, colors]
   );
 
   const pickAndUploadAttachment = useCallback(() => setAttachmentSourceVisible(true), []);
@@ -142,13 +146,31 @@ export const useNewLeaveRequestForm = ({ leaveTypes, employeeId, onSubmit, onClo
     } catch (error) {
       if (isErrorWithCode(error) && error.code === errorCodes.OPERATION_CANCELED) return;
       console.log('error picking document', error);
-      showMessage({ message: 'Failed to open document picker', type: 'danger', style: CommonStyle.error });
+      showThemedMessage(colors, { message: 'Failed to open document picker', type: 'danger' });
     }
-  }, [uploadAttachment]);
+  }, [uploadAttachment, colors]);
 
   const handleClose = useCallback(() => {
-    resetForm();
-    onClose();
+
+    Alert.alert(
+      'Close Form',
+      'Are you sure you do no want to Continue?',
+      [
+        {
+          text: 'Cancel',
+          style: 'cancel',
+        },
+        {
+          text: 'Close',
+          style: 'destructive',
+          onPress: () => {
+            resetForm();
+            onClose();
+          },
+        },
+      ],
+      { cancelable: true }
+    );
   }, [resetForm, onClose]);
 
   const handleDateConfirm = useCallback(
@@ -164,27 +186,35 @@ export const useNewLeaveRequestForm = ({ leaveTypes, employeeId, onSubmit, onClo
     [datePicker.mode, toDate]
   );
 
-  const handleSubmit = useCallback(async () => {
+  const handleSubmit = useCallback(() => {
     if (!selectedLeaveType) {
-      showMessage({ message: 'Please select a leave type', type: 'danger', style: CommonStyle.error });
+      showThemedMessage(colors, { message: 'Please select a leave type', type: 'danger' });
       return;
     }
     if (!fromDate) {
-      showMessage({ message: 'Please select a start date', type: 'danger', style: CommonStyle.error });
+      showThemedMessage(colors, { message: 'Please select a start date', type: 'danger' });
       return;
     }
     if (!toDate) {
-      showMessage({ message: 'Please select an end date', type: 'danger', style: CommonStyle.error });
+      showThemedMessage(colors, { message: 'Please select an end date', type: 'danger' });
       return;
     }
     if (toDate < fromDate) {
-      showMessage({ message: 'End date cannot be before start date', type: 'danger', style: CommonStyle.error });
+      showThemedMessage(colors, { message: 'End date cannot be before start date', type: 'danger' });
       return;
     }
     if (attachmentUploading) {
-      showMessage({ message: 'Your attachment is still uploading', type: 'warning', style: CommonStyle.warning });
+      showThemedMessage(colors, { message: 'Your attachment is still uploading', type: 'warning' });
       return;
     }
+
+    setConfirmModalVisible(true);
+  }, [selectedLeaveType, fromDate, toDate, attachmentUploading, colors]);
+
+  const cancelSubmit = useCallback(() => setConfirmModalVisible(false), []);
+
+  const confirmSubmit = useCallback(async () => {
+    if (!selectedLeaveType || !fromDate || !toDate) return;
 
     setSubmitting(true);
     await onSubmit({
@@ -196,8 +226,9 @@ export const useNewLeaveRequestForm = ({ leaveTypes, employeeId, onSubmit, onClo
       attachmentPath: attachment?.remotePath || '',
     });
     setSubmitting(false);
+    setConfirmModalVisible(false);
     resetForm();
-  }, [selectedLeaveType, fromDate, toDate, attachmentUploading, remarks, attachment, onSubmit, resetForm]);
+  }, [selectedLeaveType, fromDate, toDate, remarks, attachment, onSubmit, resetForm]);
 
   return {
     leaveTypeId,
@@ -214,6 +245,7 @@ export const useNewLeaveRequestForm = ({ leaveTypes, employeeId, onSubmit, onClo
     attachmentUploading,
     attachmentSourceVisible,
     setAttachmentSourceVisible,
+    confirmModalVisible,
     datePicker,
     setDatePicker,
     normalizedTypes,
@@ -227,5 +259,7 @@ export const useNewLeaveRequestForm = ({ leaveTypes, employeeId, onSubmit, onClo
     handleClose,
     handleDateConfirm,
     handleSubmit,
+    cancelSubmit,
+    confirmSubmit,
   };
 };

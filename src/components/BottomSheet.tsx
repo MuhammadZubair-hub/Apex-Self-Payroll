@@ -48,9 +48,10 @@ const BottomSheet = ({
               <Text style={[styles.title, { color: colors.textPrimary }]}>{title}</Text>
               {headerRight ??
                 (showCloseIcon && (
-                  <TouchableOpacity onPress={onClose}>
-                    <Icon type="Ionicons" name="close" size={22} color={colors.textSecondary} />
-                  </TouchableOpacity>
+                  // <TouchableOpacity onPress={onClose}>
+                  //   <Icon type="Ionicons" name="close" size={22} color={colors.textSecondary} />
+                  // </TouchableOpacity>
+                  <></>
                 ))}
             </View>
           ) : null}

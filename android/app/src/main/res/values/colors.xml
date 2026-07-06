@@ -1,0 +1,4 @@
+<resources>
+    <!-- Matches BRAND_BLUE in src/screen/Splasscreen.tsx -->
+    <color name="splashBackground">#0062e3</color>
+</resources>

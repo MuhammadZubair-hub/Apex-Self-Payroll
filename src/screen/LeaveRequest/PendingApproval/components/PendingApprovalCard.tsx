@@ -22,9 +22,9 @@ const PendingApprovalCard = ({ item, colors, onApprove, onReject }: PendingAppro
 
   const handleDownload = useCallback(async () => {
     setDownloading(true);
-    await downloadAttachment(item.attachmentPath);
+    await downloadAttachment(item.attachmentPath, colors);
     setDownloading(false);
-  }, [item.attachmentPath]);
+  }, [item.attachmentPath, colors]);
 
   return (
     <View style={[sharedStyles.card, styles.card, { backgroundColor: colors.secondPrimaryColor }]}>

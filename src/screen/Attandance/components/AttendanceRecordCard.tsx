@@ -17,13 +17,6 @@ const AttendanceRecordCard = ({ item, colors }: { item: any; colors: any }) => {
       </View>
 
       <View style={styles.recordBody}>
-        <View style={styles.recordTopRow}>
-          <View style={[styles.statusPill, { backgroundColor: meta.bg }]}>
-            <Ionicons name={meta.icon as any} size={12} color={meta.color} />
-            <Text style={[styles.statusPillText, { color: meta.color }]}>{meta.label}</Text>
-          </View>
-        </View>
-
         {status === 'Present' ? (
           <Text style={[styles.recordDetailText, { color: colors.textSecondary }]}>
             {formatTime(item.startTime)} - {formatTime(item.endTime)}
@@ -44,6 +37,11 @@ const AttendanceRecordCard = ({ item, colors }: { item: any; colors: any }) => {
             {item.remarks}
           </Text>
         ) : null}
+      </View>
+
+      <View style={[styles.statusPill, { backgroundColor: meta.bg }]}>
+        <Ionicons name={meta.icon as any} size={12} color={meta.color} />
+        <Text style={[styles.statusPillText, { color: meta.color }]}>{meta.label}</Text>
       </View>
     </View>
   );

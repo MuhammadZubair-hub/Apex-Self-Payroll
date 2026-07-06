@@ -1,5 +1,5 @@
 import React from 'react';
-import { ScrollView, Text, TextInput, TouchableOpacity, View } from 'react-native';
+import { ScrollView, StatusBar, Text, View } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import PrimaryHeader from '../../components/header/PrimaryHeader';
 import Icon from '../../components/Icons';
@@ -12,20 +12,23 @@ import FaqCard from './components/FaqCard';
 
 const HelpSupport = () => {
   const {
+    theme,
     colors,
     expandedIndex,
     toggleFaq,
-    issueTitle,
-    setIssueTitle,
-    issueDescription,
-    setIssueDescription,
-    sendIssueReport,
     contactMethods,
   } = useHelpSupport();
 
   return (
     <SafeAreaView style={[styles.container, { backgroundColor: colors.primaryColor }]}>
-      <PrimaryHeader headerText="Help & Support" />
+     <StatusBar backgroundColor={colors.primarayheaderColor} barStyle={theme === 'dark' ? 'light-content' : 'dark-content'} />
+     
+     
+     <PrimaryHeader
+        showBackButton
+        alignTextCenter
+        headerText="Help & Support"
+      />
 
       <ScrollView showsVerticalScrollIndicator={false} contentContainerStyle={styles.scrollContent}>
         <View style={[styles.banner, { backgroundColor: colors.lightPurple }]}>
@@ -55,7 +58,7 @@ const HelpSupport = () => {
           />
         ))}
 
-        <Text style={[styles.sectionTitle, { color: colors.textPrimary }]}>Report an Issue</Text>
+        {/* <Text style={[styles.sectionTitle, { color: colors.textPrimary }]}>Report an Issue</Text>
         <View style={[styles.reportCard, { backgroundColor: colors.secondPrimaryColor }]}>
           <Text style={[styles.fieldLabel, { color: colors.textPrimary }]}>Title</Text>
           <TextInput
@@ -86,7 +89,7 @@ const HelpSupport = () => {
             <Icon type="Ionicons" name="paper-plane-outline" size={16} color="#fff" />
             <Text style={styles.sendButtonText}>Send Report</Text>
           </TouchableOpacity>
-        </View>
+        </View> */}
       </ScrollView>
     </SafeAreaView>
   );

@@ -1,14 +1,16 @@
 import { useNavigation } from "@react-navigation/native";
-import { useState } from "react";
-import { Alert } from "react-native";
+import { useMemo, useState } from "react";
 import { useDispatch } from "react-redux";
-import { showMessage } from "react-native-flash-message";
 import { API_Config } from "../../../services/apiServices";
 import { baseUrl } from "../../../services/Constants/endPoints";
 import { loginSuccess } from "../../../redux/slices/authSlice";
-import { CommonStyle } from "../../../utils/Common/CommonStyle";
+import { getColors } from "../../../theme/color/theme";
+import { useThemeContext } from "../../../theme/ThemeContex";
+import { showThemedMessage } from "../../../utils/flashMessage";
 
 export const useLoginUser = () => {
+  const { theme } = useThemeContext();
+  const colors = useMemo(() => getColors(theme), [theme]);
   const [userCredentials, setUserCredentials] = useState<{
     email: string;
     password: string;
@@ -40,7 +42,7 @@ export const useLoginUser = () => {
       }
     } catch (err) {
       // console.error('Error fetching profile:', err);
-      Alert.alert('Error', 'Error getting Profile Data')
+      showThemedMessage(colors, { message: 'Error getting profile data', type: 'danger' });
       return ([])
     }
   };
@@ -48,7 +50,7 @@ export const useLoginUser = () => {
   const handleLogin = async () => {
 
     if (!userCredentials.email || !userCredentials.password) {
-      Alert.alert("Please Enter both fields");
+      showThemedMessage(colors, { message: 'Please enter both fields', type: 'danger' });
       return;
     }
     setIsLoading(true);
@@ -81,11 +83,7 @@ export const useLoginUser = () => {
       }
     } catch (error) {
       // console.error("Login error:", error);
-      showMessage({
-        message: `Login failed ${error}`,
-        type: "danger",
-        style: CommonStyle.error,
-      });
+      showThemedMessage(colors, { message: `Login failed ${error}`, type: 'danger' });
     } finally {
       setIsLoading(false);
     }

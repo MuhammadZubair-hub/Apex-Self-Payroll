@@ -5,8 +5,7 @@ import { baseUrl, endPoints } from '../../services/Constants/endPoints';
 import { getColors } from '../../theme/color/theme';
 import { useThemeContext } from '../../theme/ThemeContex';
 import { getRecordStatus } from './attandance.constants';
-import { showMessage } from 'react-native-flash-message';
-import { CommonStyle } from '../../utils/Common/CommonStyle';
+import { showThemedMessage } from '../../utils/flashMessage';
 
 export const useAttendance = () => {
   const { theme } = useThemeContext();
@@ -19,6 +18,7 @@ export const useAttendance = () => {
   const [records, setRecords] = useState<any[]>([]);
   const [loading, setLoading] = useState(true);
   const [refreshing, setRefreshing] = useState(false);
+  const [monthPickerVisible, setMonthPickerVisible] = useState(false);
 
   const fetchAttendance = useCallback(async () => {
     if (!userData?.employeeId) return;
@@ -30,11 +30,7 @@ export const useAttendance = () => {
       setRecords(json.status ? json.data || [] : []);
     } catch (err) {
       console.error('Error fetching attendance:', err);
-      showMessage({
-        type: 'danger',
-        message: `Error fetching attendance: ${err}`,
-        style: CommonStyle.error
-      })
+      showThemedMessage(colors, { message: `Error fetching attendance: ${err}`, type: 'danger' });
       setRecords([]);
     } finally {
       setLoading(false);
@@ -52,23 +48,14 @@ export const useAttendance = () => {
     fetchAttendance();
   }, [fetchAttendance]);
 
-  const goToPrevMonth = useCallback(() => {
-    if (month === 1) {
-      setMonth(12);
-      setYear((y) => y - 1);
-    } else {
-      setMonth((m) => m - 1);
-    }
-  }, [month]);
+  const openMonthPicker = useCallback(() => setMonthPickerVisible(true), []);
+  const closeMonthPicker = useCallback(() => setMonthPickerVisible(false), []);
 
-  const goToNextMonth = useCallback(() => {
-    if (month === 12) {
-      setMonth(1);
-      setYear((y) => y + 1);
-    } else {
-      setMonth((m) => m + 1);
-    }
-  }, [month]);
+  const selectMonthYear = useCallback((selectedMonth: number, selectedYear: number) => {
+    setMonth(selectedMonth);
+    setYear(selectedYear);
+    setMonthPickerVisible(false);
+  }, []);
 
   const summary = useMemo(
     () =>
@@ -94,8 +81,10 @@ export const useAttendance = () => {
     loading,
     refreshing,
     onRefresh,
-    goToPrevMonth,
-    goToNextMonth,
+    monthPickerVisible,
+    openMonthPicker,
+    closeMonthPicker,
+    selectMonthYear,
     summary,
   };
 };

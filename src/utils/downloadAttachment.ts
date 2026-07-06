@@ -1,8 +1,7 @@
 import { Platform } from 'react-native';
 import ReactNativeBlobUtil from 'react-native-blob-util';
-import { showMessage } from 'react-native-flash-message';
 import { baseUrl, endPoints } from '../services/Constants/endPoints';
-import { CommonStyle } from './Common/CommonStyle';
+import { showThemedMessage } from './flashMessage';
 
 const getMimeType = (fileName: string) => {
   const ext = fileName.split('.').pop()?.toLowerCase();
@@ -20,7 +19,7 @@ const getMimeType = (fileName: string) => {
 };
 
 // Downloads the given server-relative attachment path and opens it in the device's viewer app.
-export const downloadAttachment = async (attachmentPath?: string | null) => {
+export const downloadAttachment = async (attachmentPath: string | null | undefined, colors: any) => {
   if (!attachmentPath) return;
 
   const fileName = attachmentPath.split(/[/\\]/).pop() || `attachment_${Date.now()}`;
@@ -44,6 +43,6 @@ export const downloadAttachment = async (attachmentPath?: string | null) => {
     }
   } catch (error) {
     console.log('error downloading attachment', error);
-    showMessage({ message: 'Failed to download attachment', type: 'danger', style: CommonStyle.error });
+    showThemedMessage(colors, { message: 'Failed to download attachment', type: 'danger' });
   }
 };

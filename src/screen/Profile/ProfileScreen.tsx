@@ -6,6 +6,8 @@ import Icon from '../../components/Icons';
 import { profileStyles as styles } from './Profile.styles';
 import { useProfile } from './Profile.logic';
 import ProfileInfoRow from './components/ProfileInfoRow';
+import { AppSizes } from '../../utils/AppSizes';
+import { useNavigation } from '@react-navigation/native';
 
 const ProfileScreen = () => {
   const {
@@ -21,10 +23,26 @@ const ProfileScreen = () => {
     employmentFields,
   } = useProfile();
 
+  const navigation = useNavigation<any>();
+
   return (
     <SafeAreaView style={[styles.container, { backgroundColor: colors.primaryColor }]}>
-      <StatusBar backgroundColor={colors.primarayheaderColor} />
-      <PrimaryHeader headerText="Profile" />
+      <StatusBar backgroundColor={colors.primaryColor} />
+      {/* <PrimaryHeader headerText="Profile" /> */}
+
+
+      <Icon
+        type="Ionicons"
+        name="menu-outline"
+        size={AppSizes.ICON_30}
+        color={colors.textPrimary}
+        onPress={() => navigation.toggleDrawer()}
+        style={{position:'absolute',top:8,left:20}}
+      />
+
+      <Text
+        style={{ alignSelf: 'center', fontSize: AppSizes.FONT_22, color: colors.textPrimary, fontFamily: 'PlusJakartaSans-Bold', }}
+      >Profile</Text>
 
       <ScrollView showsVerticalScrollIndicator={false} contentContainerStyle={styles.scrollContent}>
         <View style={[styles.profileCard, { backgroundColor: colors.secondPrimaryColor }]}>
@@ -32,8 +50,8 @@ const ProfileScreen = () => {
             {profileImage ? (
               <Image source={{ uri: `https://syi.superyachtinteriors.ae:2001${profileImage}` }} style={styles.avatar} />
             ) : (
-              <View style={[styles.avatar, styles.avatarFallback, { backgroundColor: colors.purple1 }]}>
-                <Text style={styles.avatarInitial}>{fullName.charAt(0).toUpperCase()}</Text>
+              <View style={[styles.avatar, styles.avatarFallback, { backgroundColor: colors.primaryColor, borderColor: colors.purple1 }]}>
+                <Text style={[styles.avatarInitial, { color: colors.purple1 }]}>{fullName.charAt(0).toUpperCase()}</Text>
               </View>
             )}
 
@@ -42,7 +60,7 @@ const ProfileScreen = () => {
                 {fullName}
               </Text>
 
-              <View style={[styles.badge, { backgroundColor: colors.purple1 }]}>
+              <View style={[styles.badge, { backgroundColor: colors.primarayheaderColor }]}>
                 <Text style={styles.badgeText}>{employeeId}</Text>
               </View>
 

@@ -51,9 +51,9 @@ const LeaveDetailModal = ({
   const handleDownload = useCallback(async () => {
     if (!item?.attachmentPath) return;
     setDownloading(true);
-    await downloadAttachment(item.attachmentPath);
+    await downloadAttachment(item.attachmentPath, colors);
     setDownloading(false);
-  }, [item?.attachmentPath]);
+  }, [item?.attachmentPath, colors]);
 
   if (!item) return null;
 

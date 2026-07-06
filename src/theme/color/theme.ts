@@ -50,7 +50,7 @@ export const getColors = (theme: string) => {
     lightPurple: isDark ? '#1e2d42' : '#e6f0fe',
 
     // Borders and subtle divider lines
-    borderColor: isDark ? '#1e293b' : '#8b8d92',
+    borderColor: isDark ? '#1e293b' : '#bfc0c4',
 
     // Status Colors (Sampled directly from the indicators/badges)
     greenColor: isDark ? '#10b981' : '#22c55e',  // Present / Approved

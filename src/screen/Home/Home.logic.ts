@@ -6,8 +6,7 @@ import { baseUrl, endPoints } from '../../services/Constants/endPoints';
 import { getColors } from '../../theme/color/theme';
 import { useThemeContext } from '../../theme/ThemeContex';
 import { formatTime } from '../../utils/dateTime';
-import { showMessage } from 'react-native-flash-message';
-import { CommonStyle } from '../../utils/Common/CommonStyle';
+import { showThemedMessage } from '../../utils/flashMessage';
 
 export const useHome = () => {
   const { theme } = useThemeContext();
@@ -102,16 +101,12 @@ export const useHome = () => {
       if (monthlyAttendanceData.status) setMonthlyAttendance(monthlyAttendanceData.data || []);
     } catch (err) {
       console.error('Error fetching dashboard data:', err);
-      showMessage({
-        type: 'danger',
-        message: `Error fetching Dashboard data ${err}`,
-        style:CommonStyle.error
-      })
+      showThemedMessage(colors, { message: `Error fetching dashboard data: ${err}`, type: 'danger' });
     } finally {
       setLoading(false);
       setRefreshing(false);
     }
-  }, [userData?.employeeId]);
+  }, [userData?.employeeId, colors]);
 
   useEffect(() => {
     fetchDashboardData();
@@ -125,6 +120,7 @@ export const useHome = () => {
   const openLeaveModal = useCallback(() => setLeaveModalVisible(true), []);
   const closeLeaveModal = useCallback(() => setLeaveModalVisible(false), []);
   const goToAttendance = useCallback(() => navigation.navigate('attendance'), [navigation]);
+  const goToRequestLetter = useCallback(() => navigation.navigate('requestLetter'), [navigation]);
 
   return {
     colors,
@@ -142,5 +138,6 @@ export const useHome = () => {
     openLeaveModal,
     closeLeaveModal,
     goToAttendance,
+    goToRequestLetter,
   };
 };

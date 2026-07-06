@@ -1,7 +1,8 @@
 import { DrawerContentScrollView, DrawerItem } from "@react-navigation/drawer";
-import { Image, StyleSheet, Text, TouchableOpacity, View } from "react-native";
+import { Alert, Image, StyleSheet, Text, TouchableOpacity, View } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import Icon from "./Icons";
+import ThemeToggle from "./ThemeToggle";
 import { useThemeContext } from "../theme/ThemeContex";
 import { getColors } from "../theme/color/theme";
 import { useDispatch, useSelector } from "react-redux";
@@ -14,9 +15,26 @@ const CustomDrawerContent = (props: any) => {
   const dispatch = useDispatch();
   const profileData = useSelector(getUserProfileData);
 
-  const handleLogout = () => {
-    dispatch(logout());
-    // router.replace('/(auth)/LoginScreen');
+ const handleLogout = () => {
+    Alert.alert(
+      'Logout',
+      'Are you sure you want to logout?',
+      [
+        {
+          text: 'Cancel',
+          style: 'cancel',
+        },
+        {
+          text: 'Logout',
+          style: 'destructive',
+          onPress: () => {
+            dispatch(logout());
+            // router.replace('/(auth)/LoginScreen');
+          },
+        },
+      ],
+      { cancelable: true }
+    );
   };
 
   const drawerUserName = profileData?.name || 'Naveen Kumar';
@@ -55,6 +73,7 @@ const CustomDrawerContent = (props: any) => {
       <View style={styles.navigationSection}>
         <DrawerContentScrollView
           {...props}
+          style={styles.scrollView}
           contentContainerStyle={styles.scrollContent}
           showsVerticalScrollIndicator={false}
         >
@@ -64,7 +83,7 @@ const CustomDrawerContent = (props: any) => {
             icon={({ size }) => (
               <Icon name="grid" type="Ionicons" size={size} color={tintFor('Home')} />
             )}
-            onPress={() => props.navigation.navigate('Home')}
+            onPress={() => props.navigation.navigate('Home', { screen: 'Home' })}
             focused={isActive('Home')}
             activeBackgroundColor={colors.lightPurple}
             activeTintColor={colors.purple1}
@@ -96,6 +115,21 @@ const CustomDrawerContent = (props: any) => {
             )}
             onPress={() => props.navigation.navigate('Leaveapplication')}
             focused={isActive('Leaveapplication')}
+            activeBackgroundColor={colors.lightPurple}
+            activeTintColor={colors.purple1}
+            inactiveTintColor={colors.textSecondary}
+            labelStyle={styles.drawerLabel}
+            style={styles.drawerItem}
+          />
+
+          {/* Request Letter */}
+          <DrawerItem
+            label="Request Letter"
+            icon={({ size }) => (
+              <Icon name="mail-outline" type="Ionicons" size={size} color={tintFor('requestLetter')} />
+            )}
+            onPress={() => props.navigation.navigate('requestLetter')}
+            focused={isActive('requestLetter')}
             activeBackgroundColor={colors.lightPurple}
             activeTintColor={colors.purple1}
             inactiveTintColor={colors.textSecondary}
@@ -152,7 +186,7 @@ const CustomDrawerContent = (props: any) => {
           />
 
           {/* Help & Support */}
-          <DrawerItem
+          {/* <DrawerItem
             label="Help & Support"
             icon={({ size }) => (
               <Icon name="help-circle-outline" type="Ionicons" size={size} color={tintFor('support')} />
@@ -166,7 +200,6 @@ const CustomDrawerContent = (props: any) => {
             style={styles.drawerItem}
           />
 
-          {/* About ESS */}
           <DrawerItem
             label="About ESS"
             icon={({ size }) => (
@@ -179,34 +212,29 @@ const CustomDrawerContent = (props: any) => {
             inactiveTintColor={colors.textSecondary}
             labelStyle={styles.drawerLabel}
             style={styles.drawerItem}
-          />
+          /> */}
 
+        </DrawerContentScrollView>
+
+        {/* Footer - always pinned to the bottom, regardless of how many nav items are above */}
+        <View style={styles.footerSection}>
           <View style={[styles.divider, { backgroundColor: colors.borderColor }]} />
 
-          {/* Custom Pill Theme Selector Row */}
           <View style={styles.themeRow}>
             <View style={styles.themeLeft}>
               <Icon name="sunny-outline" type="Ionicons" size={22} color={colors.purple1} />
               <Text style={[styles.themeLabelText, { color: colors.textSecondary }]}>Theme</Text>
             </View>
-            <TouchableOpacity style={[styles.pillSwitchContainer,{backgroundColor:colors.secondPrimaryColor}]} onPress={toggleTheme}>
-              <View style={[styles.pillButton, theme !== 'dark' && styles.pillActive]}>
-                <Icon name="sunny" type="Ionicons" size={16} color={theme !== 'dark' ? colors.purple1 : colors.textSecondary} />
-              </View>
-              <View style={[styles.pillButton, theme === 'dark' && styles.pillActive]}>
-                <Icon name="moon" type="Ionicons" size={16} color={theme === 'dark' ? colors.purple1 : colors.textSecondary} />
-              </View>
-            </TouchableOpacity>
+            <ThemeToggle theme={theme} colors={colors} onToggle={toggleTheme} />
           </View>
 
           <View style={[styles.divider, { backgroundColor: colors.borderColor }]} />
 
-          {/* Logout Action */}
           <TouchableOpacity style={styles.logoutRow} onPress={handleLogout}>
             <Icon name="log-out-outline" type="Ionicons" size={22} color={colors.redColor} />
             <Text style={[styles.logoutText, { color: colors.redColor }]}>Logout</Text>
           </TouchableOpacity>
-        </DrawerContentScrollView>
+        </View>
       </View>
     </SafeAreaView>
   );
@@ -267,9 +295,15 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: 'space-between',
   },
+  scrollView: {
+    flex: 1,
+  },
   scrollContent: {
     paddingTop: 10,
     paddingHorizontal: 10,
+  },
+  footerSection: {
+    paddingBottom: 8,
   },
   drawerItem: {
     borderRadius: 8,
@@ -345,28 +379,6 @@ const styles = StyleSheet.create({
     fontSize: 16,
     marginLeft: 10,
     fontFamily:'PlusJakartaSans-SemiBold'
-  },
-  pillSwitchContainer: {
-    flexDirection: 'row',
-    borderRadius: 20,
-    padding: 3,
-    width: 80,
-    justifyContent: 'space-between',
-  },
-  pillButton: {
-    flex: 1,
-    height: 26,
-    borderRadius: '50%',
-    justifyContent: 'center',
-    alignItems: 'center',
-  },
-  pillActive: {
-    
-    // elevation: 2,
-    shadowColor: '#000',
-    shadowOffset: { width: 0, height: 1 },
-    shadowOpacity: 0.15,
-    shadowRadius: 1,
   },
   logoutRow: {
     flexDirection: 'row',

@@ -48,6 +48,7 @@ export const attendanceStyles = StyleSheet.create({
   },
   recordCard: {
     flexDirection: 'row',
+    alignItems: 'center',
     borderRadius: 14,
     padding: scale(14),
     marginBottom: scale(10),
@@ -58,7 +59,7 @@ export const attendanceStyles = StyleSheet.create({
     shadowRadius: 4,
   },
   recordDateBox: {
-    width: '25%',
+    width: '22%',
     alignItems: 'center',
     justifyContent: 'center',
   },
@@ -74,17 +75,15 @@ export const attendanceStyles = StyleSheet.create({
   recordBody: {
     flex: 1,
     marginLeft: scale(12),
-  },
-  recordTopRow: {
-    flexDirection: 'row',
-    marginBottom: 6,
+    marginRight: scale(8),
   },
   statusPill: {
     flexDirection: 'row',
     alignItems: 'center',
+    alignSelf: 'flex-start',
     gap: 4,
     paddingHorizontal: 10,
-    paddingVertical: 3,
+    paddingVertical: 4,
     borderRadius: 20,
   },
   statusPillText: {

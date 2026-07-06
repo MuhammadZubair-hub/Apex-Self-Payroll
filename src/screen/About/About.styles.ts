@@ -5,6 +5,12 @@ export const aboutStyles = StyleSheet.create({
   container: {
     flex: 1,
   },
+  headerTitle: {
+    alignSelf: 'center',
+    fontSize: 22,
+    fontFamily: 'PlusJakartaSans-Bold',
+    marginBottom: scale(4),
+  },
   scrollContent: {
     padding: scale(16),
     paddingBottom: scale(40),
@@ -22,12 +28,12 @@ export const aboutStyles = StyleSheet.create({
     shadowRadius: 6,
   },
   logo: {
-    width: '72%',
-    aspectRatio: 4.12,
+    width: scale(180),
+    height: scale(44),
     marginBottom: scale(12),
   },
   appName: {
-    fontSize: 20,
+    fontSize: 22,
     fontFamily: 'PlusJakartaSans-Bold',
   },
   versionBadge: {
@@ -37,18 +43,18 @@ export const aboutStyles = StyleSheet.create({
     borderRadius: 20,
   },
   versionBadgeText: {
-    fontSize: 12,
+    fontSize: 13,
     fontFamily: 'PlusJakartaSans-SemiBold',
   },
   tagline: {
-    fontSize: 13,
+    fontSize: 14,
     fontFamily: 'PlusJakartaSans-Regular',
     textAlign: 'center',
     marginTop: scale(12),
-    lineHeight: 19,
+    lineHeight: 20,
   },
   sectionTitle: {
-    fontSize: 15,
+    fontSize: 16,
     fontFamily: 'PlusJakartaSans-Medium',
     marginBottom: scale(10),
     marginTop: scale(4),
@@ -73,14 +79,14 @@ export const aboutStyles = StyleSheet.create({
     alignItems: 'center',
   },
   featureTitle: {
-    fontSize: 14,
+    fontSize: 15,
     fontFamily: 'PlusJakartaSans-Medium',
   },
   featureDescription: {
-    fontSize: 12,
+    fontSize: 13,
     fontFamily: 'PlusJakartaSans-Regular',
     marginTop: 2,
-    lineHeight: 17,
+    lineHeight: 18,
   },
   infoCard: {
     borderRadius: 14,
@@ -100,15 +106,15 @@ export const aboutStyles = StyleSheet.create({
     borderBottomWidth: StyleSheet.hairlineWidth,
   },
   infoLabel: {
-    fontSize: 13,
+    fontSize: 14,
     fontFamily: 'PlusJakartaSans-Regular',
   },
   infoValue: {
-    fontSize: 13,
+    fontSize: 14,
     fontFamily: 'PlusJakartaSans-Medium',
   },
   footerText: {
-    fontSize: 12,
+    fontSize: 13,
     fontFamily: 'PlusJakartaSans-Regular',
     textAlign: 'center',
     marginTop: scale(4),

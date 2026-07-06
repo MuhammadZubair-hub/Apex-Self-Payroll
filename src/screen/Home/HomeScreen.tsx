@@ -8,8 +8,9 @@ import { useHome } from './Home.logic';
 import TodayAttendanceCard from './components/TodayAttendanceCard';
 import AttendanceOverviewCard from './components/AttendanceOverviewCard';
 import InfoCardsRow from './components/InfoCardsRow';
-import QuickActionsGrid from './components/QuickActionsGrid';
+// import QuickActionsGrid from './components/QuickActionsGrid';
 import LeaveBalanceModal from './components/LeaveBalanceModal';
+import RequestLetterCard from './components/RequestLetterCard';
 
 const HomeScreen = () => {
   const {
@@ -28,12 +29,16 @@ const HomeScreen = () => {
     openLeaveModal,
     closeLeaveModal,
     goToAttendance,
+    goToRequestLetter,
   } = useHome();
 
   return (
     <SafeAreaView style={[styles.container, { backgroundColor: colors.primaryColor }]}>
       <StatusBar backgroundColor={colors.primarayheaderColor} />
-      <PrimaryHeader headerText="Dashboard" />
+      <PrimaryHeader
+        headerText="Dashboard"
+        showDate
+      />
 
       <ScrollView
         showsVerticalScrollIndicator={false}
@@ -56,7 +61,9 @@ const HomeScreen = () => {
           onPressLeaveBalance={openLeaveModal}
         />
 
-        <QuickActionsGrid colors={colors} />
+        <RequestLetterCard colors={colors} onPress={goToRequestLetter} />
+
+        {/* <QuickActionsGrid colors={colors} /> */}
       </ScrollView>
 
       <LeaveBalanceModal

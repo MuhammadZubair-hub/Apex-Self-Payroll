@@ -5,9 +5,18 @@ export const helpSupportStyles = StyleSheet.create({
   container: {
     flex: 1,
   },
+  headerTitle: {
+    alignSelf: 'center',
+    fontSize: 22,
+    fontFamily: 'PlusJakartaSans-Bold',
+    marginBottom: scale(4),
+  },
   scrollContent: {
     padding: scale(16),
     paddingBottom: scale(40),
+    flex: 1,
+    // justifyContent: 'center',
+    marginTop: scale(20),
   },
   banner: {
     flexDirection: 'row',

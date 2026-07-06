@@ -34,11 +34,13 @@ export const profileStyles = StyleSheet.create({
   avatarFallback: {
     justifyContent: 'center',
     alignItems: 'center',
+    borderWidth:2
   },
   avatarInitial: {
-    color: '#fff',
+    
     fontSize: 26,
     fontFamily: 'PlusJakartaSans-Bold',
+    alignSelf:'center'
   },
   name: {
     fontSize: 17,
@@ -111,12 +113,12 @@ export const profileStyles = StyleSheet.create({
   },
   label: {
     fontSize: 13,
-    fontFamily: 'PlusJakartaSans-Regular',
+    fontFamily: 'PlusJakartaSans-SemiBold',
     flex: 1,
   },
   value: {
     fontSize: 13,
-    fontFamily: 'PlusJakartaSans-SemiBold',
+    fontFamily: 'PlusJakartaSans-Regular',
     marginRight: 8,
     textAlign: 'right',
     flexShrink: 1,

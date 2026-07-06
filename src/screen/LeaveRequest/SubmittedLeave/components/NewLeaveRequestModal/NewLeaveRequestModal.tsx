@@ -2,6 +2,7 @@ import React from 'react';
 import { Modal, ScrollView, StatusBar, Text, TextInput, TouchableOpacity, View } from 'react-native';
 import { Fold } from 'react-native-animated-spinkit';
 import { SafeAreaView } from 'react-native-safe-area-context';
+import ConfirmModal from '../../../../../components/ConfirmModal';
 import Icon from '../../../../../components/Icons';
 import MyButton from '../../../../../components/MyButton';
 import ModalFlashMessage from '../../../../../components/ModalFlashMessage';
@@ -40,6 +41,7 @@ const NewLeaveRequestModal = ({ visible, colors, leaveTypes, employeeId, onClose
     attachmentUploading,
     attachmentSourceVisible,
     setAttachmentSourceVisible,
+    confirmModalVisible,
     datePicker,
     setDatePicker,
     normalizedTypes,
@@ -52,6 +54,8 @@ const NewLeaveRequestModal = ({ visible, colors, leaveTypes, employeeId, onClose
     handleClose,
     handleDateConfirm,
     handleSubmit,
+    cancelSubmit,
+    confirmSubmit,
   } = useNewLeaveRequestForm({ leaveTypes, employeeId, onSubmit, onClose });
 
   return (
@@ -207,6 +211,20 @@ const NewLeaveRequestModal = ({ visible, colors, leaveTypes, employeeId, onClose
         onLibrary={pickFromLibrary}
         onDocument={pickPdfDocument}
         onClose={() => setAttachmentSourceVisible(false)}
+      />
+
+      <ConfirmModal
+        visible={confirmModalVisible}
+        colors={colors}
+        title="Before You Submit"
+        message={
+          'A handover discussion must be conducted at least one working day before your leave begins.\n\n' +
+          'Your manager will ensure that all responsibilities are properly assigned during your absence, helping to avoid any disruption in work.'
+        }
+        confirmText="Submit"
+        loading={submitting}
+        onConfirm={confirmSubmit}
+        onCancel={cancelSubmit}
       />
     </Modal>
   );
