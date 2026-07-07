@@ -7,6 +7,7 @@ import { useThemeContext } from "../theme/ThemeContex";
 import { getColors } from "../theme/color/theme";
 import { useDispatch, useSelector } from "react-redux";
 import { getUserProfileData, logout } from "../redux/slices/authSlice";
+import { useIsManager } from "../screen/Home/components/AttendanceCalendar/useIsManager";
 
 const CustomDrawerContent = (props: any) => {
   const { theme, toggleTheme } = useThemeContext();
@@ -14,6 +15,7 @@ const CustomDrawerContent = (props: any) => {
 //   const router = useRouter();
   const dispatch = useDispatch();
   const profileData = useSelector(getUserProfileData);
+  const { isManager } = useIsManager();
 
   // console.log(' the profile data is ',profileData);
 
@@ -139,20 +141,22 @@ const CustomDrawerContent = (props: any) => {
             style={styles.drawerItem}
           />
 
-          {/* Leave Calendar */}
-          <DrawerItem
-            label="Leave Calendar"
-            icon={({ size }) => (
-              <Icon name="people-outline" type="Ionicons" size={size} color={tintFor('leaveCalendarHistory')} />
-            )}
-            onPress={() => props.navigation.navigate('leaveCalendarHistory')}
-            focused={isActive('leaveCalendarHistory')}
-            activeBackgroundColor={colors.lightPurple}
-            activeTintColor={colors.purple1}
-            inactiveTintColor={colors.textSecondary}
-            labelStyle={styles.drawerLabel}
-            style={styles.drawerItem}
-          />
+          {/* Leave Calendar - managers only */}
+          {isManager && (
+            <DrawerItem
+              label="Leave Calendar"
+              icon={({ size }) => (
+                <Icon name="people-outline" type="Ionicons" size={size} color={tintFor('leaveCalendarHistory')} />
+              )}
+              onPress={() => props.navigation.navigate('leaveCalendarHistory')}
+              focused={isActive('leaveCalendarHistory')}
+              activeBackgroundColor={colors.lightPurple}
+              activeTintColor={colors.purple1}
+              inactiveTintColor={colors.textSecondary}
+              labelStyle={styles.drawerLabel}
+              style={styles.drawerItem}
+            />
+          )}
 
           {/* Profile */}
           <DrawerItem

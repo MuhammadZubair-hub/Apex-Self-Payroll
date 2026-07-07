@@ -22,7 +22,7 @@ interface NewLeaveRequestModalProps {
   leaveTypes: any[];
   employeeId: number | string;
   onClose: () => void;
-  onSubmit: (payload: NewLeaveRequestPayload) => void | Promise<void>;
+  onSubmit: (payload: NewLeaveRequestPayload) => Promise<boolean>;
 }
 
 const NewLeaveRequestModal = ({ visible, colors, leaveTypes, employeeId, onClose, onSubmit }: NewLeaveRequestModalProps) => {

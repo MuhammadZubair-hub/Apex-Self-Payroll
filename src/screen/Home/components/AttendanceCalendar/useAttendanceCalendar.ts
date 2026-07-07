@@ -6,6 +6,7 @@ import { getColors } from '../../../../theme/color/theme';
 import { useThemeContext } from '../../../../theme/ThemeContex';
 import { showThemedMessage } from '../../../../utils/flashMessage';
 import { buildMarkedDates, LeaveCalendarRecord, MONTH_NAMES, normalizeDepartment } from './attendanceCalendar.constants';
+import { useIsManager } from './useIsManager';
 
 interface DepartmentOption {
   id: number | string;
@@ -24,10 +25,8 @@ export const useAttendanceCalendar = () => {
   const [month, setMonth] = useState(now.getMonth() + 1);
   const [year, setYear] = useState(now.getFullYear());
 
-  // This calendar is manager-only: GetAllManagers returns the empIds allowed to see it, and
-  // nothing else here fetches until that check resolves the current user as one of them.
-  const [checkingAccess, setCheckingAccess] = useState(true);
-  const [isManager, setIsManager] = useState(false);
+  // Nothing else here fetches until this resolves the current user as a manager.
+  const { checkingAccess, isManager } = useIsManager();
 
   const [departments, setDepartments] = useState<DepartmentOption[]>([]);
   const [departmentId, setDepartmentId] = useState<number | string | null>(null);
@@ -87,34 +86,12 @@ export const useAttendanceCalendar = () => {
   }, [profileData?.department, fetchLeaveCalendar]);
 
   useEffect(() => {
-    (async () => {
-      if (!userData?.employeeId) {
-        setCheckingAccess(false);
-        setLoading(false);
-        return;
-      }
-      try {
-        const response = await fetch(`${baseUrl}${endPoints.GetAllManagers}`);
-        const json = await response.json();
-        const managerIds: any[] = json?.data || [];
-        const allowed = managerIds.some((id) => Number(id) === Number(userData.employeeId));
-        setIsManager(allowed);
-        if (allowed) {
-          await fetchDepartments();
-        } else {
-          setLoading(false);
-        }
-      } catch (err) {
-        console.error('Error checking manager access:', err);
-        setIsManager(false);
-        setLoading(false);
-      } finally {
-        setCheckingAccess(false);
-      }
-    })();
-    // Runs once on mount - manager access doesn't change during the screen's lifetime.
+    if (checkingAccess) return;
+    if (isManager) fetchDepartments();
+    else setLoading(false);
+    // Runs once access resolves - fetchDepartments/setLoading don't need to re-run afterwards.
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  }, [checkingAccess, isManager]);
 
   const markedDates = useMemo(() => buildMarkedDates(records), [records]);
 

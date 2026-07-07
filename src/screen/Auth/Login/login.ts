@@ -63,7 +63,7 @@ export const useLoginUser = () => {
         userCredentials.password.trim(),
       );
 
-      console.log("API Response:", response.data.data);
+      // console.log("API Response:", response.data.data);
       if (response?.success) {
         const profileData = await fetchProfileData(response.data.data.data.employeeId);
 

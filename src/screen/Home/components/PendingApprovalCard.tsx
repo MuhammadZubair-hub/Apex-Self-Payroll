@@ -11,9 +11,9 @@ interface PendingApprovalCardProps {
 
 const PendingApprovalCard = ({ colors, count, onPress }: PendingApprovalCardProps) => (
   <TouchableOpacity style={[styles.card, styles.requestLetterCard, { backgroundColor: colors.dangerBg }]} onPress={onPress} activeOpacity={0.85}>
-    <View style={[styles.infoIconBox, { backgroundColor: colors.secondPrimaryColor, marginBottom: 0 }]}>
       <Ionicons name="time-outline" size={22} color={colors.dangerText} />
-    </View>
+    {/* <View style={[styles.infoIconBox, { backgroundColor: colors.secondPrimaryColor, marginBottom: 0 }]}>
+    </View> */}
     <View style={styles.requestLetterBody}>
       <Text style={[styles.cardTitle, { color: colors.dangerText, marginBottom: 2 }]}>Pending Approvals</Text>
       <Text style={[styles.leaveLabel, { color: colors.dangerText }]}>

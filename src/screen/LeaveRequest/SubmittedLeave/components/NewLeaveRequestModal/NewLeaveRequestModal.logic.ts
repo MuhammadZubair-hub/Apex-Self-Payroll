@@ -27,7 +27,7 @@ export interface NewLeaveRequestPayload {
 interface UseNewLeaveRequestFormArgs {
   leaveTypes: any[];
   employeeId: number | string;
-  onSubmit: (payload: NewLeaveRequestPayload) => void | Promise<void>;
+  onSubmit: (payload: NewLeaveRequestPayload) => Promise<boolean>;
   onClose: () => void;
 }
 
@@ -217,7 +217,7 @@ export const useNewLeaveRequestForm = ({ leaveTypes, employeeId, onSubmit, onClo
     if (!selectedLeaveType || !fromDate || !toDate) return;
 
     setSubmitting(true);
-    await onSubmit({
+    const success = await onSubmit({
       leaveTypeId: selectedLeaveType.id,
       leaveTypeLabel: selectedLeaveType.label,
       fromDate,
@@ -226,8 +226,13 @@ export const useNewLeaveRequestForm = ({ leaveTypes, employeeId, onSubmit, onClo
       attachmentPath: attachment?.remotePath || '',
     });
     setSubmitting(false);
-    setConfirmModalVisible(false);
-    resetForm();
+    // Only close on success - on failure the confirm sheet (and its held flash message toast)
+    // needs to stay open long enough to actually show the error, and the user's form data
+    // shouldn't be thrown away just because the submission was rejected.
+    if (success) {
+      setConfirmModalVisible(false);
+      resetForm();
+    }
   }, [selectedLeaveType, fromDate, toDate, remarks, attachment, onSubmit, resetForm]);
 
   return {

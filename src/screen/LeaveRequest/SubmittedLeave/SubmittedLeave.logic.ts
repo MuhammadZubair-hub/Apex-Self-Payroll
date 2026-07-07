@@ -129,6 +129,17 @@ export const useSubmittedLeave = (employeeId: number | string | undefined, profi
 
   const handleNewRequestSubmit = useCallback(
     async (payload: NewLeaveRequestPayload) => {
+      const selectedDays = daysBetweenInclusive(payload.fromDate, payload.toDate);
+      const selectedLeaveType = leaveType.find((t) => (t.id ?? t.leaveID) === payload.leaveTypeId);
+      const availableBalance = selectedLeaveType?.leaveBalance ?? 0;
+      if (selectedLeaveType && selectedDays > availableBalance) {
+        showThemedMessage(colors, {
+          message: `You only have ${availableBalance} day${availableBalance === 1 ? '' : 's'} remaining for ${payload.leaveTypeLabel}`,
+          type: 'danger',
+        });
+        return false;
+      }
+
       try {
         const now = new Date();
         const body = {
@@ -165,19 +176,31 @@ export const useSubmittedLeave = (employeeId: number | string | undefined, profi
         };
 
         const r = await axios.post(`${baseUrl}${endPoints.PostLeaveApplicationWithKPIs}`, body);
-        if (r.data?.status === false) {
-          showThemedMessage(colors, { message: r.data?.message || 'Failed to submit leave request', type: 'danger' });
-          return;
+
+
+        console.log('the response is for leaves submit:', r);
+
+        if (r.data.status === 0) {
+          showThemedMessage(colors, { message: r.data.message || 'Failed to submit leave request', type: 'danger' });
+          return false;
         }
         setFormModalVisible(false);
-        showThemedMessage(colors, { message: 'Leave request submitted successfully', type: 'success' });
+        // The confirm sheet (BottomSheet) holds the app's FlashMessage instance while it's open
+        // and only unholds it in an effect cleanup that fires after this closes - showing the
+        // toast synchronously here would send it to the instance that's mid-close. Deferring
+        // past the close animation lets it land on the root FlashMessage instead.
+        setTimeout(() => {
+          showThemedMessage(colors, { message: 'Leave request submitted successfully', type: 'success' });
+        }, 300);
         fetchLeaveApplications();
+        return true;
       } catch (error) {
         console.log('error submitting leave request', error);
         showThemedMessage(colors, { message: 'Failed to submit leave request', type: 'danger' });
+        return false;
       }
     },
-    [employeeId, profileData, fetchLeaveApplications, colors]
+    [employeeId, profileData, fetchLeaveApplications, colors, leaveType]
   );
 
   return {
