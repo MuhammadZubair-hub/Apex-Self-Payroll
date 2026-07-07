@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
 import { getUser } from '../../../../redux/slices/authSlice';
-import { baseUrl, endPoints } from '../../../../services/Constants/endPoints';
+import { LeaveCalendarService } from '../../../../services/LeaveCalendarService';
 
 // The Leave Calendar (dashboard card, drawer entry and history screen) is manager-only -
 // GetAllManagers returns the empIds allowed to see it. Shared so the drawer can hide its menu
@@ -18,9 +18,8 @@ export const useIsManager = () => {
         return;
       }
       try {
-        const response = await fetch(`${baseUrl}${endPoints.GetAllManagers}`);
-        const json = await response.json();
-        const managerIds: any[] = json?.data || [];
+        const result = await LeaveCalendarService.getAllManagers();
+        const managerIds: any[] = result.data?.data || [];
         setIsManager(managerIds.some((id) => Number(id) === Number(userData.employeeId)));
       } catch (err) {
         console.error('Error checking manager access:', err);

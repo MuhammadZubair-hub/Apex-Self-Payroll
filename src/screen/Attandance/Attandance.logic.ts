@@ -1,7 +1,7 @@
 import { useCallback, useEffect, useMemo, useState } from 'react';
 import { useSelector } from 'react-redux';
 import { getUser } from '../../redux/slices/authSlice';
-import { baseUrl, endPoints } from '../../services/Constants/endPoints';
+import { AttendanceService } from '../../services/AttendanceService';
 import { getColors } from '../../theme/color/theme';
 import { useThemeContext } from '../../theme/ThemeContex';
 import { getRecordStatus } from './attandance.constants';
@@ -24,10 +24,8 @@ export const useAttendance = () => {
     if (!userData?.employeeId) return;
     try {
       setLoading(true);
-      const url = `${baseUrl}${endPoints.MonthlyAttendance}?EmployeeId=${userData.employeeId}&Month=${month}&Year=${year}`;
-      const response = await fetch(url);
-      const json = await response.json();
-      setRecords(json.status ? json.data || [] : []);
+      const result = await AttendanceService.getMonthlyAttendance(userData.employeeId, month, year);
+      setRecords(result.data?.status ? result.data.data || [] : []);
     } catch (err) {
       console.error('Error fetching attendance:', err);
       showThemedMessage(colors, { message: `Error fetching attendance: ${err}`, type: 'danger' });

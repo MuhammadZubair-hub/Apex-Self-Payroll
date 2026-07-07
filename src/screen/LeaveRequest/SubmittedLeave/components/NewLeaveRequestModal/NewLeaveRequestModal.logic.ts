@@ -1,10 +1,9 @@
-import axios from 'axios';
 import { useCallback, useMemo, useState } from 'react';
 import { launchCamera, launchImageLibrary } from 'react-native-image-picker';
 import { errorCodes, isErrorWithCode, pick, types } from '@react-native-documents/picker';
 import { getColors } from '../../../../../theme/color/theme';
 import { useThemeContext } from '../../../../../theme/ThemeContex';
-import { baseUrl, endPoints } from '../../../../../services/Constants/endPoints';
+import { LeaveService } from '../../../../../services/LeaveService';
 import { showThemedMessage } from '../../../../../utils/flashMessage';
 import { daysBetweenInclusive } from '../../../leaveRequest.constants';
 import { Alert } from 'react-native';
@@ -95,19 +94,15 @@ export const useNewLeaveRequestForm = ({ leaveTypes, employeeId, onSubmit, onClo
         } as any);
         formData.append('id', String(employeeId));
 
-        const r = await axios.post(`${baseUrl}${endPoints.UploadFileESS}`, formData, {
-          headers: { 'Content-Type': 'multipart/form-data' },
-        });
+        const r = await LeaveService.uploadAttachment(formData);
 
-        console.log('the reposen is ', r.status)
-
-        const remotePath = r.data.path;
-        if (r.status === 200) {
+        const remotePath = r.data?.path;
+        if (r.success) {
           setAttachment({ name: fileName, remotePath });
         } else {
           showThemedMessage(colors, {
             message: 'Failed to upload attachment',
-            description: `${r.data.message}`,
+            description: `${r.data?.message || r.message}`,
             type: 'danger',
           });
           setAttachment({ name: fileName, remotePath });

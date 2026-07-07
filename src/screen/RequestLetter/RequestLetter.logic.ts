@@ -1,8 +1,7 @@
-import axios from 'axios';
 import { useCallback, useMemo, useState } from 'react';
 import { useSelector } from 'react-redux';
 import { getUser, getUserProfileData } from '../../redux/slices/authSlice';
-import { baseUrl, endPoints } from '../../services/Constants/endPoints';
+import { RequestLetterService } from '../../services/RequestLetterService';
 import { getColors } from '../../theme/color/theme';
 import { useThemeContext } from '../../theme/ThemeContex';
 import { showThemedMessage } from '../../utils/flashMessage';
@@ -54,13 +53,9 @@ export const useRequestLetter = () => {
 
     setSubmitting(true);
     try {
-      const url = `${baseUrl}${endPoints.SendEmail}?employeeId=${employeeId}&subject=${encodeURIComponent(
-        subject
-      )}&body=${encodeURIComponent(body)}`;
-      const r = await axios.get(url);
-      // console.log('the request response is ',r);
-      if (r.data.status === false) {
-        showThemedMessage(colors, { message: r.data?.message || 'Failed to submit request', type: 'danger' });
+      const r = await RequestLetterService.sendRequestLetter(employeeId!, subject, body);
+      if (!r.success || r.data?.status === false) {
+        showThemedMessage(colors, { message: r.data?.message || r.message || 'Failed to submit request', type: 'danger' });
         return;
       }
       showThemedMessage(colors, { message: `${r.data.message}`, type: 'success' });

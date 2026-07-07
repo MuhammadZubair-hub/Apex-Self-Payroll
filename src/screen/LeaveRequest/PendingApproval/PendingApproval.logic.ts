@@ -1,8 +1,7 @@
-import axios from 'axios';
 import { useCallback, useEffect, useMemo, useState } from 'react';
 import { getColors } from '../../../theme/color/theme';
 import { useThemeContext } from '../../../theme/ThemeContex';
-import { baseUrl, endPoints } from '../../../services/Constants/endPoints';
+import { LeaveService } from '../../../services/LeaveService';
 import { showThemedMessage } from '../../../utils/flashMessage';
 import { toDateOnlyString } from '../leaveRequest.constants';
 
@@ -19,8 +18,7 @@ export const usePendingApprovals = (employeeId: number | string | undefined) => 
   const fetchPendingApprovals = useCallback(async () => {
     if (!employeeId) return;
     try {
-      console.log(' i am called ')
-      const r = await axios.get(`${baseUrl}${endPoints.PendingLeaveApplicationsListESS}?UserId=${employeeId}`);
+      const r = await LeaveService.getPendingApprovals(employeeId);
       setPendingApprovals(r.data?.status ? r.data.data || [] : []);
     } catch (error) {
       console.log('error fetching pending approvals', error);
@@ -52,14 +50,8 @@ export const usePendingApprovals = (employeeId: number | string | undefined) => 
       const pendingAtId = item.pendingAtId ?? employeeId;
       const now = new Date();
 
-      console.log('action traget is this :', actionTarget);
-
-      console.log('', toDateOnlyString(now), leaveId, pendingAtId,
-        remarks,
-        decision)
-
       try {
-        const r = await axios.post(`${baseUrl}${endPoints.ApproveRejectDocumentESS}`, {
+        const r = await LeaveService.approveRejectDocument({
           approvedDate: toDateOnlyString(now),
           createDate: `${toDateOnlyString(now)}T00:00:00`,
           docType: 'Leave',
@@ -69,7 +61,13 @@ export const usePendingApprovals = (employeeId: number | string | undefined) => 
           requestStatus: decision,
         });
 
-        console.log('this is response', r);
+        if (!r.success || r.data.status !== 1) {
+          showThemedMessage(colors, {
+            message: `Failed to ${decision.toLowerCase()} ${r.data?.message || r.message || ''}`,
+            type: 'danger',
+          });
+          return;
+        }
 
         setActionTarget(null);
         // The BottomSheet holds the app's FlashMessage instance while it's open (see
@@ -77,10 +75,6 @@ export const usePendingApprovals = (employeeId: number | string | undefined) => 
         // closes - showing the toast synchronously here sends it to the instance that's
         // mid-close, so it never renders. Deferring past the close animation lets it land
         // on the root FlashMessage instead.
-        console.log(r.data.status)
-        if (r.data.status !== 1) {
-          showThemedMessage(colors, { message: `Failed to ${decision.toLowerCase()} ${r.data.message}`, type: 'danger' });
-        }
         setTimeout(() => {
           showThemedMessage(colors, { message: `Leave request ${decision.toLowerCase()} successfully`, type: 'success' });
         }, 300);

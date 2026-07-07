@@ -8,6 +8,7 @@ import { useAttendance } from './Attandance.logic';
 import { MONTH_NAMES } from './attandance.constants';
 import AttendanceRecordCard from './components/AttendanceRecordCard';
 import AttendanceListSkeleton from './components/AttendanceListSkeleton';
+import AttendanceBarChart from './components/AttendanceBarChart';
 import MonthYearPickerSheet from './components/MonthYearPickerSheet';
 
 const AttendanceScreen = () => {
@@ -59,7 +60,7 @@ const AttendanceScreen = () => {
         </View>
       </View>
 
-      {loading && records.length === 0 ? (
+      {loading && !refreshing ? (
         <AttendanceListSkeleton colors={colors} />
       ) : (
         <FlatList
@@ -69,6 +70,7 @@ const AttendanceScreen = () => {
           contentContainerStyle={styles.listContent}
           showsVerticalScrollIndicator={false}
           refreshControl={<RefreshControl refreshing={refreshing} onRefresh={onRefresh} colors={[colors.purple1]} />}
+          ListHeaderComponent={<AttendanceBarChart records={records} colors={colors} />}
           ListEmptyComponent={
             <View style={styles.emptyContainer}>
               <Ionicons name="calendar-outline" size={48} color={colors.textSecondary} />

@@ -14,6 +14,9 @@ export const endPoints = {
 
   TodayAttendance :'ESSDashboard/GetTodayEmployeeAttendence',
   MonthlyAttendance :'ESSDailytimesheet/GetMonthlyAttendance',
+  GetUpcomingHolidays: 'ESSDashboard/GetUpcomingHolidays',
+  GetEmployeeLeavesInfo: 'ESSDashboard/GetEmployeeLeavesInfo',
+  GetEmployessDataESS: 'ESSEmployee/GetEmployessDataESS',
 
   SubmitNewLeaveRequest :'',
 

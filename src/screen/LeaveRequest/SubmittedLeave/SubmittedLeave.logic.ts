@@ -1,8 +1,7 @@
-import axios from 'axios';
 import { useCallback, useEffect, useMemo, useState } from 'react';
 import { getColors } from '../../../theme/color/theme';
 import { useThemeContext } from '../../../theme/ThemeContex';
-import { baseUrl, endPoints } from '../../../services/Constants/endPoints';
+import { LeaveService } from '../../../services/LeaveService';
 import { showThemedMessage } from '../../../utils/flashMessage';
 import { daysBetweenInclusive, toMidnightISOString } from '../leaveRequest.constants';
 import { NewLeaveRequestPayload } from './components/NewLeaveRequestModal/NewLeaveRequestModal.logic';
@@ -48,7 +47,7 @@ export const useSubmittedLeave = (employeeId: number | string | undefined, profi
 
   const fetchLeaveTypes = useCallback(async () => {
     try {
-      const r = await axios.get(`${baseUrl}${endPoints.GetLeaveTypesESS}?EmployeeId=${employeeId}`);
+      const r = await LeaveService.getLeaveTypes(employeeId!);
       setLeaveType(r.data?.status ? r.data.data || [] : []);
     } catch (error) {
       console.log('error fetching leave types', error);
@@ -58,7 +57,7 @@ export const useSubmittedLeave = (employeeId: number | string | undefined, profi
   const fetchLeaveApplications = useCallback(async () => {
     if (!employeeId) return;
     try {
-      const r = await axios.get(`${baseUrl}${endPoints.GetLeaveApplicationByIDESS}?EmployeeId=${employeeId}`);
+      const r = await LeaveService.getLeaveApplications(employeeId);
       setLeaveApplications(r.data?.status ? r.data.data || [] : []);
     } catch (error) {
       console.log('error fetching leave applications', error);
@@ -85,9 +84,7 @@ export const useSubmittedLeave = (employeeId: number | string | undefined, profi
     setApprovalChainLoading(true);
     setApprovalChain([]);
     try {
-      const r = await axios.get(
-        `${baseUrl}${endPoints.GetApprovalDetailESS}?DocType=Leave&ApplicationId=${item.id}`
-      );
+      const r = await LeaveService.getApprovalChain(item.id);
       setApprovalChain(r.data?.status ? r.data.data || [] : []);
     } catch (error) {
       console.log('error fetching approval chain', error);
@@ -175,11 +172,12 @@ export const useSubmittedLeave = (employeeId: number | string | undefined, profi
           },
         };
 
-        const r = await axios.post(`${baseUrl}${endPoints.PostLeaveApplicationWithKPIs}`, body);
+        const r = await LeaveService.submitLeaveApplication(body);
 
-
-        console.log('the response is for leaves submit:', r);
-
+        if (!r.success) {
+          showThemedMessage(colors, { message: r.message || 'Failed to submit leave request', type: 'danger' });
+          return false;
+        }
         if (r.data.status === 0) {
           showThemedMessage(colors, { message: r.data.message || 'Failed to submit leave request', type: 'danger' });
           return false;

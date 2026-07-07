@@ -14,7 +14,7 @@ export const helpSupportStyles = StyleSheet.create({
   scrollContent: {
     padding: scale(16),
     paddingBottom: scale(40),
-    flex: 1,
+    flexGrow: 1,
     // justifyContent: 'center',
     marginTop: scale(20),
   },
@@ -37,7 +37,7 @@ export const helpSupportStyles = StyleSheet.create({
   },
   sectionTitle: {
     fontSize: 15,
-    fontFamily: 'PlusJakartaSans-Medium',
+    fontFamily: 'PlusJakartaSans-SemiBold',
     marginBottom: scale(10),
     marginTop: scale(4),
   },

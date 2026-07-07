@@ -1,7 +1,7 @@
 import { useCallback, useEffect, useMemo, useState } from 'react';
 import { useSelector } from 'react-redux';
 import { getUser, getUserProfileData } from '../../../../redux/slices/authSlice';
-import { baseUrl, endPoints } from '../../../../services/Constants/endPoints';
+import { LeaveCalendarService } from '../../../../services/LeaveCalendarService';
 import { getColors } from '../../../../theme/color/theme';
 import { useThemeContext } from '../../../../theme/ThemeContex';
 import { showThemedMessage } from '../../../../utils/flashMessage';
@@ -46,10 +46,9 @@ export const useAttendanceCalendar = () => {
     async (deptId: number | string, targetMonth: number, targetYear: number) => {
       try {
         setLoading(true);
-        const url = `${baseUrl}${endPoints.GetApprovedLeavesCalenderESS}?month=${MONTH_NAMES[targetMonth - 1]}&year=${targetYear}&departmentId=${deptId}`;
-        const response = await fetch(url);
-        const json = await response.json();
-        setRecords(Array.isArray(json) ? json : json?.data || []);
+        const result = await LeaveCalendarService.getApprovedLeavesCalendar(MONTH_NAMES[targetMonth - 1], targetYear, deptId);
+        const payload = result.data;
+        setRecords(Array.isArray(payload) ? payload : payload?.data || []);
       } catch (err) {
         console.error('Error fetching leave calendar:', err);
         showThemedMessage(colors, { message: `Error fetching leave calendar: ${err}`, type: 'danger' });
@@ -63,9 +62,9 @@ export const useAttendanceCalendar = () => {
 
   const fetchDepartments = useCallback(async () => {
     try {
-      const response = await fetch(`${baseUrl}${endPoints.GetDeparmentsESS}`);
-      const json = await response.json();
-      const list = (Array.isArray(json) ? json : json?.data || []).map(normalizeDepartment);
+      const result = await LeaveCalendarService.getDepartments();
+      const payload = result.data;
+      const list = (Array.isArray(payload) ? payload : payload?.data || []).map(normalizeDepartment);
       setDepartments(list);
 
       const ownDepartmentName = (profileData?.department || '').trim().toLowerCase();

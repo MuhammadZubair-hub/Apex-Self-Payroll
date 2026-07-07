@@ -1,48 +1,17 @@
-import { createContext, ReactNode, useContext, useState } from "react";
+import { useDispatch, useSelector } from 'react-redux';
+import type { AppDispatch, RootState } from '../redux/store';
+import { setTheme as setThemeAction, toggleTheme as toggleThemeAction } from '../redux/slices/themeSlice';
 
-type ThemeContextType ={
-    theme :string;
-    toggleTheme : ()=> void;
-    SetTheme :  (value : string) =>void;
-
-}
-interface ThemeProviderProps {
-    children : ReactNode
-}
-
-const ThemeContext = createContext<ThemeContextType | undefined>(undefined);
-
-
-
-
-const ThemeProviderContext = ({children}: ThemeProviderProps) => {
-
-    const [theme, setTheme] = useState<string>('light');
-
-    const toggleTheme = () => {
-        setTheme(prev => prev === 'light' ? 'dark' : 'light');
-    };
-
-    const SetTheme = (value: string) => {
-        setTheme(value)
-    };
-
-  
-
-    return (
-        <ThemeContext.Provider value={{ theme , toggleTheme, SetTheme, }} >
-            {children}
-            
-        </ThemeContext.Provider>
-    )
-}
-
-export default ThemeProviderContext
-
+// Theme now lives in redux (theme slice, persisted via redux-persist) instead of React Context,
+// so it survives app restarts. Kept the same hook name/shape as the old context-based version so
+// none of its ~20 call sites needed to change.
 export const useThemeContext = () => {
-  const context = useContext(ThemeContext);
-  if (context === undefined) {
-    throw new Error('useThemeContext must be used within a ThemeProvider');
-  }
-  return context;
+  const dispatch = useDispatch<AppDispatch>();
+  const isDarkMode = useSelector((state: RootState) => state.theme.isDarkMode);
+  const theme = isDarkMode ? 'dark' : 'light';
+
+  const toggleTheme = () => dispatch(toggleThemeAction());
+  const SetTheme = (value: string) => dispatch(setThemeAction(value === 'dark'));
+
+  return { theme, toggleTheme, SetTheme };
 };

@@ -8,6 +8,11 @@ export const FAQS = [
       'Open Leave Requests from the drawer, switch to the "Leave Submitted" tab, tap the + button, fill in the leave type and dates, then submit. You can track its status from the same list.',
   },
   {
+    question: 'How do I Request for a Certificate?',
+    answer:
+      'Open Request Letter from the drawer, Select the Subject for which you want to request Certificate, then email body will be automaticelly fill you can also eidt it if needed, then submit it. Certificate will be recive in your personal email once approved by department.',
+  },
+  {
     question: 'How can I see who needs to approve my leave request?',
     answer:
       'On the Leave Submitted list, tap the eye icon on any request to see the full approval chain and each approver’s decision.',

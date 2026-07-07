@@ -2,7 +2,8 @@ import { useNavigation } from '@react-navigation/native';
 import { useCallback, useEffect, useMemo, useState } from 'react';
 import { useSelector } from 'react-redux';
 import { getUser } from '../../redux/slices/authSlice';
-import { baseUrl, endPoints } from '../../services/Constants/endPoints';
+import { AttendanceService } from '../../services/AttendanceService';
+import { HomeService } from '../../services/HomeService';
 import { getColors } from '../../theme/color/theme';
 import { useThemeContext } from '../../theme/ThemeContex';
 import { formatTime } from '../../utils/dateTime';
@@ -79,31 +80,20 @@ export const useHome = () => {
 
     try {
       const now = new Date();
-      const upcomingHolidaysUrl = `${baseUrl}ESSDashboard/GetUpcomingHolidays?EmployeeId=${userData.employeeId}`;
-      const employeeLeaveUrl = `${baseUrl}ESSDashboard/GetEmployeeLeavesInfo?employeeId=${userData.employeeId}`;
-      const todayAttendanceUrl = `${baseUrl}${endPoints.TodayAttendance}?employeeId=${userData.employeeId}`;
-      const pendingRequestUrl = `${baseUrl}${endPoints.PendingLeaveApplicationsListESS}?UserId=${userData.employeeId}`;
-      const monthlyAttendanceUrl = `${baseUrl}${endPoints.MonthlyAttendance}?EmployeeId=${userData.employeeId}&Month=${now.getMonth() + 1}&Year=${now.getFullYear()}`;
+      const [holidaysResult, leaveResult, todayAttendanceResult, monthlyAttendanceResult, pendingRequestResult] =
+        await Promise.all([
+          HomeService.getUpcomingHolidays(userData.employeeId),
+          HomeService.getEmployeeLeavesInfo(userData.employeeId),
+          AttendanceService.getTodayAttendance(userData.employeeId),
+          AttendanceService.getMonthlyAttendance(userData.employeeId, now.getMonth() + 1, now.getFullYear()),
+          HomeService.getPendingLeaveApplications(userData.employeeId),
+        ]);
 
-      const [holidaysResponse, leaveResponse, todayAttendanceResponse, monthlyAttendanceResponse,PendngRequest] = await Promise.all([
-        fetch(upcomingHolidaysUrl),
-        fetch(employeeLeaveUrl),
-        fetch(todayAttendanceUrl),
-        fetch(monthlyAttendanceUrl),
-        fetch(pendingRequestUrl)
-      ]);
-
-      const holidaysData = await holidaysResponse.json();
-      const leaveData = await leaveResponse.json();
-      const todayAttendanceData = await todayAttendanceResponse.json();
-      const monthlyAttendanceData = await monthlyAttendanceResponse.json();
-      const pendingRequestData = await PendngRequest.json();
-
-      if (holidaysData.status) setUpcomingHolidays(holidaysData.data || []);
-      if (leaveData.status) setLeaveBalance(leaveData.data || []);
-      if (todayAttendanceData.status) setTodayAttendance(todayAttendanceData.data || null);
-      if (monthlyAttendanceData.status) setMonthlyAttendance(monthlyAttendanceData.data || []);
-      if (pendingRequestData.status) SetPendingLeaveRequest(pendingRequestData.data || []);
+      if (holidaysResult.data?.status) setUpcomingHolidays(holidaysResult.data.data || []);
+      if (leaveResult.data?.status) setLeaveBalance(leaveResult.data.data || []);
+      if (todayAttendanceResult.data?.status) setTodayAttendance(todayAttendanceResult.data.data || null);
+      if (monthlyAttendanceResult.data?.status) setMonthlyAttendance(monthlyAttendanceResult.data.data || []);
+      if (pendingRequestResult.data?.status) SetPendingLeaveRequest(pendingRequestResult.data.data || []);
     } catch (err) {
       console.error('Error fetching dashboard data:', err);
       showThemedMessage(colors, { message: `Error fetching dashboard data: ${err}`, type: 'danger' });

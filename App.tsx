@@ -13,7 +13,6 @@ import { PersistGate } from 'redux-persist/integration/react';
 import FlashMessage from 'react-native-flash-message';
 import { store, persistor } from './src/redux/store';
 import RootNaviagtion from './src/navigation/RootNaviagtion';
-import ThemeProviderContext from './src/theme/ThemeContex';
 import { useEffect, useState } from 'react';
 import SplashScreen from './src/screen/Splasscreen';
 // import { store } from './src/store/store';
@@ -39,13 +38,10 @@ function App() {
       <SafeAreaProvider>
         <Provider store={store}>
           <PersistGate loading={null} persistor={persistor}>
-            <ThemeProviderContext>
-              <NavigationContainer>
-                <StatusBar barStyle={isDarkMode ? 'light-content' : 'dark-content'} />
-                <RootNaviagtion></RootNaviagtion>
-
-              </NavigationContainer>
-            </ThemeProviderContext>
+            <NavigationContainer>
+              <StatusBar barStyle={isDarkMode ? 'light-content' : 'dark-content'} />
+              <RootNaviagtion></RootNaviagtion>
+            </NavigationContainer>
           </PersistGate>
         </Provider>
         <FlashMessage position="top" />

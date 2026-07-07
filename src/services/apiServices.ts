@@ -79,4 +79,11 @@ export const API_Config = {
       method: "GET",
     });
   },
+
+  getEmployeeProfile: async (employeeId: any) => {
+    return apicall({
+      endpoint: `${baseUrl}${endPoints.GetEmployessDataESS}?employeeId=${employeeId}`,
+      method: "GET",
+    });
+  },
 };

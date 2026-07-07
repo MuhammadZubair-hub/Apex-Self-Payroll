@@ -4,7 +4,8 @@ export interface ApiCallOptions {
   endpoint: string;
   method: Method;
   params?: Record<string, any>;
-  data?: Record<string, any>;
+  data?: Record<string, any> | FormData;
+  headers?: Record<string, string>;
 }
 
 export interface ApiCallResponse<T = any> {
@@ -14,12 +15,16 @@ export interface ApiCallResponse<T = any> {
   message?: string;
 }
 
-// API call function
+// Every screen's service (see e.g. HomeService, LeaveService) calls through this so there is one
+// place that talks axios - screens/hooks never import axios directly. Query params are expected
+// to already be part of `endpoint` (e.g. `${baseUrl}${endPoints.X}?EmployeeId=${id}`) rather than
+// passed via `params`, matching how every endpoint in this app is actually called.
 export const apicall = async <T = any>({
   endpoint,
   method,
   params = {},
   data = {},
+  headers = {},
 }: ApiCallOptions): Promise<ApiCallResponse<T>> => {
   const option = {
     method,
@@ -28,10 +33,10 @@ export const apicall = async <T = any>({
     data,
     headers: {
       'Content-Type': 'application/json',
+      ...headers,
     },
   };
 
-  console.log('the options are this ', option);
   try {
     const response: AxiosResponse<T> = await axios.request(option);
 

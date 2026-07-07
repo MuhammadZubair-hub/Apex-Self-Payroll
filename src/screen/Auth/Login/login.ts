@@ -2,7 +2,6 @@ import { useNavigation } from "@react-navigation/native";
 import { useMemo, useState } from "react";
 import { useDispatch } from "react-redux";
 import { API_Config } from "../../../services/apiServices";
-import { baseUrl } from "../../../services/Constants/endPoints";
 import { loginSuccess } from "../../../redux/slices/authSlice";
 import { getColors } from "../../../theme/color/theme";
 import { useThemeContext } from "../../../theme/ThemeContex";
@@ -14,7 +13,7 @@ export const useLoginUser = () => {
   const [userCredentials, setUserCredentials] = useState<{
     email: string;
     password: string;
-  }>({ email: "", password: "" });
+  }>({ email: "Zubairess", password: "Zubair123" });
   const [isLoading, setIsLoading] = useState(false);
   const dispatch = useDispatch();
 //   const router = useRouter();
@@ -27,19 +26,12 @@ export const useLoginUser = () => {
     }
 
     try {
-      const url = `${baseUrl}ESSEmployee/GetEmployessDataESS?employeeId=${employeeId}`;
-      // console.log('Fetching profile from:', url);
+      const result = await API_Config.getEmployeeProfile(employeeId);
 
-      const response = await fetch(url);
-      const result = await response.json();
-
-      // console.log('Profile API Response:', result);
-
-      if (result.data) {
-        return (result.data);
-      } else {
-        return ([])
+      if (result.success && result.data?.data) {
+        return result.data.data;
       }
+      return [];
     } catch (err) {
       // console.error('Error fetching profile:', err);
       showThemedMessage(colors, { message: 'Error getting profile data', type: 'danger' });

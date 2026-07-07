@@ -14,7 +14,7 @@ export const attendanceStyles = StyleSheet.create({
   },
   monthNavText: {
     fontSize: 16,
-    fontFamily: 'PlusJakartaSans-SemiBold',
+    fontFamily: 'PlusJakartaSans-Bold',
   },
   summaryRow: {
     flexDirection: 'row',
