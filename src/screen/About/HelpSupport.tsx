@@ -3,7 +3,8 @@ import { ScrollView, StatusBar, Text, View } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import PrimaryHeader from '../../components/header/PrimaryHeader';
 import Icon from '../../components/Icons';
-import { scale } from '../../utils/responsive';
+import { scale, verticalScale } from '../../utils/responsive';
+import { AppSizes } from '../../utils/AppSizes';
 import { helpSupportStyles as styles } from './HelpSupport.styles';
 import { useHelpSupport } from './HelpSupport.logic';
 import { FAQS } from './helpSupport.constants';
@@ -32,7 +33,7 @@ const HelpSupport = () => {
 
       <ScrollView showsVerticalScrollIndicator={false} contentContainerStyle={styles.scrollContent}>
         <View style={[styles.banner, { backgroundColor: colors.lightPurple }]}>
-          <Icon type="Ionicons" name="headset-outline" size={28} color={colors.purple1} />
+          <Icon type="Ionicons" name="headset-outline" size={verticalScale(28)} color={colors.purple1} />
           <View style={{ flex: 1, marginLeft: scale(12) }}>
             <Text style={[styles.bannerTitle, { color: colors.textPrimary }]}>Need a hand?</Text>
             <Text style={[styles.bannerText, { color: colors.textSecondary }]}>
@@ -86,7 +87,7 @@ const HelpSupport = () => {
           />
 
           <TouchableOpacity style={[styles.sendButton, { backgroundColor: colors.purple1 }]} onPress={sendIssueReport}>
-            <Icon type="Ionicons" name="paper-plane-outline" size={16} color="#fff" />
+            <Icon type="Ionicons" name="paper-plane-outline" size={AppSizes.ICON_16} color="#fff" />
             <Text style={styles.sendButtonText}>Send Report</Text>
           </TouchableOpacity>
         </View> */}

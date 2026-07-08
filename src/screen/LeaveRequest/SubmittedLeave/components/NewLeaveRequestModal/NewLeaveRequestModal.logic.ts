@@ -6,7 +6,6 @@ import { useThemeContext } from '../../../../../theme/ThemeContex';
 import { LeaveService } from '../../../../../services/LeaveService';
 import { showThemedMessage } from '../../../../../utils/flashMessage';
 import { daysBetweenInclusive } from '../../../leaveRequest.constants';
-import { Alert } from 'react-native';
 
 const EXTENSION_BY_MIME: Record<string, string> = {
   'image/jpeg': 'jpg',
@@ -43,6 +42,7 @@ export const useNewLeaveRequestForm = ({ leaveTypes, employeeId, onSubmit, onClo
   const [attachmentUploading, setAttachmentUploading] = useState(false);
   const [attachmentSourceVisible, setAttachmentSourceVisible] = useState(false);
   const [confirmModalVisible, setConfirmModalVisible] = useState(false);
+  const [closeConfirmVisible, setCloseConfirmVisible] = useState(false);
   const [datePicker, setDatePicker] = useState<{ visible: boolean; mode: 'from' | 'to' }>({
     visible: false,
     mode: 'from',
@@ -145,27 +145,14 @@ export const useNewLeaveRequestForm = ({ leaveTypes, employeeId, onSubmit, onClo
     }
   }, [uploadAttachment, colors]);
 
-  const handleClose = useCallback(() => {
+  const handleClose = useCallback(() => setCloseConfirmVisible(true), []);
 
-    Alert.alert(
-      'Close Form',
-      'Are you sure you do no want to Continue?',
-      [
-        {
-          text: 'Cancel',
-          style: 'cancel',
-        },
-        {
-          text: 'Close',
-          style: 'destructive',
-          onPress: () => {
-            resetForm();
-            onClose();
-          },
-        },
-      ],
-      { cancelable: true }
-    );
+  const cancelClose = useCallback(() => setCloseConfirmVisible(false), []);
+
+  const confirmClose = useCallback(() => {
+    setCloseConfirmVisible(false);
+    resetForm();
+    onClose();
   }, [resetForm, onClose]);
 
   const handleDateConfirm = useCallback(
@@ -246,6 +233,7 @@ export const useNewLeaveRequestForm = ({ leaveTypes, employeeId, onSubmit, onClo
     attachmentSourceVisible,
     setAttachmentSourceVisible,
     confirmModalVisible,
+    closeConfirmVisible,
     datePicker,
     setDatePicker,
     normalizedTypes,
@@ -257,6 +245,8 @@ export const useNewLeaveRequestForm = ({ leaveTypes, employeeId, onSubmit, onClo
     pickFromLibrary,
     pickPdfDocument,
     handleClose,
+    cancelClose,
+    confirmClose,
     handleDateConfirm,
     handleSubmit,
     cancelSubmit,

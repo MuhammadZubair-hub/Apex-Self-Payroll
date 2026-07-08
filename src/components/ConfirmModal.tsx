@@ -2,7 +2,8 @@ import React from 'react';
 import { StyleSheet, Text, View } from 'react-native';
 import BottomSheet from './BottomSheet';
 import MyButton from './MyButton';
-import { scale } from '../utils/responsive';
+import { scale, moderateScale } from '../utils/responsive';
+import { AppSizes } from '../utils/AppSizes';
 
 interface ConfirmModalProps {
   visible: boolean;
@@ -12,6 +13,7 @@ interface ConfirmModalProps {
   cancelText?: string;
   colors: any;
   loading?: boolean;
+  destructive?: boolean;
   onConfirm: () => void;
   onCancel: () => void;
 }
@@ -26,6 +28,7 @@ const ConfirmModal = ({
   cancelText = 'Cancel',
   colors,
   loading,
+  destructive,
   onConfirm,
   onCancel,
 }: ConfirmModalProps) => (
@@ -43,7 +46,12 @@ const ConfirmModal = ({
           textColor={colors.textPrimary}
           style={{ flex: 1, backgroundColor: colors.secondPrimaryColor, borderWidth: 1, borderColor: colors.borderColor }}
         />
-        <MyButton text={confirmText} onPress={onConfirm} loading={loading} style={{ flex: 1, backgroundColor: colors.purple1 }} />
+        <MyButton
+          text={confirmText}
+          onPress={onConfirm}
+          loading={loading}
+          style={{ flex: 1, backgroundColor: destructive ? colors.redColor : colors.purple1 }}
+        />
       </View>
     }
   >
@@ -55,10 +63,10 @@ export default React.memo(ConfirmModal);
 
 const styles = StyleSheet.create({
   message: {
-    fontSize: 14,
+    fontSize: AppSizes.FONT_14,
     fontFamily: 'PlusJakartaSans-Regular',
-    lineHeight: 21,
-    marginBottom:20
+    lineHeight: moderateScale(21),
+    marginBottom: AppSizes.MV_20
   },
   footerRow: {
     flexDirection: 'row',

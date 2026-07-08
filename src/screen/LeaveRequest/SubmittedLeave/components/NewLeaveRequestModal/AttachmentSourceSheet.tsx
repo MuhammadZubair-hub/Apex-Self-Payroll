@@ -3,6 +3,7 @@ import { StyleSheet, Text, TouchableOpacity } from 'react-native';
 import BottomSheet from '../../../../../components/BottomSheet';
 import Icon from '../../../../../components/Icons';
 import { scale } from '../../../../../utils/responsive';
+import { AppSizes } from '../../../../../utils/AppSizes';
 
 interface AttachmentSourceSheetProps {
   visible: boolean;
@@ -16,17 +17,17 @@ interface AttachmentSourceSheetProps {
 const AttachmentSourceSheet = ({ visible, colors, onCamera, onLibrary, onDocument, onClose }: AttachmentSourceSheetProps) => (
   <BottomSheet visible={visible} onClose={onClose} colors={colors} title="Add Attachment" showCloseIcon>
     <TouchableOpacity style={[styles.row, { borderBottomColor: colors.borderColor }]} onPress={onCamera}>
-      <Icon type="Ionicons" name="camera-outline" size={20} color={colors.purple1} />
+      <Icon type="Ionicons" name="camera-outline" size={AppSizes.ICON_20} color={colors.purple1} />
       <Text style={[styles.text, { color: colors.textPrimary }]}>Take Photo</Text>
     </TouchableOpacity>
 
     <TouchableOpacity style={[styles.row, { borderBottomColor: colors.borderColor }]} onPress={onLibrary}>
-      <Icon type="Ionicons" name="images-outline" size={20} color={colors.purple1} />
+      <Icon type="Ionicons" name="images-outline" size={AppSizes.ICON_20} color={colors.purple1} />
       <Text style={[styles.text, { color: colors.textPrimary }]}>Choose from Library</Text>
     </TouchableOpacity>
 
     <TouchableOpacity style={[styles.row, { borderBottomColor: colors.borderColor }]} onPress={onDocument}>
-      <Icon type="Ionicons" name="document-outline" size={20} color={colors.purple1} />
+      <Icon type="Ionicons" name="document-outline" size={AppSizes.ICON_20} color={colors.purple1} />
       <Text style={[styles.text, { color: colors.textPrimary }]}>Choose PDF Document</Text>
     </TouchableOpacity>
   </BottomSheet>
@@ -42,7 +43,7 @@ const styles = StyleSheet.create({
     borderBottomWidth: StyleSheet.hairlineWidth,
   },
   text: {
-    fontSize: 16,
+    fontSize: AppSizes.FONT_16,
     fontFamily: 'PlusJakartaSans-Medium',
     marginLeft: scale(12),
   },

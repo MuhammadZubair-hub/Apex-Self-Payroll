@@ -1,13 +1,17 @@
 import { DrawerContentScrollView, DrawerItem } from "@react-navigation/drawer";
-import { Alert, Image, StyleSheet, Text, TouchableOpacity, View } from "react-native";
+import { useState } from "react";
+import { Image, StyleSheet, Text, TouchableOpacity, View } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import Icon from "./Icons";
 import ThemeToggle from "./ThemeToggle";
+import ConfirmModal from "./ConfirmModal";
 import { useThemeContext } from "../theme/ThemeContex";
 import { getColors } from "../theme/color/theme";
 import { useDispatch, useSelector } from "react-redux";
 import { getUserProfileData, logout } from "../redux/slices/authSlice";
 import { useIsManager } from "../screen/Home/components/AttendanceCalendar/useIsManager";
+import { scale, verticalScale } from "../utils/responsive";
+import { AppSizes } from "../utils/AppSizes";
 
 const CustomDrawerContent = (props: any) => {
   const { theme, toggleTheme } = useThemeContext();
@@ -16,29 +20,15 @@ const CustomDrawerContent = (props: any) => {
   const dispatch = useDispatch();
   const profileData = useSelector(getUserProfileData);
   const { isManager } = useIsManager();
+  const [logoutConfirmVisible, setLogoutConfirmVisible] = useState(false);
 
   // console.log(' the profile data is ',profileData);
 
- const handleLogout = () => {
-    Alert.alert(
-      'Logout',
-      'Are you sure you want to logout?',
-      [
-        {
-          text: 'Cancel',
-          style: 'cancel',
-        },
-        {
-          text: 'Logout',
-          style: 'destructive',
-          onPress: () => {
-            dispatch(logout());
-            // router.replace('/(auth)/LoginScreen');
-          },
-        },
-      ],
-      { cancelable: true }
-    );
+  const handleLogout = () => setLogoutConfirmVisible(true);
+  const cancelLogout = () => setLogoutConfirmVisible(false);
+  const confirmLogout = () => {
+    setLogoutConfirmVisible(false);
+    dispatch(logout());
   };
 
   const drawerUserName = profileData?.name || 'Naveen Kumar';
@@ -64,10 +54,10 @@ const CustomDrawerContent = (props: any) => {
               {drawerUserName}
             </Text>
             <Text style={[styles.userSubText, { color: 'rgba(255,255,255,0.85)' }]}>
-              {profileData?.legacyCode || 'EMP2'} • {profileData?.role || 'Software Engineer'}
-            </Text>
+              {profileData?.legacyCode || 'EMP2'}
             <Text style={[styles.userSubText, { color: 'rgba(255,255,255,0.85)' }]}>
-              {profileData?.department || 'IT Department'}
+              {profileData?.role || 'Software Engineer'}
+            </Text>
             </Text>
           </View>
         </View>
@@ -243,7 +233,7 @@ const CustomDrawerContent = (props: any) => {
 
           <View style={styles.themeRow}>
             <View style={styles.themeLeft}>
-              <Icon name="sunny-outline" type="Ionicons" size={22} color={colors.purple1} />
+              <Icon name="sunny-outline" type="Ionicons" size={scale(22)} color={colors.purple1} />
               <Text style={[styles.themeLabelText, { color: colors.textSecondary }]}>Theme</Text>
             </View>
             <ThemeToggle theme={theme} colors={colors} onToggle={toggleTheme} />
@@ -252,11 +242,22 @@ const CustomDrawerContent = (props: any) => {
           <View style={[styles.divider, { backgroundColor: colors.borderColor }]} />
 
           <TouchableOpacity style={styles.logoutRow} onPress={handleLogout}>
-            <Icon name="log-out-outline" type="Ionicons" size={22} color={colors.redColor} />
+            <Icon name="log-out-outline" type="Ionicons" size={scale(22)} color={colors.redColor} />
             <Text style={[styles.logoutText, { color: colors.redColor }]}>Logout</Text>
           </TouchableOpacity>
         </View>
       </View>
+
+      <ConfirmModal
+        visible={logoutConfirmVisible}
+        colors={colors}
+        title="Logout"
+        message="Are you sure you want to logout?"
+        confirmText="Logout"
+        destructive
+        onConfirm={confirmLogout}
+        onCancel={cancelLogout}
+      />
     </SafeAreaView>
   );
 };
@@ -272,17 +273,18 @@ const styles = StyleSheet.create({
   profileSection: {
     height: '25%',
     justifyContent: 'center',
-    paddingHorizontal: 20,
-    paddingTop: 20,
+    paddingHorizontal: AppSizes.PH_20,
+    paddingTop: AppSizes.PV_20,
   },
   profileContent: {
     flexDirection: 'row',
     alignItems: 'center',
   },
   profileImage: {
-    width: 80,
-    height: 80,
-    borderRadius: 40,
+    width: AppSizes.W_60,
+    height: AppSizes.H_60,
+    // borderRadius: AppSizes.RADIUS_40,
+    borderRadius: AppSizes.RADIUS_40,
     borderWidth: 2,
     borderColor: '#fff',
   },
@@ -293,22 +295,22 @@ const styles = StyleSheet.create({
   },
   profileImageInitial: {
     color: '#fff',
-    fontSize: 28,
+    fontSize: AppSizes.FONT_28,
     fontFamily: 'PlusJakartaSans-Bold',
   },
   userInfo: {
-    marginLeft: 15,
+    marginLeft: AppSizes.MH_15,
     flex: 1,
   },
   userName: {
-    fontSize: 20,
+    fontSize: AppSizes.FONT_20,
     // fontWeight: 'bold',
     fontFamily:'PlusJakartaSans-SemiBold',
-    marginBottom: 4,
+    marginBottom: verticalScale(4),
   },
   userSubText: {
-    fontSize: 14,
-    marginBottom: 2,
+    fontSize: AppSizes.FONT_14,
+    marginBottom: AppSizes.MV_2,
     fontFamily:'PlusJakartaSans-Regular',
   },
   // Navigation Section - 75%
@@ -320,51 +322,51 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   scrollContent: {
-    paddingTop: 10,
-    paddingHorizontal: 10,
+    paddingTop: AppSizes.PV_10,
+    paddingHorizontal: AppSizes.PH_10,
   },
   footerSection: {
-    paddingBottom: 8,
+    paddingBottom: AppSizes.PV_8,
   },
   drawerItem: {
-    borderRadius: 8,
-    marginVertical: 2,
+    borderRadius: AppSizes.RADIUS_8,
+    marginVertical: AppSizes.MV_2,
   },
   drawerLabel: {
-    fontSize: 16,
-    marginLeft: 10,
+    fontSize: AppSizes.FONT_16,
+    marginLeft: AppSizes.MH_10,
     fontFamily:'PlusJakartaSans-SemiBold'
   },
   bottomControls: {
     borderTopWidth: 1,
-    paddingHorizontal: 20,
-    paddingVertical: 15,
+    paddingHorizontal: AppSizes.PH_20,
+    paddingVertical: AppSizes.PV_15,
   },
   themeToggle: {
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'space-between',
-    marginBottom: 15,
+    marginBottom: AppSizes.MV_15,
   },
   themeToggleLeft: {
     flexDirection: 'row',
     alignItems: 'center',
   },
   themeText: {
-    fontSize: 16,
-    marginLeft: 10,
+    fontSize: AppSizes.FONT_16,
+    marginLeft: AppSizes.MH_10,
     fontFamily:'PlusJakartaSans-SemiBold'
   },
   logoutButton: {
     flexDirection: 'row',
     alignItems: 'center',
-    paddingVertical: 8,
+    paddingVertical: AppSizes.PV_8,
   },
   logoutText: {
-    fontSize: 16,
-    marginLeft: 10,
+    fontSize: AppSizes.FONT_16,
+    marginLeft: AppSizes.MH_10,
     fontFamily:'PlusJakartaSans-SemiBold',
-   
+
   },
   notificationItemContainer: {
     flexDirection: 'row',
@@ -372,40 +374,40 @@ const styles = StyleSheet.create({
     position: 'relative',
   },
   redDotBadge: {
-    width: 8,
-    height: 8,
-    borderRadius: 4,
+    width: scale(8),
+    height: verticalScale(8),
+    borderRadius: AppSizes.RADIUS_4,
     backgroundColor: '#EA4335',
     position: 'absolute',
-    right: 32,
+    right: scale(32),
     top: '44%',
   },
   divider: {
-    height: 2,
-    marginHorizontal: 20,
-    marginVertical: 14,
+    height: verticalScale(2),
+    marginHorizontal: AppSizes.MH_20,
+    marginVertical: verticalScale(14),
   },
   themeRow: {
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'space-between',
-    paddingHorizontal: 24,
-    marginVertical: 4,
+    paddingHorizontal: AppSizes.PH_24,
+    marginVertical: verticalScale(4),
   },
   themeLeft: {
     flexDirection: 'row',
     alignItems: 'center',
   },
   themeLabelText: {
-    fontSize: 16,
-    marginLeft: 10,
+    fontSize: AppSizes.FONT_16,
+    marginLeft: AppSizes.MH_10,
     fontFamily:'PlusJakartaSans-SemiBold'
   },
   logoutRow: {
     flexDirection: 'row',
     alignItems: 'center',
-    paddingHorizontal: 24,
-    paddingVertical: 12,
+    paddingHorizontal: AppSizes.PH_24,
+    paddingVertical: AppSizes.PV_12,
   },
-  
+
 });

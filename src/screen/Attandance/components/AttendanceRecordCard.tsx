@@ -4,6 +4,7 @@ import Ionicons from '@react-native-vector-icons/ionicons';
 import { attendanceStyles as styles } from '../Attandance.styles';
 import { formatDayLabel, getRecordStatus, getStatusMeta } from '../attandance.constants';
 import { formatTime } from '../../../utils/dateTime';
+import { verticalScale } from '../../../utils/responsive';
 
 const AttendanceRecordCard = ({ item, colors }: { item: any; colors: any }) => {
   const status = getRecordStatus(item);
@@ -40,7 +41,7 @@ const AttendanceRecordCard = ({ item, colors }: { item: any; colors: any }) => {
       </View>
 
       <View style={[styles.statusPill, { backgroundColor: meta.bg }]}>
-        <Ionicons name={meta.icon as any} size={12} color={meta.color} />
+        <Ionicons name={meta.icon as any} size={verticalScale(12)} color={meta.color} />
         <Text style={[styles.statusPillText, { color: meta.color }]}>{meta.label}</Text>
       </View>
     </View>

@@ -1,5 +1,6 @@
 import { StyleSheet } from 'react-native';
-import { scale } from '../../utils/responsive';
+import { scale, verticalScale, moderateScale } from '../../utils/responsive';
+import { AppSizes } from '../../utils/AppSizes';
 
 export const profileStyles = StyleSheet.create({
   container: {
@@ -11,7 +12,7 @@ export const profileStyles = StyleSheet.create({
   profileCard: {
     margin: scale(16),
     padding: scale(16),
-    borderRadius: 16,
+    borderRadius: scale(16),
     elevation: 4,
     shadowColor: '#000',
     shadowOpacity: 0.08,
@@ -26,9 +27,9 @@ export const profileStyles = StyleSheet.create({
     alignItems: 'center',
   },
   avatar: {
-    height: 72,
-    width: 72,
-    borderRadius: 36,
+    height: verticalScale(72),
+    width: scale(72),
+    borderRadius: scale(36),
     marginRight: scale(14),
   },
   avatarFallback: {
@@ -37,29 +38,29 @@ export const profileStyles = StyleSheet.create({
     borderWidth:2
   },
   avatarInitial: {
-    
-    fontSize: 26,
+
+    fontSize: moderateScale(26),
     fontFamily: 'PlusJakartaSans-Bold',
     alignSelf:'center'
   },
   name: {
-    fontSize: 17,
+    fontSize: moderateScale(17),
     fontFamily: 'PlusJakartaSans-Bold',
   },
   badge: {
     alignSelf: 'flex-start',
-    paddingHorizontal: 10,
-    paddingVertical: 3,
-    borderRadius: 10,
-    marginVertical: 4,
+    paddingHorizontal: AppSizes.PH_10,
+    paddingVertical: verticalScale(3),
+    borderRadius: AppSizes.RADIUS_10,
+    marginVertical: verticalScale(4),
   },
   badgeText: {
     color: '#fff',
-    fontSize: 11,
+    fontSize: moderateScale(11),
     fontFamily: 'PlusJakartaSans-SemiBold',
   },
   designation: {
-    fontSize: 13,
+    fontSize: moderateScale(13),
     fontFamily: 'PlusJakartaSans-Regular',
   },
   divider: {
@@ -69,18 +70,18 @@ export const profileStyles = StyleSheet.create({
   contactRow: {
     flexDirection: 'row',
     alignItems: 'center',
-    gap: 8,
+    gap: AppSizes.GAP_8,
     marginBottom: scale(8),
   },
   contact: {
-    fontSize: 13,
+    fontSize: moderateScale(13),
     fontFamily: 'PlusJakartaSans-Regular',
     flexShrink: 1,
   },
   card: {
     marginHorizontal: scale(16),
     marginBottom: scale(16),
-    borderRadius: 16,
+    borderRadius: scale(16),
     paddingHorizontal: scale(16),
     elevation: 3,
     shadowColor: '#000',
@@ -92,9 +93,9 @@ export const profileStyles = StyleSheet.create({
     },
   },
   sectionTitle: {
-    fontSize: 16,
+    fontSize: AppSizes.FONT_16,
     fontFamily: 'PlusJakartaSans-Bold',
-    marginBottom: 10,
+    marginBottom: AppSizes.MV_10,
     marginHorizontal: scale(16),
   },
   row: {
@@ -107,20 +108,23 @@ export const profileStyles = StyleSheet.create({
   rowLeft: {
     flexDirection: 'row',
     alignItems: 'center',
-    gap: 10,
+    gap: AppSizes.GAP_10,
     flex: 1,
-    marginRight: 10,
+    marginRight: AppSizes.MH_10,
   },
   label: {
-    fontSize: 13,
+    fontSize: moderateScale(13),
     fontFamily: 'PlusJakartaSans-SemiBold',
-    flex: 1,
+    flex: 1.1,
   },
   value: {
-    fontSize: 13,
+    fontSize: moderateScale(13),
     fontFamily: 'PlusJakartaSans-Regular',
-    marginRight: 8,
+    marginRight: scale(8),
     textAlign: 'right',
-    flexShrink: 1,
+    // flexWrap:"nowrap",
+    flexGrow:1,
+    // flexShrink: 1,
+    flex:1.9
   },
 });

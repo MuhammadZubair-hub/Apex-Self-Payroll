@@ -4,6 +4,7 @@ import BottomSheet from '../../../components/BottomSheet';
 import Icon from '../../../components/Icons';
 import { MONTH_NAMES } from '../attandance.constants';
 import { scale } from '../../../utils/responsive';
+import { AppSizes } from '../../../utils/AppSizes';
 
 interface MonthYearPickerSheetProps {
   visible: boolean;
@@ -25,11 +26,11 @@ const MonthYearPickerSheet = ({ visible, month, year, colors, onClose, onConfirm
     <BottomSheet visible={visible} onClose={onClose} colors={colors} title="Select Month" showCloseIcon>
       <View style={styles.yearNavRow}>
         <TouchableOpacity onPress={() => setPickerYear((y) => y - 1)} hitSlop={{ top: 8, bottom: 8, left: 8, right: 8 }}>
-          <Icon type="Ionicons" name="chevron-back" size={20} color={colors.textPrimary} />
+          <Icon type="Ionicons" name="chevron-back" size={AppSizes.ICON_20} color={colors.textPrimary} />
         </TouchableOpacity>
         <Text style={[styles.yearText, { color: colors.textPrimary }]}>{pickerYear}</Text>
         <TouchableOpacity onPress={() => setPickerYear((y) => y + 1)} hitSlop={{ top: 8, bottom: 8, left: 8, right: 8 }}>
-          <Icon type="Ionicons" name="chevron-forward" size={20} color={colors.textPrimary} />
+          <Icon type="Ionicons" name="chevron-forward" size={AppSizes.ICON_20} color={colors.textPrimary} />
         </TouchableOpacity>
       </View>
 
@@ -63,7 +64,7 @@ const styles = StyleSheet.create({
     paddingHorizontal: scale(8),
   },
   yearText: {
-    fontSize: 16,
+    fontSize: AppSizes.FONT_16,
     fontFamily: 'PlusJakartaSans-SemiBold',
   },
   grid: {
@@ -74,12 +75,12 @@ const styles = StyleSheet.create({
   cell: {
     width: '31%',
     paddingVertical: scale(14),
-    borderRadius: 12,
+    borderRadius: AppSizes.RADIUS_12,
     alignItems: 'center',
     marginBottom: scale(10),
   },
   cellText: {
-    fontSize: 14,
+    fontSize: AppSizes.FONT_14,
     fontFamily: 'PlusJakartaSans-Medium',
   },
 });

@@ -6,9 +6,11 @@ import Icon from '../../components/Icons';
 import MyButton from '../../components/MyButton';
 import ThemeToggle from '../../components/ThemeToggle';
 import { AppSizes } from '../../utils/AppSizes';
+import { scale, verticalScale } from '../../utils/responsive';
 import { settingsStyles as styles } from './Settings.styles';
 import { useSettings } from './Settings.logic';
 import SettingsRow from './components/SettingsRow';
+import ConfirmModal from '../../components/ConfirmModal';
 
 const SettingsScreen = () => {
   const {
@@ -18,13 +20,18 @@ const SettingsScreen = () => {
     fullName,
     designation,
     profileImage,
+    logoutConfirmVisible,
     goToProfile,
     goToSupport,
     goToAbout,
     handleLogout,
+    cancelLogout,
+    confirmLogout,
   } = useSettings();
 
   const navigation = useNavigation<any>();
+
+
 
   return (
     <SafeAreaView style={[styles.container, { backgroundColor: colors.primaryColor }]}>
@@ -36,7 +43,7 @@ const SettingsScreen = () => {
         size={AppSizes.ICON_30}
         color={colors.textPrimary}
         onPress={() => navigation.getParent()?.toggleDrawer()}
-        style={{ position: 'absolute', top: 18, left: 20, zIndex: 1 }}
+        style={{ position: 'absolute', top: verticalScale(18), left: scale(20), zIndex: 1 }}
       />
 
       <Text style={[styles.headerTitle, { color: colors.textPrimary }]}>Settings</Text>
@@ -80,9 +87,19 @@ const SettingsScreen = () => {
           text="Sign Out"
           onPress={handleLogout}
           textColor={colors.redColor}
-          style={{ marginTop: 8, backgroundColor: colors.redTint,width:'90%',alignSelf:'center' }}
+          style={{ marginTop: verticalScale(8), backgroundColor: colors.redTint, width: '90%', alignSelf: 'center' }}
         />
       </ScrollView>
+      <ConfirmModal
+        visible={logoutConfirmVisible}
+        colors={colors}
+        title="Logout"
+        message="Are you sure you want to logout?"
+        confirmText="Logout"
+        destructive
+        onConfirm={confirmLogout}
+        onCancel={cancelLogout}
+      />
     </SafeAreaView>
   );
 };

@@ -1,13 +1,13 @@
 export const LETTER_SUBJECTS = [
   'Request for Salary Certificate',
-  'Request for Salary Certificate (Arabic)',
-  'Request for Salary Transfer Certificate',
+  // 'Request for Salary Certificate (Arabic)',
+  // 'Request for Salary Transfer Certificate',
   'Request for Employment Certificate',
   'Request for Experience Certificate',
-  'Request for NOC for Driving',
-  'Request for NOC for Travel',
-  'Request for Attested Contract',
-  'Request for Original Passport (In and Out - Workers)',
+  // 'Request for NOC for Driving',
+  // 'Request for NOC for Travel',
+  // 'Request for Attested Contract',
+  // 'Request for Original Passport (In and Out - Workers)',
 ];
 
 interface TemplateArgs {

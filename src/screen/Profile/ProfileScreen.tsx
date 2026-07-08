@@ -7,6 +7,7 @@ import { profileStyles as styles } from './Profile.styles';
 import { useProfile } from './Profile.logic';
 import ProfileInfoRow from './components/ProfileInfoRow';
 import { AppSizes } from '../../utils/AppSizes';
+import { scale, verticalScale } from '../../utils/responsive';
 import { useNavigation } from '@react-navigation/native';
 
 const ProfileScreen = () => {
@@ -37,11 +38,11 @@ const ProfileScreen = () => {
         size={AppSizes.ICON_30}
         color={colors.textPrimary}
         onPress={() => navigation.toggleDrawer()}
-        style={{ position: 'absolute', top: 18, left: 20, zIndex: 1 }}
+        style={{ position: 'absolute', top: verticalScale(18), left: scale(20), zIndex: 1 }}
       />
 
       <Text
-        style={{ alignSelf: 'center', fontSize: AppSizes.FONT_22, color: colors.textPrimary, fontFamily: 'PlusJakartaSans-Bold', marginTop: 18 }}
+        style={{ alignSelf: 'center', fontSize: AppSizes.FONT_22, color: colors.textPrimary, fontFamily: 'PlusJakartaSans-Bold', marginTop: verticalScale(18) }}
       >Profile</Text>
 
       <ScrollView showsVerticalScrollIndicator={false} contentContainerStyle={styles.scrollContent}>
@@ -76,14 +77,14 @@ const ProfileScreen = () => {
           <View style={[styles.divider, { backgroundColor: colors.borderColor }]} />
 
           <View style={styles.contactRow}>
-            <Icon type="Ionicons" name="mail-outline" size={15} color={colors.purple1} />
+            <Icon type="Ionicons" name="mail-outline" size={verticalScale(15)} color={colors.purple1} />
             <Text style={[styles.contact, { color: colors.textSecondary }]} numberOfLines={1}>
               {companyEmail}
             </Text>
           </View>
 
           <View style={styles.contactRow}>
-            <Icon type="Ionicons" name="call-outline" size={15} color={colors.purple1} />
+            <Icon type="Ionicons" name="call-outline" size={verticalScale(15)} color={colors.purple1} />
             <Text style={[styles.contact, { color: colors.textSecondary }]} numberOfLines={1}>
               {mobileNo}
             </Text>

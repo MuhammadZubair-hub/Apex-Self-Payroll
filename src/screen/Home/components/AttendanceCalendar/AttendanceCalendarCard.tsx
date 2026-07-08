@@ -3,7 +3,8 @@ import React, { useCallback, useState } from 'react';
 import { StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 import { Fold } from 'react-native-animated-spinkit';
 import Icon from '../../../../components/Icons';
-import { scale } from '../../../../utils/responsive';
+import { scale, verticalScale, moderateScale } from '../../../../utils/responsive';
+import { AppSizes } from '../../../../utils/AppSizes';
 import { homeStyles } from '../../Home.styles';
 import { MONTH_NAMES } from './attendanceCalendar.constants';
 import AttendanceCalendarGrid from './AttendanceCalendarGrid';
@@ -42,13 +43,13 @@ const AttendanceCalendarCard = () => {
     <View style={[homeStyles.card, { backgroundColor: colors.secondPrimaryColor }]}>
       <View style={styles.headerRow}>
         <View style={styles.headerLeft}>
-          <Icon type="Ionicons" name="calendar-outline" size={18} color={colors.purple1} />
+          <Icon type="Ionicons" name="calendar-outline" size={scale(18)} color={colors.purple1} />
           <Text style={[styles.headerText, { color: colors.textPrimary }]}>
             {MONTH_NAMES[month - 1]} {year}
           </Text>
         </View>
         <TouchableOpacity onPress={goToHistory} hitSlop={{ top: 8, bottom: 8, left: 8, right: 8 }}>
-          <Icon type="Ionicons" name="filter" size={20} color={colors.primarayheaderColor} />
+          <Icon type="Ionicons" name="filter" size={AppSizes.ICON_20} color={colors.purple1} />
         </TouchableOpacity>
       </View>
 
@@ -59,12 +60,12 @@ const AttendanceCalendarCard = () => {
         <Text style={[styles.departmentText, { color: colors.textPrimary }]} numberOfLines={1}>
           {selectedDepartmentName}
         </Text>
-        <Icon type="Ionicons" name="chevron-down" size={16} color={colors.textSecondary} />
+        <Icon type="Ionicons" name="chevron-down" size={AppSizes.ICON_16} color={colors.textSecondary} />
       </TouchableOpacity>
 
       {loading ? (
         <View style={styles.loadingBox}>
-          <Fold size={28} color={colors.purple1} />
+          <Fold size={verticalScale(28)} color={colors.purple1} />
         </View>
       ) : (
         <AttendanceCalendarGrid
@@ -89,7 +90,7 @@ const AttendanceCalendarCard = () => {
 
       <TouchableOpacity style={styles.detailsButton} onPress={() => openDetails()}>
         <Text style={[styles.detailsButtonText, { color: colors.purple1 }]}>View Details</Text>
-        <Icon type="Ionicons" name="chevron-forward" size={16} color={colors.purple1} />
+        <Icon type="Ionicons" name="chevron-forward" size={AppSizes.ICON_16} color={colors.purple1} />
       </TouchableOpacity>
 
       <DepartmentPickerSheet
@@ -121,7 +122,7 @@ const styles = StyleSheet.create({
     gap: scale(8),
   },
   headerText: {
-    fontSize: 15,
+    fontSize: moderateScale(15),
     fontFamily: 'PlusJakartaSans-Bold',
   },
   departmentField: {
@@ -130,15 +131,15 @@ const styles = StyleSheet.create({
     justifyContent: 'space-between',
     alignItems: 'center',
     borderWidth: 1,
-    borderRadius: 10,
+    borderRadius: AppSizes.RADIUS_10,
     paddingHorizontal: scale(12),
     marginBottom: scale(14),
   },
   departmentText: {
-    fontSize: 13,
+    fontSize: moderateScale(13),
     fontFamily: 'PlusJakartaSans-Medium',
     flex: 1,
-    marginRight: 6,
+    marginRight: scale(6),
   },
   loadingBox: {
     height: scale(180),
@@ -156,12 +157,12 @@ const styles = StyleSheet.create({
     gap: scale(6),
   },
   legendDot: {
-    width: 8,
-    height: 8,
-    borderRadius: 4,
+    width: scale(8),
+    height: verticalScale(8),
+    borderRadius: AppSizes.RADIUS_4,
   },
   legendText: {
-    fontSize: 12,
+    fontSize: AppSizes.FONT_12,
     fontFamily: 'PlusJakartaSans-Regular',
   },
   detailsButton: {
@@ -172,7 +173,7 @@ const styles = StyleSheet.create({
     marginTop: scale(16),
   },
   detailsButtonText: {
-    fontSize: 13,
+    fontSize: moderateScale(13),
     fontFamily: 'PlusJakartaSans-SemiBold',
   },
 });

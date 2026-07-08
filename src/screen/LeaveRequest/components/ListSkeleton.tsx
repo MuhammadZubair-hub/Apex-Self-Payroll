@@ -1,6 +1,7 @@
 import React, { useMemo } from 'react';
 import Skeleton from 'react-native-reanimated-skeleton';
-import { scale } from '../../../utils/responsive';
+import { scale, verticalScale } from '../../../utils/responsive';
+import { AppSizes } from '../../../utils/AppSizes';
 
 const buildCardBone = (key: number, colors: any): any => ({
   key: `card_${key}`,
@@ -8,20 +9,20 @@ const buildCardBone = (key: number, colors: any): any => ({
   flexDirection: 'row',
   alignItems: 'center',
   backgroundColor: colors.secondPrimaryColor,
-  borderRadius: 14,
+  borderRadius: scale(14),
   padding: scale(14),
   marginBottom: scale(12),
   children: [
-    { key: 'icon', width: 42, height: 42, borderRadius: 12 },
+    { key: 'icon', width: scale(42), height: verticalScale(42), borderRadius: AppSizes.RADIUS_12 },
     {
       key: 'body',
       flex: 1,
       marginLeft: scale(12),
       marginRight: scale(8),
       children: [
-        { key: 'title', width: '55%', height: 14, borderRadius: 4, marginBottom: 8 },
-        { key: 'subtitle', width: '35%', height: 11, borderRadius: 4, marginBottom: 8 },
-        { key: 'meta', width: '75%', height: 11, borderRadius: 4 },
+        { key: 'title', width: '55%', height: verticalScale(14), borderRadius: AppSizes.RADIUS_4, marginBottom: verticalScale(8) },
+        { key: 'subtitle', width: '35%', height: verticalScale(11), borderRadius: AppSizes.RADIUS_4, marginBottom: verticalScale(8) },
+        { key: 'meta', width: '75%', height: verticalScale(11), borderRadius: AppSizes.RADIUS_4 },
       ],
     },
   ],

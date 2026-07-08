@@ -25,6 +25,7 @@ export const useAttendance = () => {
     try {
       setLoading(true);
       const result = await AttendanceService.getMonthlyAttendance(userData.employeeId, month, year);
+      // console.log('user attandance is ',result.data);
       setRecords(result.data?.status ? result.data.data || [] : []);
     } catch (err) {
       console.error('Error fetching attendance:', err);

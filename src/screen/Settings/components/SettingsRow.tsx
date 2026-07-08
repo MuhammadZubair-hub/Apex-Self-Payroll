@@ -3,6 +3,7 @@ import { Text, TouchableOpacity, View } from 'react-native';
 import Icon from '../../../components/Icons';
 import { settingsStyles as styles } from '../Settings.styles';
 import { AppSizes } from '../../../utils/AppSizes';
+import { scale } from '../../../utils/responsive';
 
 interface SettingsRowProps {
   icon: string;
@@ -26,7 +27,7 @@ const SettingsRow = ({ icon, label, colors, isLast, onPress, rightElement }: Set
       </View>
       <Text style={[styles.rowLabel, { color: colors.textPrimary }]}>{label}</Text>
     </View>
-    {rightElement ?? (onPress ? <Icon type="Ionicons" name="chevron-forward" size={18} color={colors.textSecondary} /> : null)}
+    {rightElement ?? (onPress ? <Icon type="Ionicons" name="chevron-forward" size={scale(18)} color={colors.textSecondary} /> : null)}
   </TouchableOpacity>
 );
 

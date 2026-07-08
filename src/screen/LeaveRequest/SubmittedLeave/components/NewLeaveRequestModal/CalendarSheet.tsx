@@ -4,7 +4,8 @@ import BottomSheet from '../../../../../components/BottomSheet';
 import MyButton from '../../../../../components/MyButton';
 import Icon from '../../../../../components/Icons';
 import { MONTH_NAMES, WEEKDAYS, buildMonthGrid, isSameDay } from '../../../leaveRequest.constants';
-import { scale } from '../../../../../utils/responsive';
+import { scale, verticalScale, moderateScale } from '../../../../../utils/responsive';
+import { AppSizes } from '../../../../../utils/AppSizes';
 
 interface CalendarSheetProps {
   visible: boolean;
@@ -109,13 +110,13 @@ const CalendarSheet = ({ visible, label, initialDate, minDate, colors, onClose, 
     >
       <View style={styles.monthNavRow}>
         <TouchableOpacity onPress={goToPrevMonth}>
-          <Icon type="Ionicons" name="chevron-back" size={20} color={colors.textPrimary} />
+          <Icon type="Ionicons" name="chevron-back" size={AppSizes.ICON_20} color={colors.textPrimary} />
         </TouchableOpacity>
         <Text style={[styles.monthNavText, { color: colors.textPrimary }]}>
           {MONTH_NAMES[viewMonth]} {viewYear}
         </Text>
         <TouchableOpacity onPress={goToNextMonth}>
-          <Icon type="Ionicons" name="chevron-forward" size={20} color={colors.textPrimary} />
+          <Icon type="Ionicons" name="chevron-forward" size={AppSizes.ICON_20} color={colors.textPrimary} />
         </TouchableOpacity>
       </View>
 
@@ -153,7 +154,7 @@ export default React.memo(CalendarSheet);
 
 const styles = StyleSheet.create({
   clearText: {
-    fontSize: 13,
+    fontSize: moderateScale(13),
     fontFamily: 'PlusJakartaSans-Medium',
   },
   monthNavRow: {
@@ -163,7 +164,7 @@ const styles = StyleSheet.create({
     marginBottom: scale(14),
   },
   monthNavText: {
-    fontSize: 15,
+    fontSize: moderateScale(15),
     fontFamily: 'PlusJakartaSans-SemiBold',
   },
   weekdayRow: {
@@ -173,7 +174,7 @@ const styles = StyleSheet.create({
   weekdayText: {
     flex: 1,
     textAlign: 'center',
-    fontSize: 11,
+    fontSize: moderateScale(11),
     fontFamily: 'PlusJakartaSans-Medium',
   },
   grid: {
@@ -187,14 +188,14 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   dayCircle: {
-    width: 34,
-    height: 34,
-    borderRadius: 17,
+    width: scale(34),
+    height: verticalScale(34),
+    borderRadius: scale(17),
     justifyContent: 'center',
     alignItems: 'center',
   },
   dayText: {
-    fontSize: 13,
+    fontSize: moderateScale(13),
     fontFamily: 'PlusJakartaSans-Regular',
   },
 });

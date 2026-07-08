@@ -6,7 +6,8 @@ import ConfirmModal from '../../../../../components/ConfirmModal';
 import Icon from '../../../../../components/Icons';
 import MyButton from '../../../../../components/MyButton';
 import ModalFlashMessage from '../../../../../components/ModalFlashMessage';
-import { scale } from '../../../../../utils/responsive';
+import { scale, verticalScale } from '../../../../../utils/responsive';
+import { AppSizes } from '../../../../../utils/AppSizes';
 import FieldLabel from '../../../components/FieldLabel';
 import { sharedStyles } from '../../../components/sharedStyles';
 import { formatShortDate } from '../../../leaveRequest.constants';
@@ -42,6 +43,7 @@ const NewLeaveRequestModal = ({ visible, colors, leaveTypes, employeeId, onClose
     attachmentSourceVisible,
     setAttachmentSourceVisible,
     confirmModalVisible,
+    closeConfirmVisible,
     datePicker,
     setDatePicker,
     normalizedTypes,
@@ -52,6 +54,8 @@ const NewLeaveRequestModal = ({ visible, colors, leaveTypes, employeeId, onClose
     pickFromLibrary,
     pickPdfDocument,
     handleClose,
+    cancelClose,
+    confirmClose,
     handleDateConfirm,
     handleSubmit,
     cancelSubmit,
@@ -66,7 +70,7 @@ const NewLeaveRequestModal = ({ visible, colors, leaveTypes, employeeId, onClose
 
         <View style={styles.formHeaderRow}>
           <TouchableOpacity style={styles.formHeaderSide} onPress={handleClose}>
-            <Icon type="Ionicons" name="chevron-back" size={24} color={colors.textPrimary} />
+            <Icon type="Ionicons" name="chevron-back" size={AppSizes.ICON_24} color={colors.textPrimary} />
           </TouchableOpacity>
           <Text style={[styles.formHeaderTitle, { color: colors.textPrimary }]}>New Leave Request</Text>
           <View style={styles.formHeaderSide} />
@@ -74,7 +78,7 @@ const NewLeaveRequestModal = ({ visible, colors, leaveTypes, employeeId, onClose
 
         <ScrollView showsVerticalScrollIndicator={false} contentContainerStyle={styles.formScrollContent}>
           <View style={[styles.infoBanner, { backgroundColor: colors.lightPurple }]}>
-            <Icon type="Ionicons" name="document-text" size={20} color={colors.purple1} />
+            <Icon type="Ionicons" name="document-text" size={AppSizes.ICON_20} color={colors.purple1} />
             <View style={{ flex: 1, marginLeft: scale(10) }}>
               <Text style={[styles.infoBannerTitle, { color: colors.textPrimary }]}>Need time off?</Text>
               <Text style={[styles.infoBannerSubText, { color: colors.textSecondary }]}>
@@ -91,7 +95,7 @@ const NewLeaveRequestModal = ({ visible, colors, leaveTypes, employeeId, onClose
             <Text style={[styles.formFieldText, { color: selectedLeaveType ? colors.textPrimary : colors.textSecondary }]}>
               {selectedLeaveType ? selectedLeaveType.label : 'Select leave type'}
             </Text>
-            <Icon type="Ionicons" name="chevron-down" size={18} color={colors.textSecondary} />
+            <Icon type="Ionicons" name="chevron-down" size={verticalScale(18)} color={colors.textSecondary} />
           </TouchableOpacity>
 
           <FieldLabel text="From Date " colors={colors} />
@@ -102,7 +106,7 @@ const NewLeaveRequestModal = ({ visible, colors, leaveTypes, employeeId, onClose
             <Text style={[styles.formFieldText, { color: fromDate ? colors.textPrimary : colors.textSecondary }]}>
               {fromDate ? formatShortDate(fromDate) : 'Select start date'}
             </Text>
-            <Icon type="Ionicons" name="calendar-outline" size={18} color={colors.textSecondary} />
+            <Icon type="Ionicons" name="calendar-outline" size={verticalScale(18)} color={colors.textSecondary} />
           </TouchableOpacity>
 
           <FieldLabel text="To Date " colors={colors} />
@@ -113,7 +117,7 @@ const NewLeaveRequestModal = ({ visible, colors, leaveTypes, employeeId, onClose
             <Text style={[styles.formFieldText, { color: toDate ? colors.textPrimary : colors.textSecondary }]}>
               {toDate ? formatShortDate(toDate) : 'Select end date'}
             </Text>
-            <Icon type="Ionicons" name="calendar-outline" size={18} color={colors.textSecondary} />
+            <Icon type="Ionicons" name="calendar-outline" size={verticalScale(18)} color={colors.textSecondary} />
           </TouchableOpacity>
 
           <FieldLabel text="Total Days" colors={colors} />
@@ -138,7 +142,7 @@ const NewLeaveRequestModal = ({ visible, colors, leaveTypes, employeeId, onClose
           <FieldLabel text="Attachment (Optional)" colors={colors} />
           {attachment ? (
             <View style={[styles.attachmentRow, { borderColor: colors.borderColor, backgroundColor: colors.secondPrimaryColor }]}>
-              <Icon type="Ionicons" name="document-attach-outline" size={20} color={colors.purple1} />
+              <Icon type="Ionicons" name="document-attach-outline" size={AppSizes.ICON_20} color={colors.purple1} />
               <View style={{ flex: 1, marginLeft: scale(10) }}>
                 <Text style={[styles.attachmentTitle, { color: colors.textPrimary }]} numberOfLines={1}>
                   {attachment.name}
@@ -146,10 +150,10 @@ const NewLeaveRequestModal = ({ visible, colors, leaveTypes, employeeId, onClose
                 <Text style={[styles.attachmentSubText, { color: colors.textSecondary }]}>Uploaded</Text>
               </View>
               <TouchableOpacity onPress={pickAndUploadAttachment} hitSlop={{ top: 8, bottom: 8, left: 8, right: 8 }}>
-                <Icon type="Ionicons" name="refresh-outline" size={20} color={colors.purple1} style={{ marginRight: scale(14) }} />
+                <Icon type="Ionicons" name="refresh-outline" size={AppSizes.ICON_20} color={colors.purple1} style={{ marginRight: scale(14) }} />
               </TouchableOpacity>
               <TouchableOpacity onPress={() => setAttachment(null)} hitSlop={{ top: 8, bottom: 8, left: 8, right: 8 }}>
-                <Icon type="Ionicons" name="close-circle" size={20} color={colors.textSecondary} />
+                <Icon type="Ionicons" name="close-circle" size={AppSizes.ICON_20} color={colors.textSecondary} />
               </TouchableOpacity>
             </View>
           ) : (
@@ -158,7 +162,7 @@ const NewLeaveRequestModal = ({ visible, colors, leaveTypes, employeeId, onClose
               onPress={pickAndUploadAttachment}
               disabled={attachmentUploading}
             >
-              <Icon type="Ionicons" name="attach-outline" size={20} color={colors.purple1} />
+              <Icon type="Ionicons" name="attach-outline" size={AppSizes.ICON_20} color={colors.purple1} />
               <View style={{ flex: 1, marginLeft: scale(10) }}>
                 <Text style={[styles.attachmentTitle, { color: colors.textPrimary }]}>
                   {attachmentUploading ? 'Uploading...' : 'Add supporting document'}
@@ -166,9 +170,9 @@ const NewLeaveRequestModal = ({ visible, colors, leaveTypes, employeeId, onClose
                 <Text style={[styles.attachmentSubText, { color: colors.textSecondary }]}>JPG, PNG or PDF</Text>
               </View>
               {attachmentUploading ? (
-                <Fold size={20} color={colors.purple1} />
+                <Fold size={AppSizes.ICON_20} color={colors.purple1} />
               ) : (
-                <Icon type="Ionicons" name="chevron-forward" size={18} color={colors.textSecondary} />
+                <Icon type="Ionicons" name="chevron-forward" size={verticalScale(18)} color={colors.textSecondary} />
               )}
             </TouchableOpacity>
           )}
@@ -225,6 +229,17 @@ const NewLeaveRequestModal = ({ visible, colors, leaveTypes, employeeId, onClose
         loading={submitting}
         onConfirm={confirmSubmit}
         onCancel={cancelSubmit}
+      />
+
+      <ConfirmModal
+        visible={closeConfirmVisible}
+        colors={colors}
+        title="Close Form"
+        message="Are you sure you want to discard this leave request? Your entered details will be lost."
+        confirmText="Discard"
+        destructive
+        onConfirm={confirmClose}
+        onCancel={cancelClose}
       />
     </Modal>
   );

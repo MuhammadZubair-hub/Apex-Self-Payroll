@@ -2,6 +2,8 @@ import React, { useEffect, useRef } from 'react';
 import { Animated, Easing, Image, StatusBar, StyleSheet, Text, View } from 'react-native';
 import { Fold } from 'react-native-animated-spinkit';
 import { APP_NAME } from './About/about.constants';
+import { scale, verticalScale, moderateScale } from '../utils/responsive';
+import { AppSizes } from '../utils/AppSizes';
 
 // Brand colors hardcoded here (not pulled from the theme) since this renders in App.tsx
 // before ThemeProviderContext mounts.
@@ -54,7 +56,7 @@ const SplashScreen = () => {
       </Animated.View>
 
       <View style={styles.loaderContainer}>
-        <Fold size={34} color={BRAND_BLUE} />
+        <Fold size={verticalScale(34)} color={BRAND_BLUE} />
       </View>
     </View>
   );
@@ -70,11 +72,11 @@ const styles = StyleSheet.create({
   logoCard: {
     justifyContent: 'center',
     alignItems: 'center',
-    width: 120,
-    height: 120,
-    borderRadius: 28,
+    width: scale(120),
+    height: AppSizes.H_120,
+    borderRadius: scale(28),
     backgroundColor: '#ffffff',
-    marginBottom: 20,
+    marginBottom: AppSizes.MV_20,
     elevation: 8,
     shadowColor: '#000',
     shadowOffset: { width: 0, height: 6 },
@@ -82,25 +84,25 @@ const styles = StyleSheet.create({
     shadowRadius: 14,
   },
   logo: {
-    width: 78,
-    height: 78,
+    width: scale(78),
+    height: verticalScale(78),
   },
   appName: {
-    fontSize: 22,
+    fontSize: AppSizes.FONT_22,
     fontFamily: 'PlusJakartaSans-Bold',
     color: '#ffffff',
     textAlign: 'center',
   },
   tagline: {
-    fontSize: 15,
+    fontSize: moderateScale(15),
     fontFamily: 'PlusJakartaSans-Medium',
     color: 'rgba(255,255,255,0.8)',
     textAlign: 'center',
-    marginTop: 4,
+    marginTop: verticalScale(4),
   },
   loaderContainer: {
     position: 'absolute',
-    bottom: 64,
+    bottom: verticalScale(64),
     alignSelf: 'center',
   },
 });

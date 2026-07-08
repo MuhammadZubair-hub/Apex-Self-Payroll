@@ -2,6 +2,7 @@ import React, { useCallback } from 'react';
 import { FlatList, RefreshControl, Text, View } from 'react-native';
 import Icon from '../../../components/Icons';
 import { sharedStyles } from '../components/sharedStyles';
+import { verticalScale } from '../../../utils/responsive';
 import { usePendingApprovals } from './PendingApproval.logic';
 import PendingApprovalCard from './components/PendingApprovalCard';
 import ApproveRejectModal from './components/ApproveRejectModal';
@@ -47,7 +48,7 @@ const PendingApprovalScreen = ({ colors, state }: PendingApprovalScreenProps) =>
           refreshControl={<RefreshControl refreshing={refreshing} onRefresh={onRefresh} colors={[colors.purple1]} />}
           ListEmptyComponent={
             <View style={sharedStyles.emptyListContainer}>
-              <Icon type="Ionicons" name="checkmark-done-outline" size={56} color={colors.textSecondary} />
+              <Icon type="Ionicons" name="checkmark-done-outline" size={verticalScale(56)} color={colors.textSecondary} />
               <Text style={[sharedStyles.emptyListText, { color: colors.textPrimary }]}>No pending approvals</Text>
               <Text style={[sharedStyles.emptyListSubText, { color: colors.textSecondary }]}>You&apos;re all caught up</Text>
             </View>

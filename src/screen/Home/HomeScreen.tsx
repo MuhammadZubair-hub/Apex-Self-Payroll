@@ -1,5 +1,5 @@
 import React from 'react';
-import { RefreshControl, ScrollView, StatusBar } from 'react-native';
+import { RefreshControl, ScrollView, StatusBar, View } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import PrimaryHeader from '../../components/header/PrimaryHeader';
 import LoadingBaseModal from '../../components/Loader/LoadingBaseModal';
@@ -10,9 +10,11 @@ import AttendanceOverviewCard from './components/AttendanceOverviewCard';
 import InfoCardsRow from './components/InfoCardsRow';
 // import QuickActionsGrid from './components/QuickActionsGrid';
 import LeaveBalanceModal from './components/LeaveBalanceModal';
+import HolidaysModal from './components/HolidaysModal';
 import RequestLetterCard from './components/RequestLetterCard';
 import PendingApprovalCard from './components/PendingApprovalCard';
 import AttendanceCalendarCard from './components/AttendanceCalendar/AttendanceCalendarCard';
+import { AppSizes } from '../../utils/AppSizes';
 
 const HomeScreen = () => {
   const {
@@ -28,9 +30,12 @@ const HomeScreen = () => {
     todayStatusMeta,
     todayBottomText,
     leaveModalVisible,
+    holidayModalVisible,
     pendingrequ,
     openLeaveModal,
     closeLeaveModal,
+    openHolidayModal,
+    closeHolidayModal,
     goToAttendance,
     goToRequestLetter,
     goToPendingApprovals,
@@ -63,6 +68,7 @@ const HomeScreen = () => {
           totalLeaveBalance={totalLeaveBalance}
           upcomingHolidays={upcomingHolidays}
           onPressLeaveBalance={openLeaveModal}
+          onPressHolidays={openHolidayModal}
         />
 
         {pendingrequ.length > 0 && (
@@ -83,6 +89,15 @@ const HomeScreen = () => {
         totalLeaveBalance={totalLeaveBalance}
         onClose={closeLeaveModal}
       />
+
+      <HolidaysModal
+        visible={holidayModalVisible}
+        colors={colors}
+        holidays={upcomingHolidays}
+        onClose={closeHolidayModal}
+      />
+
+      {/* <View style={{marginVertical:AppSizes.MV_30}}/> */}
 
       <LoadingBaseModal visible={loading} />
     </SafeAreaView>

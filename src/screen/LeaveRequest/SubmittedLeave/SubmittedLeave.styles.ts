@@ -1,5 +1,6 @@
 import { StyleSheet } from 'react-native';
-import { scale } from '../../../utils/responsive';
+import { scale, verticalScale } from '../../../utils/responsive';
+import { AppSizes } from '../../../utils/AppSizes';
 
 export const submittedLeaveStyles = StyleSheet.create({
   searchFilterRow: {
@@ -16,39 +17,39 @@ export const submittedLeaveStyles = StyleSheet.create({
     alignItems: 'center',
     paddingHorizontal: scale(12),
     paddingVertical: scale(8),
-    borderRadius: 10,
+    borderRadius: AppSizes.RADIUS_10,
     borderWidth: 1,
     gap: scale(8),
   },
   searchInput: {
     flex: 1,
-    fontSize: 14,
+    fontSize: AppSizes.FONT_14,
     fontFamily: 'PlusJakartaSans-Regular',
-    padding: 0,
+    padding: scale(0),
   },
   filterButton: {
     width: scale(42),
     height: scale(42),
-    borderRadius: 10,
+    borderRadius: AppSizes.RADIUS_10,
     borderWidth: 1,
     justifyContent: 'center',
     alignItems: 'center',
   },
   filterDot: {
     position: 'absolute',
-    top: 6,
-    right: 6,
-    width: 8,
-    height: 8,
-    borderRadius: 4,
+    top: verticalScale(6),
+    right: scale(6),
+    width: scale(8),
+    height: verticalScale(8),
+    borderRadius: AppSizes.RADIUS_4,
   },
   fab: {
     position: 'absolute',
-    bottom: 24,
-    right: 20,
-    width: 58,
-    height: 58,
-    borderRadius: 29,
+    bottom: verticalScale(24),
+    right: scale(20),
+    width: scale(58),
+    height: verticalScale(58),
+    borderRadius: scale(29),
     justifyContent: 'center',
     alignItems: 'center',
     elevation: 6,

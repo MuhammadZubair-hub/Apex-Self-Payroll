@@ -1,5 +1,6 @@
 import { showMessage } from 'react-native-flash-message';
-import { verticalScale } from './responsive';
+import { scale, verticalScale } from './responsive';
+import { AppSizes } from './AppSizes';
 
 type FlashType = 'success' | 'danger' | 'warning';
 
@@ -27,8 +28,8 @@ export const showThemedMessage = (
       width: '90%',
       alignSelf: 'center',
       marginTop: verticalScale(80),
-      borderRadius: 14,
-      paddingHorizontal: 15,
+      borderRadius: scale(14),
+      paddingHorizontal: AppSizes.PH_15,
       justifyContent: 'center',
       shadowColor: '#000',
       shadowOffset: { width: 0, height: 4 },

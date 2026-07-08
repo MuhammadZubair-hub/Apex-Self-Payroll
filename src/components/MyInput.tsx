@@ -108,7 +108,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     borderRadius: AppSizes.RADIUS_10,
     paddingHorizontal: AppSizes.PH_10,
-    paddingVertical: 6,
+    paddingVertical: verticalScale(3),
     elevation: 1,
   },
   input: {

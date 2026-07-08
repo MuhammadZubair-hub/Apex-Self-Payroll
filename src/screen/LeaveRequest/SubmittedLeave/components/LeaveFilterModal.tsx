@@ -5,7 +5,8 @@ import MyButton from '../../../../components/MyButton';
 import Icon from '../../../../components/Icons';
 import FieldLabel from '../../components/FieldLabel';
 import { STATUS_TABS, formatShortDate } from '../../leaveRequest.constants';
-import { scale } from '../../../../utils/responsive';
+import { scale, verticalScale } from '../../../../utils/responsive';
+import { AppSizes } from '../../../../utils/AppSizes';
 import CalendarSheet from './NewLeaveRequestModal/CalendarSheet';
 
 interface LeaveFilterModalProps {
@@ -85,7 +86,7 @@ const LeaveFilterModal = ({
         <Text style={[styles.dateFieldText, { color: fromDate ? colors.textPrimary : colors.textSecondary }]}>
           {fromDate ? formatShortDate(fromDate) : new Date().toISOString().split('T',1)}
         </Text>
-        <Icon type="Ionicons" name="calendar-outline" size={18} color={colors.textSecondary} />
+        <Icon type="Ionicons" name="calendar-outline" size={verticalScale(18)} color={colors.textSecondary} />
       </TouchableOpacity>
 
       <FieldLabel text="To Date" colors={colors} />
@@ -96,7 +97,7 @@ const LeaveFilterModal = ({
         <Text style={[styles.dateFieldText, { color: toDate ? colors.textPrimary : colors.textSecondary }]}>
           {toDate ? formatShortDate(toDate) : new Date().toISOString().split('T',1)}
         </Text>
-        <Icon type="Ionicons" name="calendar-outline" size={18} color={colors.textSecondary} />
+        <Icon type="Ionicons" name="calendar-outline" size={verticalScale(18)} color={colors.textSecondary} />
       </TouchableOpacity>
     </BottomSheet>
 
@@ -124,11 +125,11 @@ const styles = StyleSheet.create({
     flex: 1,
     alignItems: 'center',
     paddingVertical: scale(9),
-    borderRadius: 20,
+    borderRadius: AppSizes.RADIUS_20,
     borderWidth: 1,
   },
   statusChipText: {
-    fontSize: 12,
+    fontSize: AppSizes.FONT_12,
     fontFamily: 'PlusJakartaSans-Medium',
   },
   dateField: {
@@ -136,13 +137,13 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'space-between',
     borderWidth: 1,
-    borderRadius: 10,
+    borderRadius: AppSizes.RADIUS_10,
     paddingHorizontal: scale(14),
     paddingVertical: scale(12),
     marginBottom: scale(4),
   },
   dateFieldText: {
-    fontSize: 14,
+    fontSize: AppSizes.FONT_14,
     fontFamily: 'PlusJakartaSans-Regular',
   },
   footerRow: {

@@ -118,6 +118,7 @@ export const AppSizes = {
   /* ---------------------------------------- */
 
   W_50: scale(50),
+  W_60: scale(60),
   W_80: scale(80),
   W_100: scale(100),
   W_150: scale(150),
@@ -128,6 +129,7 @@ export const AppSizes = {
   H_20: verticalScale(20),
   H_40: verticalScale(40),
   H_50: verticalScale(50),
+  H_60: verticalScale(60),
   H_80: verticalScale(80),
   H_100: verticalScale(100),
   H_120: verticalScale(120),

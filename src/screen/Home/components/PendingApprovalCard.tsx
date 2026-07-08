@@ -2,6 +2,8 @@ import React from 'react';
 import { Text, TouchableOpacity, View } from 'react-native';
 import Ionicons from '@react-native-vector-icons/ionicons';
 import { homeStyles as styles } from '../Home.styles';
+import { verticalScale } from '../../../utils/responsive';
+import { AppSizes } from '../../../utils/AppSizes';
 
 interface PendingApprovalCardProps {
   colors: any;
@@ -10,17 +12,16 @@ interface PendingApprovalCardProps {
 }
 
 const PendingApprovalCard = ({ colors, count, onPress }: PendingApprovalCardProps) => (
-  <TouchableOpacity style={[styles.card, styles.requestLetterCard, { backgroundColor: colors.dangerBg }]} onPress={onPress} activeOpacity={0.85}>
-      <Ionicons name="time-outline" size={22} color={colors.dangerText} />
-    {/* <View style={[styles.infoIconBox, { backgroundColor: colors.secondPrimaryColor, marginBottom: 0 }]}>
-    </View> */}
+  <TouchableOpacity style={[styles.card, styles.requestLetterCard, { backgroundColor: colors.redTint ,elevation:0}]} onPress={onPress} activeOpacity={0.85}>
+      <Ionicons name="time-outline" size={verticalScale(22)} color={colors.redColor} />
+    
     <View style={styles.requestLetterBody}>
-      <Text style={[styles.cardTitle, { color: colors.dangerText, marginBottom: 2 }]}>Pending Approvals</Text>
-      <Text style={[styles.leaveLabel, { color: colors.dangerText }]}>
+      <Text style={[styles.cardTitle, { color: colors.redColor, marginBottom: AppSizes.MV_2 }]}>Pending Approvals</Text>
+      <Text style={[styles.leaveLabel, { color: colors.redColor }]}>
         {count} leave request{count === 1 ? '' : 's'} waiting for your approval
       </Text>
     </View>
-    <Ionicons name="chevron-forward" size={18} color={colors.dangerText} />
+    <Ionicons name="chevron-forward" size={verticalScale(18)} color={colors.redColor} />
   </TouchableOpacity>
 );
 

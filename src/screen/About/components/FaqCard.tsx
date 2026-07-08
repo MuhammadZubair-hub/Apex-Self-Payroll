@@ -2,6 +2,7 @@ import React from 'react';
 import { Text, TouchableOpacity, View } from 'react-native';
 import Icon from '../../../components/Icons';
 import { helpSupportStyles as styles } from '../HelpSupport.styles';
+import { verticalScale } from '../../../utils/responsive';
 
 interface FaqCardProps {
   question: string;
@@ -18,9 +19,9 @@ const FaqCard = ({ question, answer, expanded, colors, onPress }: FaqCardProps) 
     activeOpacity={0.85}
   >
     <View style={styles.faqHeaderRow}>
-      <Icon type="Ionicons" name="help-circle-outline" size={18} color={colors.purple1} />
+      <Icon type="Ionicons" name="help-circle-outline" size={verticalScale(18)} color={colors.purple1} />
       <Text style={[styles.faqQuestion, { color: colors.textPrimary }]}>{question}</Text>
-      <Icon type="Ionicons" name={expanded ? 'chevron-up' : 'chevron-down'} size={18} color={colors.textSecondary} />
+      <Icon type="Ionicons" name={expanded ? 'chevron-up' : 'chevron-down'} size={verticalScale(18)} color={colors.textSecondary} />
     </View>
     {expanded && <Text style={[styles.faqAnswer, { color: colors.textSecondary }]}>{answer}</Text>}
   </TouchableOpacity>

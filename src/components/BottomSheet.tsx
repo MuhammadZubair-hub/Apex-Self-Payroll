@@ -2,7 +2,8 @@ import React from 'react';
 import { DimensionValue, Modal, ScrollView, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 import Icon from './Icons';
 import ModalFlashMessage from './ModalFlashMessage';
-import { scale } from '../utils/responsive';
+import { scale, verticalScale, moderateScale } from '../utils/responsive';
+import { AppSizes } from '../utils/AppSizes';
 
 interface BottomSheetProps {
   visible: boolean;
@@ -74,16 +75,16 @@ const styles = StyleSheet.create({
     backgroundColor: 'rgba(0,0,0,0.4)',
   },
   container: {
-    borderTopLeftRadius: 22,
-    borderTopRightRadius: 22,
+    borderTopLeftRadius: scale(22),
+    borderTopRightRadius: scale(22),
     paddingHorizontal: scale(20),
     paddingTop: scale(10),
     paddingBottom: scale(24),
   },
   handle: {
-    width: 40,
-    height: 4,
-    borderRadius: 2,
+    width: scale(40),
+    height: verticalScale(4),
+    borderRadius: AppSizes.RADIUS_2,
     alignSelf: 'center',
     marginBottom: scale(14),
   },
@@ -94,7 +95,7 @@ const styles = StyleSheet.create({
     marginBottom: scale(14),
   },
   title: {
-    fontSize: 17,
+    fontSize: moderateScale(17),
     fontFamily: 'PlusJakartaSans-SemiBold',
   },
   scrollContent: {

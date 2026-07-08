@@ -3,6 +3,8 @@ import { FlatList, RefreshControl, Text, TextInput, TouchableOpacity, View } fro
 import Icon from '../../../components/Icons';
 import { sharedStyles } from '../components/sharedStyles';
 import { submittedLeaveStyles as styles } from './SubmittedLeave.styles';
+import { scale, verticalScale } from '../../../utils/responsive';
+import { AppSizes } from '../../../utils/AppSizes';
 import { useSubmittedLeave } from './SubmittedLeave.logic';
 import LeaveApplicationCard from './components/LeaveApplicationCard';
 import LeaveDetailModal from './components/LeaveDetailModal';
@@ -65,7 +67,7 @@ const SubmittedLeaveScreen = ({ colors, employeeId, state }: SubmittedLeaveScree
     <>
       <View style={styles.searchFilterRow}>
         <View style={[styles.searchRow, { borderColor: colors.borderColor, backgroundColor: colors.secondPrimaryColor }]}>
-          <Icon type="Ionicons" name="search" size={18} color={colors.textSecondary} />
+          <Icon type="Ionicons" name="search" size={scale(18)} color={colors.textSecondary} />
           <TextInput
             value={searchText}
             onChangeText={setSearchText}
@@ -82,7 +84,7 @@ const SubmittedLeaveScreen = ({ colors, employeeId, state }: SubmittedLeaveScree
           ]}
           onPress={openFilterModal}
         >
-          <Icon type="Ionicons" name="options-outline" size={20} color={hasActiveFilters ? colors.purple1 : colors.textSecondary} />
+          <Icon type="Ionicons" name="options-outline" size={AppSizes.ICON_20} color={hasActiveFilters ? colors.purple1 : colors.textSecondary} />
           {hasActiveFilters && <View style={[styles.filterDot, { backgroundColor: colors.purple1 }]} />}
         </TouchableOpacity>
       </View>
@@ -99,7 +101,7 @@ const SubmittedLeaveScreen = ({ colors, employeeId, state }: SubmittedLeaveScree
           refreshControl={<RefreshControl refreshing={refreshing} onRefresh={onRefresh} colors={[colors.purple1]} />}
           ListEmptyComponent={
             <View style={sharedStyles.emptyListContainer}>
-              <Icon type="Ionicons" name="document-text-outline" size={56} color={colors.textSecondary} />
+              <Icon type="Ionicons" name="document-text-outline" size={verticalScale(56)} color={colors.textSecondary} />
               <Text style={[sharedStyles.emptyListText, { color: colors.textPrimary }]}>No leave applications found</Text>
               <Text style={[sharedStyles.emptyListSubText, { color: colors.textSecondary }]}>Tap the + button to create one</Text>
             </View>
@@ -108,7 +110,7 @@ const SubmittedLeaveScreen = ({ colors, employeeId, state }: SubmittedLeaveScree
       )}
 
       <TouchableOpacity style={[styles.fab, { backgroundColor: colors.purple1 }]} onPress={openFormModal} activeOpacity={0.85}>
-        <Icon type="Ionicons" name="add" size={28} color="#fff" />
+        <Icon type="Ionicons" name="add" size={verticalScale(28)} color="#fff" />
       </TouchableOpacity>
 
       <LeaveFilterModal

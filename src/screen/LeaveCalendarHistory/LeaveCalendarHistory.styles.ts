@@ -1,5 +1,6 @@
 import { StyleSheet } from 'react-native';
-import { scale } from '../../utils/responsive';
+import { scale, verticalScale, moderateScale } from '../../utils/responsive';
+import { AppSizes } from '../../utils/AppSizes';
 
 export const leaveCalendarHistoryStyles = StyleSheet.create({
   container: {
@@ -16,11 +17,11 @@ export const leaveCalendarHistoryStyles = StyleSheet.create({
     justifyContent: 'space-between',
     paddingVertical: scale(12),
     paddingHorizontal: scale(14),
-    borderRadius: 12,
+    borderRadius: AppSizes.RADIUS_12,
     marginBottom: scale(14),
   },
   monthNavText: {
-    fontSize: 16,
+    fontSize: AppSizes.FONT_16,
     fontFamily: 'PlusJakartaSans-SemiBold',
   },
   filterRow: {
@@ -36,23 +37,23 @@ export const leaveCalendarHistoryStyles = StyleSheet.create({
     justifyContent: 'space-between',
     alignItems: 'center',
     borderWidth: 1,
-    borderRadius: 10,
+    borderRadius: AppSizes.RADIUS_10,
     paddingHorizontal: scale(12),
   },
   departmentText: {
-    fontSize: 14,
+    fontSize: AppSizes.FONT_14,
     fontFamily: 'PlusJakartaSans-Medium',
     flex: 1,
-    marginRight: 6,
+    marginRight: scale(6),
   },
   getButton: {
     width: scale(70),
     height: scale(46),
-    paddingVertical: 0,
+    paddingVertical: verticalScale(0),
   },
   calendarCard: {
     padding: scale(16),
-    borderRadius: 14,
+    borderRadius: scale(14),
     marginBottom: scale(16),
     elevation: 2,
     shadowColor: '#000',
@@ -76,12 +77,12 @@ export const leaveCalendarHistoryStyles = StyleSheet.create({
     gap: scale(6),
   },
   legendDot: {
-    width: 8,
-    height: 8,
-    borderRadius: 4,
+    width: scale(8),
+    height: verticalScale(8),
+    borderRadius: AppSizes.RADIUS_4,
   },
   legendText: {
-    fontSize: 12,
+    fontSize: AppSizes.FONT_12,
     fontFamily: 'PlusJakartaSans-Regular',
   },
   sectionTitleRow: {
@@ -91,11 +92,11 @@ export const leaveCalendarHistoryStyles = StyleSheet.create({
     marginBottom: scale(10),
   },
   sectionTitle: {
-    fontSize: 15,
+    fontSize: moderateScale(15),
     fontFamily: 'PlusJakartaSans-Bold',
   },
   clearFilterText: {
-    fontSize: 12,
+    fontSize: AppSizes.FONT_12,
     fontFamily: 'PlusJakartaSans-SemiBold',
   },
   accessDeniedBox: {
@@ -105,7 +106,7 @@ export const leaveCalendarHistoryStyles = StyleSheet.create({
     paddingHorizontal: scale(40),
   },
   accessDeniedText: {
-    fontSize: 14,
+    fontSize: AppSizes.FONT_14,
     fontFamily: 'PlusJakartaSans-Regular',
     textAlign: 'center',
     marginTop: scale(12),

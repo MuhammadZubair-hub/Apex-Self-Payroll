@@ -1,5 +1,6 @@
 import { StyleSheet } from 'react-native';
-import { scale } from '../../utils/responsive';
+import { scale, verticalScale, moderateScale } from '../../utils/responsive';
+import { AppSizes } from '../../utils/AppSizes';
 
 export const settingsStyles = StyleSheet.create({
   container: {
@@ -7,21 +8,21 @@ export const settingsStyles = StyleSheet.create({
   },
   headerTitle: {
     alignSelf: 'center',
-    fontSize: 22,
+    fontSize: AppSizes.FONT_22,
     fontFamily: 'PlusJakartaSans-Bold',
     marginBottom: scale(4),
-    marginTop:18
+    marginTop: verticalScale(18)
   },
   scrollContent: {
     padding: scale(16),
     flex:1,
     paddingBottom: scale(40),
     justifyContent:'center'
-    
+
   },
   profileCard: {
     alignItems: 'center',
-    borderRadius: 16,
+    borderRadius: scale(16),
     paddingVertical: scale(24),
     marginBottom: scale(20),
     justifyContent:'center'
@@ -32,9 +33,9 @@ export const settingsStyles = StyleSheet.create({
     // shadowRadius: 6,
   },
   avatar: {
-    width: 76,
-    height: 76,
-    borderRadius: 38,
+    width: scale(76),
+    height: verticalScale(76),
+    borderRadius: scale(38),
     marginBottom: scale(12),
     borderWidth:2
   },
@@ -44,26 +45,26 @@ export const settingsStyles = StyleSheet.create({
   },
   avatarInitial: {
     color: '#fff',
-    fontSize: 28,
+    fontSize: AppSizes.FONT_28,
     fontFamily: 'PlusJakartaSans-Bold',
   },
   name: {
-    fontSize: 17,
+    fontSize: moderateScale(17),
     fontFamily: 'PlusJakartaSans-Bold',
   },
   designation: {
-    fontSize: 13,
+    fontSize: moderateScale(13),
     fontFamily: 'PlusJakartaSans-Medium',
-    marginTop: 3,
+    marginTop: verticalScale(3),
   },
   sectionTitle: {
-    fontSize: 15,
+    fontSize: moderateScale(15),
     fontFamily: 'PlusJakartaSans-Bold',
     marginBottom: scale(10),
     marginTop: scale(4),
   },
   card: {
-    borderRadius: 14,
+    borderRadius: scale(14),
     paddingHorizontal: scale(16),
     marginBottom: scale(20),
     elevation: 1,
@@ -86,14 +87,14 @@ export const settingsStyles = StyleSheet.create({
     flex: 1,
   },
   rowIconBox: {
-    width: 44,
-    height: 44,
-    borderRadius: 10,
+    width: scale(44),
+    height: verticalScale(44),
+    borderRadius: AppSizes.RADIUS_10,
     justifyContent: 'center',
     alignItems: 'center',
   },
   rowLabel: {
-    fontSize: 14,
+    fontSize: AppSizes.FONT_14,
     fontFamily: 'PlusJakartaSans-Medium',
     flex: 1,
   },

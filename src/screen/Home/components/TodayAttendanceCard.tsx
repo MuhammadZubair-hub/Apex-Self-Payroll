@@ -3,6 +3,7 @@ import { Text, View } from 'react-native';
 import Ionicons from '@react-native-vector-icons/ionicons';
 import { homeStyles as styles } from '../Home.styles';
 import { formatTime } from '../../../utils/dateTime';
+import { AppSizes } from '../../../utils/AppSizes';
 
 interface TodayAttendanceCardProps {
   colors: any;
@@ -23,7 +24,7 @@ const TodayAttendanceCard = ({ colors, todayAttendance, todayStatusMeta, todayBo
     <View style={styles.attendanceTimeRow}>
       <Text style={[styles.checkInTime, { color: colors.textPrimary }]}>{formatTime(todayAttendance?.startTime)}</Text>
       <View style={[styles.iconCircle, { backgroundColor: colors.blueTint }]}>
-        <Ionicons name="calendar-outline" size={30} color={colors.purple1} />
+        <Ionicons name="calendar-outline" size={AppSizes.ICON_30} color={colors.purple1} />
       </View>
     </View>
 

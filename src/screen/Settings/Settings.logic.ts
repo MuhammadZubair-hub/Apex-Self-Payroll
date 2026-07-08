@@ -1,5 +1,5 @@
 import { useNavigation } from '@react-navigation/native';
-import { useCallback, useMemo } from 'react';
+import { useCallback, useMemo, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { getUser, getUserProfileData, logout } from '../../redux/slices/authSlice';
 import { getColors } from '../../theme/color/theme';
@@ -21,7 +21,18 @@ export const useSettings = () => {
   const goToProfile = useCallback(() => navigation.navigate('Profilescreen'), [navigation]);
   const goToSupport = useCallback(() => navigation.navigate('support'), [navigation]);
   const goToAbout = useCallback(() => navigation.navigate('about'), [navigation]);
-  const handleLogout = useCallback(() => dispatch(logout()), [dispatch]);
+  // const handleLogout = useCallback(() => dispatch(logout()), [dispatch]);
+
+  const [logoutConfirmVisible, setLogoutConfirmVisible] = useState(false);
+
+  // console.log(' the profile data is ',profileData);
+
+  const handleLogout = () => setLogoutConfirmVisible(true);
+  const cancelLogout = () => setLogoutConfirmVisible(false);
+  const confirmLogout = () => {
+    setLogoutConfirmVisible(false);
+    dispatch(logout());
+  };
 
   return {
     colors,
@@ -30,9 +41,14 @@ export const useSettings = () => {
     fullName,
     designation,
     profileImage,
+
+    logoutConfirmVisible,
+
     goToProfile,
     goToSupport,
     goToAbout,
     handleLogout,
+    cancelLogout,
+    confirmLogout,
   };
 };

@@ -72,6 +72,7 @@ export const getColors = (theme: string) => {
     orangeTint: 'rgba(245, 158, 11, 0.16)',
     redTint: 'rgba(239, 68, 68, 0.16)',
     blueTint: 'rgba(33, 150, 243, 0.16)',
+    whiteGlass :isDark?'rgba(12, 12, 12, 0.23)':'rgba(255, 255, 255, 1)',
 
     // Additional UI specific colors mapping to your original properties
     grayColor1: isDark ? '#475569' : '#94a3b8',

@@ -1,5 +1,6 @@
 import { StyleSheet } from 'react-native';
-import { scale } from '../../utils/responsive';
+import { scale, verticalScale, moderateScale } from '../../utils/responsive';
+import { AppSizes } from '../../utils/AppSizes';
 
 export const helpSupportStyles = StyleSheet.create({
   container: {
@@ -7,7 +8,7 @@ export const helpSupportStyles = StyleSheet.create({
   },
   headerTitle: {
     alignSelf: 'center',
-    fontSize: 22,
+    fontSize: AppSizes.FONT_22,
     fontFamily: 'PlusJakartaSans-Bold',
     marginBottom: scale(4),
   },
@@ -21,22 +22,22 @@ export const helpSupportStyles = StyleSheet.create({
   banner: {
     flexDirection: 'row',
     alignItems: 'flex-start',
-    borderRadius: 14,
+    borderRadius: scale(14),
     padding: scale(16),
     marginBottom: scale(20),
   },
   bannerTitle: {
-    fontSize: 16,
+    fontSize: AppSizes.FONT_16,
     fontFamily: 'PlusJakartaSans-Medium',
   },
   bannerText: {
-    fontSize: 13,
+    fontSize: moderateScale(13),
     fontFamily: 'PlusJakartaSans-Regular',
-    marginTop: 3,
-    lineHeight: 18,
+    marginTop: verticalScale(3),
+    lineHeight: moderateScale(18),
   },
   sectionTitle: {
-    fontSize: 15,
+    fontSize: moderateScale(15),
     fontFamily: 'PlusJakartaSans-SemiBold',
     marginBottom: scale(10),
     marginTop: scale(4),
@@ -44,7 +45,7 @@ export const helpSupportStyles = StyleSheet.create({
   contactCard: {
     flexDirection: 'row',
     alignItems: 'center',
-    borderRadius: 14,
+    borderRadius: scale(14),
     padding: scale(14),
     marginBottom: scale(10),
     elevation: 2,
@@ -54,23 +55,23 @@ export const helpSupportStyles = StyleSheet.create({
     shadowRadius: 6,
   },
   contactIconBox: {
-    width: 40,
-    height: 40,
-    borderRadius: 12,
+    width: scale(40),
+    height: AppSizes.H_40,
+    borderRadius: AppSizes.RADIUS_12,
     justifyContent: 'center',
     alignItems: 'center',
   },
   contactTitle: {
-    fontSize: 14,
+    fontSize: AppSizes.FONT_14,
     fontFamily: 'PlusJakartaSans-Medium',
   },
   contactSubtitle: {
-    fontSize: 12,
+    fontSize: AppSizes.FONT_12,
     fontFamily: 'PlusJakartaSans-Regular',
-    marginTop: 2,
+    marginTop: AppSizes.MV_2,
   },
   faqCard: {
-    borderRadius: 14,
+    borderRadius: scale(14),
     padding: scale(14),
     marginBottom: scale(10),
     elevation: 1,
@@ -86,17 +87,17 @@ export const helpSupportStyles = StyleSheet.create({
   },
   faqQuestion: {
     flex: 1,
-    fontSize: 13,
+    fontSize: moderateScale(13),
     fontFamily: 'PlusJakartaSans-Medium',
   },
   faqAnswer: {
-    fontSize: 13,
+    fontSize: moderateScale(13),
     fontFamily: 'PlusJakartaSans-Regular',
     marginTop: scale(10),
-    lineHeight: 19,
+    lineHeight: moderateScale(19),
   },
   reportCard: {
-    borderRadius: 14,
+    borderRadius: scale(14),
     padding: scale(16),
     marginBottom: scale(10),
     elevation: 1,
@@ -106,20 +107,20 @@ export const helpSupportStyles = StyleSheet.create({
     shadowRadius: 4,
   },
   fieldLabel: {
-    fontSize: 13,
+    fontSize: moderateScale(13),
     fontFamily: 'PlusJakartaSans-Medium',
     marginBottom: scale(6),
   },
   textInput: {
     borderWidth: 1,
-    borderRadius: 10,
+    borderRadius: AppSizes.RADIUS_10,
     paddingHorizontal: scale(14),
     paddingVertical: scale(12),
-    fontSize: 14,
+    fontSize: AppSizes.FONT_14,
     fontFamily: 'PlusJakartaSans-Regular',
   },
   textArea: {
-    minHeight: 90,
+    minHeight: verticalScale(90),
     textAlignVertical: 'top',
   },
   sendButton: {
@@ -127,13 +128,13 @@ export const helpSupportStyles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
     gap: scale(8),
-    borderRadius: 10,
-    paddingVertical: scale(13),
+    borderRadius: AppSizes.RADIUS_10,
+    paddingVertical: verticalScale(13),
     marginTop: scale(16),
   },
   sendButtonText: {
     color: '#fff',
-    fontSize: 14,
+    fontSize: AppSizes.FONT_14,
     fontFamily: 'PlusJakartaSans-SemiBold',
   },
 });

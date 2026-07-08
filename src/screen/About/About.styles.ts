@@ -1,5 +1,6 @@
 import { StyleSheet } from 'react-native';
-import { scale } from '../../utils/responsive';
+import { scale, verticalScale, moderateScale } from '../../utils/responsive';
+import { AppSizes } from '../../utils/AppSizes';
 
 export const aboutStyles = StyleSheet.create({
   container: {
@@ -7,7 +8,7 @@ export const aboutStyles = StyleSheet.create({
   },
   headerTitle: {
     alignSelf: 'center',
-    fontSize: 22,
+    fontSize: AppSizes.FONT_22,
     fontFamily: 'PlusJakartaSans-Bold',
     marginBottom: scale(4),
   },
@@ -17,7 +18,7 @@ export const aboutStyles = StyleSheet.create({
   },
   heroCard: {
     alignItems: 'center',
-    borderRadius: 16,
+    borderRadius: scale(16),
     paddingVertical: scale(28),
     paddingHorizontal: scale(20),
     marginBottom: scale(20),
@@ -33,28 +34,28 @@ export const aboutStyles = StyleSheet.create({
     marginBottom: scale(12),
   },
   appName: {
-    fontSize: 22,
+    fontSize: AppSizes.FONT_22,
     fontFamily: 'PlusJakartaSans-Bold',
   },
   versionBadge: {
     marginTop: scale(8),
     paddingHorizontal: scale(12),
     paddingVertical: scale(4),
-    borderRadius: 20,
+    borderRadius: AppSizes.RADIUS_20,
   },
   versionBadgeText: {
-    fontSize: 13,
+    fontSize: moderateScale(13),
     fontFamily: 'PlusJakartaSans-SemiBold',
   },
   tagline: {
-    fontSize: 14,
+    fontSize: AppSizes.FONT_14,
     fontFamily: 'PlusJakartaSans-Regular',
     textAlign: 'center',
     marginTop: scale(12),
-    lineHeight: 20,
+    lineHeight: AppSizes.LH_20,
   },
   sectionTitle: {
-    fontSize: 16,
+    fontSize: AppSizes.FONT_16,
     fontFamily: 'PlusJakartaSans-Medium',
     marginBottom: scale(10),
     marginTop: scale(4),
@@ -62,7 +63,7 @@ export const aboutStyles = StyleSheet.create({
   featureCard: {
     flexDirection: 'row',
     alignItems: 'center',
-    borderRadius: 14,
+    borderRadius: scale(14),
     padding: scale(14),
     marginBottom: scale(10),
     elevation: 1,
@@ -72,24 +73,24 @@ export const aboutStyles = StyleSheet.create({
     shadowRadius: 4,
   },
   featureIconBox: {
-    width: 40,
-    height: 40,
-    borderRadius: 12,
+    width: scale(40),
+    height: AppSizes.H_40,
+    borderRadius: AppSizes.RADIUS_12,
     justifyContent: 'center',
     alignItems: 'center',
   },
   featureTitle: {
-    fontSize: 15,
+    fontSize: moderateScale(15),
     fontFamily: 'PlusJakartaSans-Medium',
   },
   featureDescription: {
-    fontSize: 13,
+    fontSize: moderateScale(13),
     fontFamily: 'PlusJakartaSans-Regular',
-    marginTop: 2,
-    lineHeight: 18,
+    marginTop: AppSizes.MV_2,
+    lineHeight: moderateScale(18),
   },
   infoCard: {
-    borderRadius: 14,
+    borderRadius: scale(14),
     paddingHorizontal: scale(16),
     marginBottom: scale(20),
     elevation: 1,
@@ -102,19 +103,19 @@ export const aboutStyles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'center',
-    paddingVertical: scale(13),
+    paddingVertical: verticalScale(13),
     borderBottomWidth: StyleSheet.hairlineWidth,
   },
   infoLabel: {
-    fontSize: 14,
+    fontSize: AppSizes.FONT_14,
     fontFamily: 'PlusJakartaSans-Regular',
   },
   infoValue: {
-    fontSize: 14,
+    fontSize: AppSizes.FONT_14,
     fontFamily: 'PlusJakartaSans-Medium',
   },
   footerText: {
-    fontSize: 13,
+    fontSize: moderateScale(13),
     fontFamily: 'PlusJakartaSans-Regular',
     textAlign: 'center',
     marginTop: scale(4),

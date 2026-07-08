@@ -2,6 +2,7 @@ import React, { useEffect, useMemo, useRef } from 'react';
 import { Animated, ScrollView, StyleSheet, Text, View } from 'react-native';
 import { getRecordStatus } from '../attandance.constants';
 import { scale, verticalScale } from '../../../utils/responsive';
+import { AppSizes } from '../../../utils/AppSizes';
 
 const CHART_HEIGHT = verticalScale(120);
 const BAR_WIDTH = scale(12);
@@ -131,7 +132,7 @@ export default React.memo(AttendanceBarChart);
 const styles = StyleSheet.create({
   card: {
     marginBottom: scale(14),
-    borderRadius: 14,
+    borderRadius: scale(14),
     padding: scale(14),
     elevation: 2,
     shadowColor: '#000',
@@ -140,7 +141,7 @@ const styles = StyleSheet.create({
     shadowRadius: 6,
   },
   title: {
-    fontSize: 14,
+    fontSize: AppSizes.FONT_14,
     fontFamily: 'PlusJakartaSans-Bold',
     marginBottom: scale(10),
   },
@@ -154,7 +155,7 @@ const styles = StyleSheet.create({
     paddingBottom: verticalScale(20),
   },
   axisLabelText: {
-    fontSize: 10,
+    fontSize: AppSizes.FONT_10,
     fontFamily: 'PlusJakartaSans-Regular',
   },
   chartArea: {
@@ -165,7 +166,7 @@ const styles = StyleSheet.create({
     position: 'absolute',
     left: 0,
     right: 0,
-    height: 1,
+    height: verticalScale(1),
     opacity: 0.5,
   },
   scrollContent: {
@@ -182,7 +183,7 @@ const styles = StyleSheet.create({
     borderRadius: BAR_WIDTH / 2,
   },
   dayLabel: {
-    fontSize: 10,
+    fontSize: AppSizes.FONT_10,
     fontFamily: 'PlusJakartaSans-Medium',
     marginTop: verticalScale(6),
   },

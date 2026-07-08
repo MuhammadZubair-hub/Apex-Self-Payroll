@@ -6,6 +6,8 @@ import { sharedStyles } from '../../components/sharedStyles';
 import { formatDateRange, getLeaveIconMeta } from '../../leaveRequest.constants';
 import { pendingApprovalStyles as styles } from '../PendingApproval.styles';
 import { downloadAttachment } from '../../../../utils/downloadAttachment';
+import { AppSizes } from '../../../../utils/AppSizes';
+import { verticalScale } from '../../../../utils/responsive';
 
 interface PendingApprovalCardProps {
   item: any;
@@ -30,7 +32,7 @@ const PendingApprovalCard = ({ item, colors, onApprove, onReject }: PendingAppro
     <View style={[sharedStyles.card, styles.card, { backgroundColor: colors.secondPrimaryColor }]}>
       <View style={styles.topRow}>
         <View style={[sharedStyles.cardIconBox, { backgroundColor: iconMeta.bg }]}>
-          <Icon type="Ionicons" name={iconMeta.name} size={20} color={iconMeta.color} />
+          <Icon type="Ionicons" name={iconMeta.name} size={AppSizes.ICON_20} color={iconMeta.color} />
         </View>
         <View style={sharedStyles.cardBody}>
           <Text style={[sharedStyles.cardTitle, { color: colors.textPrimary }]} numberOfLines={1}>
@@ -43,7 +45,7 @@ const PendingApprovalCard = ({ item, colors, onApprove, onReject }: PendingAppro
       </View>
 
       <View style={styles.infoRow}>
-        <Icon type="Ionicons" name="calendar-outline" size={13} color={colors.textSecondary} />
+        <Icon type="Ionicons" name="calendar-outline" size={verticalScale(13)} color={colors.textSecondary} />
         <Text style={[sharedStyles.cardMetaText, { color: colors.textSecondary }]} numberOfLines={1}>
           {formatDateRange(item.fromDate, item.toDate)} &bull; {days === 1 ? '1 day' : `${days} days`}
         </Text>
@@ -61,12 +63,12 @@ const PendingApprovalCard = ({ item, colors, onApprove, onReject }: PendingAppro
           onPress={handleDownload}
           disabled={downloading}
         >
-          <Icon type="Ionicons" name="document-attach-outline" size={14} color={colors.purple1} />
+          <Icon type="Ionicons" name="document-attach-outline" size={verticalScale(14)} color={colors.purple1} />
           <Text style={[styles.attachmentText, { color: colors.purple1 }]}>Attachment</Text>
           {downloading ? (
-            <Fold size={14} color={colors.purple1} />
+            <Fold size={verticalScale(14)} color={colors.purple1} />
           ) : (
-            <Icon type="Ionicons" name="download-outline" size={14} color={colors.purple1} />
+            <Icon type="Ionicons" name="download-outline" size={verticalScale(14)} color={colors.purple1} />
           )}
         </TouchableOpacity>
       ) : null}

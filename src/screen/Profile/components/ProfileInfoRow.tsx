@@ -3,6 +3,7 @@ import { Text, View } from 'react-native';
 import Icon from '../../../components/Icons';
 import { profileStyles as styles } from '../Profile.styles';
 import { ProfileFieldRow } from '../Profile.logic';
+import { verticalScale } from '../../../utils/responsive';
 
 interface ProfileInfoRowProps {
   item: ProfileFieldRow;
@@ -13,13 +14,13 @@ interface ProfileInfoRowProps {
 const ProfileInfoRow = ({ item, colors, isLast }: ProfileInfoRowProps) => (
   <View style={[styles.row, { borderBottomColor: colors.borderColor }, isLast && { borderBottomWidth: 0 }]}>
     <View style={styles.rowLeft}>
-      <Icon type="Ionicons" name={item.icon} size={18} color={colors.purple1} />
-      <Text style={[styles.label, { color: colors.textPrimary }]} numberOfLines={1}>
+      <Icon type="Ionicons" name={item.icon} size={verticalScale(18)} color={colors.purple1} />
+      <Text style={[styles.label, { color: colors.textPrimary }]} >
         {item.label}
       </Text>
     </View>
 
-    <Text style={[styles.value, { color: colors.textSecondary }]} numberOfLines={1}>
+    <Text style={[styles.value, { color: colors.textSecondary }]} >
       {item.value}
     </Text>
 

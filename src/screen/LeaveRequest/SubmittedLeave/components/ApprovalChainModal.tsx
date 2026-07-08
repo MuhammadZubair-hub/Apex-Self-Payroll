@@ -5,7 +5,8 @@ import BottomSheet from '../../../../components/BottomSheet';
 import MyButton from '../../../../components/MyButton';
 import { sharedStyles } from '../../components/sharedStyles';
 import { formatDateTime, getStatusMeta } from '../../leaveRequest.constants';
-import { scale } from '../../../../utils/responsive';
+import { scale, verticalScale, moderateScale } from '../../../../utils/responsive';
+import { AppSizes } from '../../../../utils/AppSizes';
 
 interface ApprovalChainModalProps {
   visible: boolean;
@@ -61,10 +62,10 @@ const ApprovalChainModal = ({ visible, loading, chain, colors, onClose }: Approv
     >
       {loading ? (
         <View style={styles.spinner}>
-          <Fold size={40} color={colors.purple1} />
+          <Fold size={verticalScale(40)} color={colors.purple1} />
         </View>
       ) : chain.length === 0 ? (
-        <Text style={[sharedStyles.emptyListSubText, { color: colors.textSecondary, textAlign: 'center', marginVertical: 30 }]}>
+        <Text style={[sharedStyles.emptyListSubText, { color: colors.textSecondary, textAlign: 'center', marginVertical: verticalScale(30) }]}>
           No approval information available
         </Text>
       ) : (
@@ -84,7 +85,7 @@ export default React.memo(ApprovalChainModal);
 
 const styles = StyleSheet.create({
   spinner: {
-    marginVertical: 30,
+    marginVertical: verticalScale(30),
     alignItems: 'center',
   },
   list: {
@@ -97,23 +98,23 @@ const styles = StyleSheet.create({
     borderBottomWidth: StyleSheet.hairlineWidth,
   },
   avatar: {
-    width: 40,
-    height: 40,
-    borderRadius: 20,
+    width: AppSizes.AVATAR_40,
+    height: verticalScale(40),
+    borderRadius: AppSizes.RADIUS_20,
     justifyContent: 'center',
     alignItems: 'center',
   },
   avatarInitial: {
-    fontSize: 16,
+    fontSize: AppSizes.FONT_16,
     fontFamily: 'PlusJakartaSans-Bold',
   },
   name: {
-    fontSize: 14,
+    fontSize: AppSizes.FONT_14,
     fontFamily: 'PlusJakartaSans-SemiBold',
   },
   subText: {
-    fontSize: 11,
+    fontSize: moderateScale(11),
     fontFamily: 'PlusJakartaSans-Regular',
-    marginTop: 2,
+    marginTop: AppSizes.MV_2,
   },
 });

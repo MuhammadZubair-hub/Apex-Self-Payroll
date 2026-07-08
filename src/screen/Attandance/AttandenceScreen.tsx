@@ -10,6 +10,8 @@ import AttendanceRecordCard from './components/AttendanceRecordCard';
 import AttendanceListSkeleton from './components/AttendanceListSkeleton';
 import AttendanceBarChart from './components/AttendanceBarChart';
 import MonthYearPickerSheet from './components/MonthYearPickerSheet';
+import { verticalScale } from '../../utils/responsive';
+import { AppSizes } from '../../utils/AppSizes';
 
 const AttendanceScreen = () => {
   const {
@@ -38,7 +40,7 @@ const AttendanceScreen = () => {
         <Text style={[styles.monthNavText, { color: colors.textPrimary }]}>
           {MONTH_NAMES[month - 1]} {year}
         </Text>
-        <Ionicons name="calendar-outline" size={20} color={colors.purple1} />
+        <Ionicons name="calendar-outline" size={AppSizes.ICON_20} color={colors.purple1} />
       </TouchableOpacity>
 
       <View style={[styles.summaryRow, { backgroundColor: colors.secondPrimaryColor }]}>
@@ -73,7 +75,7 @@ const AttendanceScreen = () => {
           ListHeaderComponent={<AttendanceBarChart records={records} colors={colors} />}
           ListEmptyComponent={
             <View style={styles.emptyContainer}>
-              <Ionicons name="calendar-outline" size={48} color={colors.textSecondary} />
+              <Ionicons name="calendar-outline" size={verticalScale(48)} color={colors.textSecondary} />
               <Text style={[styles.emptyText, { color: colors.textSecondary }]}>No attendance records found</Text>
             </View>
           }

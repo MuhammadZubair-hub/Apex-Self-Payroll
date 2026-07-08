@@ -3,7 +3,8 @@ import { Modal, StyleSheet, Text, View } from 'react-native';
 import { Fold } from 'react-native-animated-spinkit';
 import { useThemeContext } from '../../theme/ThemeContex';
 import { getColors } from '../../theme/color/theme';
-import { scale } from '../../utils/responsive';
+import { scale, verticalScale, moderateScale } from '../../utils/responsive';
+import { AppSizes } from '../../utils/AppSizes';
 
 interface LoadingModalProps {
   visible: boolean;
@@ -18,7 +19,7 @@ const LoadingBaseModal = ({ visible = false, label = 'Loading...' }: LoadingModa
     <Modal visible={visible} transparent animationType="fade" statusBarTranslucent>
       <View style={styles.overlay}>
         <View style={[styles.card, { backgroundColor: colors.secondPrimaryColor }]}>
-          <Fold size={44} color={colors.primarayheaderColor} />
+          <Fold size={verticalScale(44)} color={colors.primarayheaderColor} />
           {/* <Text style={[styles.label, { color: colors.textSecondary }]}>{label}</Text> */}
         </View>
       </View>
@@ -39,7 +40,7 @@ const styles = StyleSheet.create({
     minWidth: scale(140),
     alignItems: 'center',
     justifyContent: 'center',
-    borderRadius: 20,
+    borderRadius: AppSizes.RADIUS_20,
     paddingVertical: scale(28),
     paddingHorizontal: scale(32),
     elevation: 8,
@@ -50,7 +51,7 @@ const styles = StyleSheet.create({
   },
   label: {
     marginTop: scale(14),
-    fontSize: 13,
+    fontSize: moderateScale(13),
     fontFamily: 'PlusJakartaSans-Medium',
   },
 });

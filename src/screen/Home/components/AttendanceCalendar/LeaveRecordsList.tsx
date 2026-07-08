@@ -2,6 +2,8 @@ import React, { useCallback } from 'react';
 import { FlatList, StyleProp, StyleSheet, Text, View, ViewStyle } from 'react-native';
 import Icon from '../../../../components/Icons';
 import { getLeaveIconMeta, getStatusMeta } from '../../../LeaveRequest/leaveRequest.constants';
+import { scale, verticalScale } from '../../../../utils/responsive';
+import { AppSizes } from '../../../../utils/AppSizes';
 import { LeaveCalendarRecord } from './attendanceCalendar.constants';
 
 interface LeaveRecordsListProps {
@@ -26,7 +28,7 @@ const LeaveRecordsList = ({ colors, records, style, emptyText = 'No one on leave
       return (
         <View style={[styles.row, { borderColor: colors.borderColor }]}>
           <View style={[styles.iconBox, { backgroundColor: iconMeta.bg }]}>
-            <Icon type="Ionicons" name={iconMeta.name} size={18} color={iconMeta.color} />
+            <Icon type="Ionicons" name={iconMeta.name} size={scale(18)} color={iconMeta.color} />
           </View>
           <View style={styles.body}>
             <View style={styles.titleRow}>
@@ -75,16 +77,16 @@ const styles = StyleSheet.create({
   row: {
     flexDirection: 'row',
     alignItems: 'flex-start',
-    paddingVertical: 12,
+    paddingVertical: AppSizes.PV_12,
     borderBottomWidth: StyleSheet.hairlineWidth,
   },
   iconBox: {
-    width: 36,
-    height: 36,
-    borderRadius: 10,
+    width: scale(36),
+    height: verticalScale(36),
+    borderRadius: AppSizes.RADIUS_10,
     justifyContent: 'center',
     alignItems: 'center',
-    marginRight: 10,
+    marginRight: AppSizes.MH_10,
   },
   body: {
     flex: 1,
@@ -95,28 +97,28 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   name: {
-    fontSize: 14,
+    fontSize: AppSizes.FONT_14,
     fontFamily: 'PlusJakartaSans-SemiBold',
     flex: 1,
-    marginRight: 8,
+    marginRight: AppSizes.PH_8,
   },
   statusPill: {
-    paddingHorizontal: 8,
-    paddingVertical: 3,
-    borderRadius: 20,
+    paddingHorizontal: AppSizes.PH_8,
+    paddingVertical: verticalScale(3),
+    borderRadius: AppSizes.RADIUS_20,
   },
   statusPillText: {
-    fontSize: 10,
+    fontSize: AppSizes.FONT_10,
     fontFamily: 'PlusJakartaSans-SemiBold',
   },
   meta: {
-    fontSize: 12,
+    fontSize: AppSizes.FONT_12,
     fontFamily: 'PlusJakartaSans-Regular',
-    marginTop: 2,
+    marginTop: AppSizes.MV_2,
   },
   emptyText: {
     textAlign: 'center',
-    marginVertical: 20,
+    marginVertical: AppSizes.MV_20,
     fontFamily: 'PlusJakartaSans-Regular',
   },
 });

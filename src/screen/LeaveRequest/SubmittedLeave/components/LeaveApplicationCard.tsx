@@ -4,6 +4,7 @@ import Icon from '../../../../components/Icons';
 import { sharedStyles } from '../../components/sharedStyles';
 import { formatDateRange, formatShortDate, getLeaveIconMeta, getStatusMeta } from '../../leaveRequest.constants';
 import { scale } from '../../../../utils/responsive';
+import { AppSizes } from '../../../../utils/AppSizes';
 
 interface LeaveApplicationCardProps {
   item: any;
@@ -27,7 +28,7 @@ const LeaveApplicationCard = ({ item, colors, onPress, onPressEye }: LeaveApplic
       activeOpacity={0.8}
     >
       <View style={[sharedStyles.cardIconBox, { backgroundColor: iconMeta.bg }]}>
-        <Icon type="Ionicons" name={iconMeta.name} size={20} color={iconMeta.color} />
+        <Icon type="Ionicons" name={iconMeta.name} size={AppSizes.ICON_20} color={iconMeta.color} />
       </View>
 
       <View style={sharedStyles.cardBody}>
@@ -45,7 +46,7 @@ const LeaveApplicationCard = ({ item, colors, onPress, onPressEye }: LeaveApplic
         </Text>
 
         <View style={sharedStyles.cardMetaRow}>
-          <Icon type="Ionicons" name="calendar-outline" size={13} color={colors.textSecondary} />
+          <Icon type="Ionicons" name="calendar-outline" size={scale(13)} color={colors.textSecondary} />
           <Text style={[sharedStyles.cardMetaText, { color: colors.textSecondary }]} numberOfLines={1}>
             {days === 1 ? '1 day' : `${days} days`} &bull; Applied on {formatShortDate(item.date)}
           </Text>
@@ -57,7 +58,7 @@ const LeaveApplicationCard = ({ item, colors, onPress, onPressEye }: LeaveApplic
         onPress={() => onPressEye(item)}
         hitSlop={{ top: 10, bottom: 10, left: 10, right: 10 }}
       >
-        <Icon type="Ionicons" name="eye-outline" size={20} color={colors.purple1} />
+        <Icon type="Ionicons" name="eye-outline" size={AppSizes.ICON_20} color={colors.purple1} />
       </TouchableOpacity>
     </TouchableOpacity>
   );

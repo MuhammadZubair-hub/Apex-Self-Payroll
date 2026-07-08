@@ -2,7 +2,7 @@ import { useNavigation } from '@react-navigation/native';
 import React from 'react';
 import { StyleSheet, Text, View } from 'react-native';
 import { AppSizes } from '../../utils/AppSizes';
-import { xdHeight } from '../../utils/responsive';
+import { scale, xdHeight } from '../../utils/responsive';
 import Icon from '../Icons';
 import { useThemeContext } from '../../theme/ThemeContex';
 import { getColors } from '../../theme/color/theme';
@@ -65,7 +65,7 @@ const PrimaryHeader = ({
         {showDate && (
           <Text
             numberOfLines={1}
-            style={[styles.headerText, { color: '#fff', fontSize: 14, textAlign: alignTextCenter ? 'center' : 'left' }]}
+            style={[styles.headerText, { color: '#fff', fontSize: AppSizes.FONT_14, textAlign: alignTextCenter ? 'center' : 'left' }]}
           >
             {new Date().toISOString().split('T', 1)}
           </Text>
@@ -90,7 +90,7 @@ const styles = StyleSheet.create({
     paddingHorizontal: AppSizes.PH_10,
   },
   iconZone: {
-    width: 40,
+    width: scale(40),
     alignItems: 'flex-start',
     justifyContent: 'center',
   },

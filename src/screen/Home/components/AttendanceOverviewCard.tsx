@@ -8,6 +8,8 @@ import {
 } from 'react-native';
 import Ionicons from '@react-native-vector-icons/ionicons';
 import { homeStyles as styles } from '../Home.styles';
+import { verticalScale } from '../../../utils/responsive';
+import { AppSizes } from '../../../utils/AppSizes';
 
 interface AttendanceOverviewCardProps {
   colors: any;
@@ -82,7 +84,7 @@ const AttendanceOverviewCard = ({ colors, summary, onPress }: AttendanceOverview
         <View style={styles.statColumn}>
           <View style={styles.statTopRow}>
             <View style={[styles.statIconCircle, { backgroundColor: colors.greenColor }]}>
-              <Ionicons name="checkmark" size={14} color="#fff" />
+              <Ionicons name="checkmark" size={verticalScale(14)} color="#fff" />
             </View>
             <Text style={[styles.statNumber, { color: colors.textPrimary }]}>
               {summary.present}
@@ -96,7 +98,7 @@ const AttendanceOverviewCard = ({ colors, summary, onPress }: AttendanceOverview
         <View style={styles.statColumn}>
           <View style={styles.statTopRow}>
             <View style={[styles.statIconCircle, { backgroundColor: colors.orangeColor }]}>
-              <Ionicons name="time" size={13} color="#fff" />
+              <Ionicons name="time" size={verticalScale(13)} color="#fff" />
             </View>
             <Text style={[styles.statNumber, { color: colors.textPrimary }]}>
               {summary.pending}
@@ -110,7 +112,7 @@ const AttendanceOverviewCard = ({ colors, summary, onPress }: AttendanceOverview
         <View style={styles.statColumn}>
           <View style={styles.statTopRow}>
             <View style={[styles.statIconCircle, { backgroundColor: colors.redColor }]}>
-              <Ionicons name="close" size={14} color="#fff" />
+              <Ionicons name="close" size={verticalScale(14)} color="#fff" />
             </View>
             <Text style={[styles.statNumber, { color: colors.textPrimary }]}>
               {summary.absent}
@@ -133,8 +135,8 @@ const AttendanceOverviewCard = ({ colors, summary, onPress }: AttendanceOverview
             }),
             backgroundColor: colors.greenColor,
             height: '100%',
-            borderTopLeftRadius: 4,
-            borderBottomLeftRadius: 4,
+            borderTopLeftRadius: AppSizes.RADIUS_4,
+            borderBottomLeftRadius: AppSizes.RADIUS_4,
           }}
         />
 
@@ -159,8 +161,8 @@ const AttendanceOverviewCard = ({ colors, summary, onPress }: AttendanceOverview
             }),
             backgroundColor: colors.redColor,
             height: '100%',
-            borderTopRightRadius: 4,
-            borderBottomRightRadius: 4,
+            borderTopRightRadius: AppSizes.RADIUS_4,
+            borderBottomRightRadius: AppSizes.RADIUS_4,
           }}
         />
       </View>

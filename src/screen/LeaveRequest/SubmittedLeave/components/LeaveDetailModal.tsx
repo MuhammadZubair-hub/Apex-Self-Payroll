@@ -6,7 +6,8 @@ import MyButton from '../../../../components/MyButton';
 import Icon from '../../../../components/Icons';
 import { sharedStyles } from '../../components/sharedStyles';
 import { formatDateRange, formatShortDate, getLeaveIconMeta, getStatusMeta } from '../../leaveRequest.constants';
-import { scale } from '../../../../utils/responsive';
+import { scale, verticalScale, moderateScale } from '../../../../utils/responsive';
+import { AppSizes } from '../../../../utils/AppSizes';
 import { downloadAttachment } from '../../../../utils/downloadAttachment';
 
 interface DetailRow {
@@ -24,7 +25,7 @@ const DetailSection = ({ title, rows, colors }: { title: string; rows: DetailRow
     {rows.map((row, index) => (
       <View key={index} style={styles.row}>
         <View style={styles.rowLeft}>
-          <Icon type="Ionicons" name={row.icon} size={16} color={row.iconColor || colors.purple1} />
+          <Icon type="Ionicons" name={row.icon} size={AppSizes.ICON_16} color={row.iconColor || colors.purple1} />
           <Text style={[styles.rowLabel, { color: colors.textSecondary }]}>{row.label}</Text>
         </View>
         <Text style={[styles.rowValue, { color: colors.textPrimary }]} numberOfLines={4}>
@@ -80,11 +81,11 @@ const LeaveDetailModal = ({
     >
       <View style={styles.topRow}>
         <View style={[sharedStyles.cardIconBox, { backgroundColor: iconMeta.bg }]}>
-          <Icon type="Ionicons" name={iconMeta.name} size={20} color={iconMeta.color} />
+          <Icon type="Ionicons" name={iconMeta.name} size={AppSizes.ICON_20} color={iconMeta.color} />
         </View>
         <View style={{ flex: 1, marginLeft: scale(12) }}>
           <Text style={[styles.leaveTitle, { color: colors.textPrimary }]}>{item.leaveName?.trim() || 'Leave'}</Text>
-          <View style={[sharedStyles.statusPill, { backgroundColor: statusMeta.bg, alignSelf: 'flex-start', marginTop: 4 }]}>
+          <View style={[sharedStyles.statusPill, { backgroundColor: statusMeta.bg, alignSelf: 'flex-start', marginTop: verticalScale(4) }]}>
             <Text style={[sharedStyles.statusPillText, { color: statusMeta.color }]}>{statusMeta.label}</Text>
           </View>
         </View>
@@ -102,12 +103,12 @@ const LeaveDetailModal = ({
           onPress={handleDownload}
           disabled={downloading}
         >
-          <Icon type="Ionicons" name="document-attach-outline" size={18} color={colors.purple1} />
+          <Icon type="Ionicons" name="document-attach-outline" size={verticalScale(18)} color={colors.purple1} />
           <Text style={[styles.attachmentText, { color: colors.textPrimary }]}>Attachment</Text>
           {downloading ? (
-            <Fold size={20} color={colors.purple1} />
+            <Fold size={AppSizes.ICON_20} color={colors.purple1} />
           ) : (
-            <Icon type="Ionicons" name="download-outline" size={20} color={colors.purple1} />
+            <Icon type="Ionicons" name="download-outline" size={AppSizes.ICON_20} color={colors.purple1} />
           )}
         </TouchableOpacity>
       ) : null}
@@ -121,15 +122,15 @@ const styles = StyleSheet.create({
   attachmentRow: {
     flexDirection: 'row',
     alignItems: 'center',
-    gap: 10,
+    gap: AppSizes.GAP_10,
     paddingVertical: scale(12),
     paddingHorizontal: scale(14),
     borderWidth: 1,
-    borderRadius: 10,
+    borderRadius: AppSizes.RADIUS_10,
   },
   attachmentText: {
     flex: 1,
-    fontSize: 14,
+    fontSize: AppSizes.FONT_14,
     fontFamily: 'PlusJakartaSans-Medium',
   },
   topRow: {
@@ -138,23 +139,23 @@ const styles = StyleSheet.create({
     marginBottom: scale(18),
   },
   leaveTitle: {
-    fontSize: 16,
+    fontSize: AppSizes.FONT_16,
     fontFamily: 'PlusJakartaSans-SemiBold',
   },
   appliedOnLabel: {
-    fontSize: 12,
+    fontSize: AppSizes.FONT_12,
     fontFamily: 'PlusJakartaSans-Regular',
   },
   appliedOnText: {
-    fontSize: 13,
+    fontSize: moderateScale(13),
     fontFamily: 'PlusJakartaSans-Medium',
-    marginTop: 2,
+    marginTop: AppSizes.MV_2,
   },
   section: {
     marginBottom: scale(18),
   },
   sectionTitle: {
-    fontSize: 14,
+    fontSize: AppSizes.FONT_14,
     fontFamily: 'PlusJakartaSans-SemiBold',
     marginBottom: scale(10),
     paddingBottom: scale(8),
@@ -169,15 +170,15 @@ const styles = StyleSheet.create({
   rowLeft: {
     flexDirection: 'row',
     alignItems: 'center',
-    gap: 8,
+    gap: AppSizes.GAP_8,
     flex: 1,
   },
   rowLabel: {
-    fontSize: 13,
+    fontSize: moderateScale(13),
     fontFamily: 'PlusJakartaSans-Regular',
   },
   rowValue: {
-    fontSize: 13,
+    fontSize: moderateScale(13),
     fontFamily: 'PlusJakartaSans-Medium',
     flex: 1,
     textAlign: 'right',

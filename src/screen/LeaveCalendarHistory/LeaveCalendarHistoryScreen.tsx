@@ -12,6 +12,8 @@ import DepartmentPickerSheet from '../Home/components/AttendanceCalendar/Departm
 import LeaveRecordsList from '../Home/components/AttendanceCalendar/LeaveRecordsList';
 import { useAttendanceCalendar } from '../Home/components/AttendanceCalendar/useAttendanceCalendar';
 import { leaveCalendarHistoryStyles as styles } from './LeaveCalendarHistory.styles';
+import { AppSizes } from '../../utils/AppSizes';
+import { verticalScale } from '../../utils/responsive';
 
 const LeaveCalendarHistoryScreen = () => {
   const {
@@ -43,7 +45,7 @@ const LeaveCalendarHistoryScreen = () => {
       <SafeAreaView style={[styles.container, { backgroundColor: colors.primaryColor }]}>
         <PrimaryHeader headerText="Leave Calendar" alignTextCenter />
         <View style={styles.accessDeniedBox}>
-          <Icon type="Ionicons" name="lock-closed-outline" size={40} color={colors.textSecondary} />
+          <Icon type="Ionicons" name="lock-closed-outline" size={AppSizes.ICON_40} color={colors.textSecondary} />
           <Text style={[styles.accessDeniedText, { color: colors.textSecondary }]}>
             This calendar is only available to managers.
           </Text>
@@ -65,7 +67,7 @@ const LeaveCalendarHistoryScreen = () => {
           <Text style={[styles.monthNavText, { color: colors.textPrimary }]}>
             {MONTH_NAMES[month - 1]} {year}
           </Text>
-          <Icon type="Ionicons" name="calendar-outline" size={20} color={colors.purple1} />
+          <Icon type="Ionicons" name="calendar-outline" size={AppSizes.ICON_20} color={colors.purple1} />
         </TouchableOpacity>
 
         <View style={styles.filterRow}>
@@ -76,7 +78,7 @@ const LeaveCalendarHistoryScreen = () => {
             <Text style={[styles.departmentText, { color: colors.textPrimary }]} numberOfLines={1}>
               {selectedDepartmentName}
             </Text>
-            <Icon type="Ionicons" name="chevron-down" size={16} color={colors.textSecondary} />
+            <Icon type="Ionicons" name="chevron-down" size={AppSizes.ICON_16} color={colors.textSecondary} />
           </TouchableOpacity>
           <MyButton
             text="Get"
@@ -88,7 +90,7 @@ const LeaveCalendarHistoryScreen = () => {
         <View style={[styles.calendarCard, { backgroundColor: colors.secondPrimaryColor }]}>
           {loading ? (
             <View style={styles.loadingBox}>
-              <Fold size={32} color={colors.purple1} />
+              <Fold size={verticalScale(32)} color={colors.purple1} />
             </View>
           ) : (
             <AttendanceCalendarGrid

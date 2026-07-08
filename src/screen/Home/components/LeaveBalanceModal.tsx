@@ -5,6 +5,7 @@ import BottomSheet from '../../../components/BottomSheet';
 import MyButton from '../../../components/MyButton';
 import { homeStyles as styles } from '../Home.styles';
 import { scale } from '../../../utils/responsive';
+import { AppSizes } from '../../../utils/AppSizes';
 
 interface LeaveBalanceModalProps {
   visible: boolean;
@@ -29,7 +30,7 @@ const LeaveBalanceModal = ({ visible, colors, leaveBalance, totalLeaveBalance, o
         <View key={index} style={[styles.leaveTypeRow, { borderBottomColor: colors.borderColor }]}>
           <View style={styles.leaveTypeLeft}>
             <View style={[styles.leaveTypeIconBox, { backgroundColor: colors.lightPurple }]}>
-              <Ionicons name="briefcase-outline" size={16} color={colors.purple1} />
+              <Ionicons name="briefcase-outline" size={AppSizes.ICON_16} color={colors.purple1} />
             </View>
             <Text style={[styles.leaveTypeName, { color: colors.textPrimary }]}>{item?.leaveName?.trim() || 'N/A'}</Text>
           </View>

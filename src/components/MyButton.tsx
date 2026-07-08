@@ -34,7 +34,7 @@ const MyButton = ({ text, onPress, disabled, loading, style, textColor = "#fff" 
       activeOpacity={0.7}
       disabled={disabled || loading}
     >
-      {loading ? <Fold size={20} color={textColor} /> : <Text style={[styles.text, { color: textColor }]}>{text}</Text>}
+      {loading ? <Fold size={AppSizes.ICON_20} color={textColor} /> : <Text style={[styles.text, { color: textColor }]}>{text}</Text>}
     </TouchableOpacity>
   );
 };
@@ -43,7 +43,7 @@ const styles = StyleSheet.create({
   button: {
     width: "100%",
     paddingVertical: scale(8),
-    borderRadius: 10,
+    borderRadius: AppSizes.RADIUS_10,
     justifyContent: "center",
     alignItems: "center",
     flexDirection: "row",

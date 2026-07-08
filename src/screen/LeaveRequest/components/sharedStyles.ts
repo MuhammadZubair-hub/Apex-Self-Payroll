@@ -1,5 +1,6 @@
 import { StyleSheet } from 'react-native';
-import { scale } from '../../../utils/responsive';
+import { scale, verticalScale, moderateScale } from '../../../utils/responsive';
+import { AppSizes } from '../../../utils/AppSizes';
 
 // Styles shared by both the Submitted Leave tab and the Pending Approval tab
 // (list cards, empty states, remarks input) so they don't get redefined per screen.
@@ -12,7 +13,7 @@ export const sharedStyles = StyleSheet.create({
   card: {
     flexDirection: 'row',
     alignItems: 'center',
-    borderRadius: 14,
+    borderRadius: scale(14),
     padding: scale(14),
     marginBottom: scale(12),
     elevation: 2,
@@ -22,9 +23,9 @@ export const sharedStyles = StyleSheet.create({
     shadowRadius: 6,
   },
   cardIconBox: {
-    width: 42,
-    height: 42,
-    borderRadius: 12,
+    width: scale(42),
+    height: verticalScale(42),
+    borderRadius: AppSizes.RADIUS_12,
     justifyContent: 'center',
     alignItems: 'center',
   },
@@ -39,70 +40,70 @@ export const sharedStyles = StyleSheet.create({
     alignItems: 'center',
   },
   cardTitle: {
-    fontSize: 15,
+    fontSize: moderateScale(15),
     fontFamily: 'PlusJakartaSans-Medium',
     flex: 1,
-    marginRight: 8,
+    marginRight: scale(8),
   },
   cardDateRange: {
-    fontSize: 13,
+    fontSize: moderateScale(13),
     fontFamily: 'PlusJakartaSans-Medium',
-    marginTop: 4,
+    marginTop: verticalScale(4),
   },
   cardMetaRow: {
     flexDirection: 'row',
     alignItems: 'center',
-    marginTop: 4,
-    gap: 4,
+    marginTop: verticalScale(4),
+    gap: AppSizes.GAP_4,
   },
   cardMetaText: {
-    fontSize: 12,
+    fontSize: AppSizes.FONT_12,
     fontFamily: 'PlusJakartaSans-Regular',
     flexShrink: 1,
   },
   statusPill: {
-    paddingHorizontal: 8,
-    paddingVertical: 3,
-    borderRadius: 20,
+    paddingHorizontal: AppSizes.PH_8,
+    paddingVertical: verticalScale(3),
+    borderRadius: AppSizes.RADIUS_20,
   },
   statusPillText: {
-    fontSize: 10,
+    fontSize: AppSizes.FONT_10,
     fontFamily: 'PlusJakartaSans-SemiBold',
   },
 
   emptyListContainer: {
     alignItems: 'center',
     justifyContent: 'center',
-    paddingVertical: 60,
+    paddingVertical: verticalScale(60),
   },
   emptyListText: {
-    fontSize: 15,
+    fontSize: moderateScale(15),
     fontFamily: 'PlusJakartaSans-SemiBold',
-    marginTop: 12,
+    marginTop: verticalScale(12),
   },
   emptyListSubText: {
-    fontSize: 13,
+    fontSize: moderateScale(13),
     fontFamily: 'PlusJakartaSans-Regular',
-    marginTop: 4,
+    marginTop: verticalScale(4),
   },
 
   remarksBox: {
     borderWidth: 1,
-    borderRadius: 10,
+    borderRadius: AppSizes.RADIUS_10,
     padding: scale(14),
     marginBottom: scale(16),
   },
   remarksInput: {
-    fontSize: 14,
+    fontSize: AppSizes.FONT_14,
     fontFamily: 'PlusJakartaSans-Regular',
-    minHeight: 80,
+    minHeight: AppSizes.H_80,
     textAlignVertical: 'top',
-    padding: 0,
+    padding: scale(0),
   },
   remarksCounter: {
-    fontSize: 11,
+    fontSize: moderateScale(11),
     fontFamily: 'PlusJakartaSans-Regular',
     textAlign: 'right',
-    marginTop: 6,
+    marginTop: verticalScale(6),
   },
 });

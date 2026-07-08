@@ -1,5 +1,6 @@
 import { StyleSheet } from 'react-native';
-import { scale } from '../../utils/responsive';
+import { scale, verticalScale, moderateScale } from '../../utils/responsive';
+import { AppSizes } from '../../utils/AppSizes';
 
 export const attendanceStyles = StyleSheet.create({
   container: {
@@ -13,7 +14,7 @@ export const attendanceStyles = StyleSheet.create({
     paddingVertical: scale(14),
   },
   monthNavText: {
-    fontSize: 16,
+    fontSize: AppSizes.FONT_16,
     fontFamily: 'PlusJakartaSans-Bold',
   },
   summaryRow: {
@@ -22,7 +23,7 @@ export const attendanceStyles = StyleSheet.create({
     marginHorizontal: scale(16),
     marginBottom: scale(12),
     padding: scale(14),
-    borderRadius: 14,
+    borderRadius: scale(14),
     elevation: 2,
     shadowColor: '#000',
     shadowOffset: { width: 0, height: 2 },
@@ -34,13 +35,13 @@ export const attendanceStyles = StyleSheet.create({
     flex: 1,
   },
   summaryValue: {
-    fontSize: 18,
+    fontSize: AppSizes.FONT_18,
     fontFamily: 'PlusJakartaSans-Bold',
   },
   summaryLabel: {
-    fontSize: 11,
+    fontSize: moderateScale(11),
     fontFamily: 'PlusJakartaSans-Regular',
-    marginTop: 2,
+    marginTop: AppSizes.MV_2,
   },
   listContent: {
     paddingHorizontal: scale(16),
@@ -49,7 +50,7 @@ export const attendanceStyles = StyleSheet.create({
   recordCard: {
     flexDirection: 'row',
     alignItems: 'center',
-    borderRadius: 14,
+    borderRadius: scale(14),
     padding: scale(14),
     marginBottom: scale(10),
     elevation: 1,
@@ -64,13 +65,13 @@ export const attendanceStyles = StyleSheet.create({
     justifyContent: 'center',
   },
   recordDateText: {
-    fontSize: 14,
+    fontSize: AppSizes.FONT_14,
     fontFamily: 'PlusJakartaSans-SemiBold',
   },
   recordDayText: {
-    fontSize: 11,
+    fontSize: moderateScale(11),
     fontFamily: 'PlusJakartaSans-Regular',
-    marginTop: 2,
+    marginTop: AppSizes.MV_2,
   },
   recordBody: {
     flex: 1,
@@ -81,33 +82,33 @@ export const attendanceStyles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
     alignSelf: 'flex-start',
-    gap: 4,
-    paddingHorizontal: 10,
-    paddingVertical: 4,
-    borderRadius: 20,
+    gap: AppSizes.GAP_4,
+    paddingHorizontal: AppSizes.PH_10,
+    paddingVertical: AppSizes.PV_4,
+    borderRadius: AppSizes.RADIUS_20,
   },
   statusPillText: {
-    fontSize: 11,
+    fontSize: moderateScale(11),
     fontFamily: 'PlusJakartaSans-SemiBold',
   },
   recordDetailText: {
-    fontSize: 13,
+    fontSize: moderateScale(13),
     fontFamily: 'PlusJakartaSans-Regular',
   },
   recordRemarks: {
-    fontSize: 12,
+    fontSize: AppSizes.FONT_12,
     fontFamily: 'PlusJakartaSans-Regular',
-    marginTop: 4,
+    marginTop: verticalScale(4),
     fontStyle: 'italic',
   },
   emptyContainer: {
     alignItems: 'center',
     justifyContent: 'center',
-    paddingVertical: 60,
+    paddingVertical: verticalScale(60),
   },
   emptyText: {
-    fontSize: 14,
+    fontSize: AppSizes.FONT_14,
     fontFamily: 'PlusJakartaSans-Regular',
-    marginTop: 10,
+    marginTop: AppSizes.MV_10,
   },
 });

@@ -1,5 +1,6 @@
 import { StyleSheet } from 'react-native';
-import { scale } from '../../../utils/responsive';
+import { scale, moderateScale } from '../../../utils/responsive';
+import { AppSizes } from '../../../utils/AppSizes';
 
 export const pendingApprovalStyles = StyleSheet.create({
   card: {
@@ -13,11 +14,11 @@ export const pendingApprovalStyles = StyleSheet.create({
   infoRow: {
     flexDirection: 'row',
     alignItems: 'center',
-    gap: 4,
+    gap: AppSizes.GAP_4,
     marginTop: scale(10),
   },
   remarks: {
-    fontSize: 12,
+    fontSize: AppSizes.FONT_12,
     fontFamily: 'PlusJakartaSans-Regular',
     fontStyle: 'italic',
     marginTop: scale(8),
@@ -25,16 +26,16 @@ export const pendingApprovalStyles = StyleSheet.create({
   attachmentRow: {
     flexDirection: 'row',
     alignItems: 'center',
-    gap: 8,
+    gap: AppSizes.GAP_8,
     marginTop: scale(10),
     paddingVertical: scale(8),
     paddingHorizontal: scale(10),
     borderWidth: 1,
-    borderRadius: 8,
+    borderRadius: AppSizes.RADIUS_8,
     alignSelf: 'flex-start',
   },
   attachmentText: {
-    fontSize: 12,
+    fontSize: AppSizes.FONT_12,
     fontFamily: 'PlusJakartaSans-Medium',
   },
   actionsRow: {
@@ -45,11 +46,11 @@ export const pendingApprovalStyles = StyleSheet.create({
   actionButton: {
     flex: 1,
     paddingVertical: scale(10),
-    borderRadius: 10,
+    borderRadius: AppSizes.RADIUS_10,
     alignItems: 'center',
   },
   actionText: {
-    fontSize: 13,
+    fontSize: moderateScale(13),
     fontFamily: 'PlusJakartaSans-SemiBold',
   },
 });

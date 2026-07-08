@@ -8,6 +8,7 @@ import Icon from '../../components/Icons';
 import { aboutStyles as styles } from './About.styles';
 import { APP_NAME, APP_VERSION, FEATURES } from './about.constants';
 import { scale } from '../../utils/responsive';
+import { AppSizes } from '../../utils/AppSizes';
 
 const AboutScreen = () => {
   const { theme } = useThemeContext();
@@ -49,7 +50,7 @@ const AboutScreen = () => {
         {FEATURES.map((feature) => (
           <View key={feature.title} style={[styles.featureCard, { backgroundColor: colors.secondPrimaryColor }]}>
             <View style={[styles.featureIconBox, { backgroundColor: colors.lightPurple }]}>
-              <Icon type="Ionicons" name={feature.icon} size={20} color={colors.purple1} />
+              <Icon type="Ionicons" name={feature.icon} size={AppSizes.ICON_20} color={colors.purple1} />
             </View>
             <View style={{ flex: 1, marginLeft: scale(12) }}>
               <Text style={[styles.featureTitle, { color: colors.textPrimary }]}>{feature.title}</Text>

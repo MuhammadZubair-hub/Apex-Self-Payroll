@@ -2,35 +2,42 @@ import React from 'react';
 import { Text, TouchableOpacity, View } from 'react-native';
 import Ionicons from '@react-native-vector-icons/ionicons';
 import { homeStyles as styles } from '../Home.styles';
+import { AppSizes } from '../../../utils/AppSizes';
+import { verticalScale } from '../../../utils/responsive';
 
 interface InfoCardsRowProps {
   colors: any;
   totalLeaveBalance: number;
   upcomingHolidays: any[];
   onPressLeaveBalance: () => void;
+  onPressHolidays: () => void;
 }
 
-const InfoCardsRow = ({ colors, totalLeaveBalance, upcomingHolidays, onPressLeaveBalance }: InfoCardsRowProps) => (
+const InfoCardsRow = ({ colors, totalLeaveBalance, upcomingHolidays, onPressLeaveBalance, onPressHolidays }: InfoCardsRowProps) => (
   <View style={styles.infoCardsRow}>
     <TouchableOpacity
-      style={[styles.card, styles.infoCard, { backgroundColor: colors.secondPrimaryColor }]}
+      style={[styles.card, styles.infoCard, { backgroundColor: colors.secondPrimaryColor,borderLeftColor:colors.purple1 }]}
       onPress={onPressLeaveBalance}
       activeOpacity={0.85}
     >
       <View style={[styles.infoIconBox, { backgroundColor: colors.lightPurple }]}>
-        <Ionicons name="airplane-outline" size={30} color={colors.purple1} />
+        <Ionicons name="airplane-outline" size={AppSizes.ICON_30} color={colors.purple1} />
       </View>
       <Text style={[styles.infoCardTitle, { color: colors.textPrimary }]}>Leave Balance</Text>
 
       <Text style={[styles.leaveNumber, { color: colors.textPrimary }]}>{totalLeaveBalance}</Text>
       <Text style={[styles.leaveLabel, { color: colors.textSecondary }]}>Days Available</Text>
 
-      <Ionicons name="chevron-forward" size={18} color={colors.textSecondary} style={styles.infoCardChevron} />
+      <Ionicons name="chevron-forward" size={verticalScale(18)} color={colors.textSecondary} style={styles.infoCardChevron} />
     </TouchableOpacity>
 
-    <View style={[styles.card, styles.infoCard, { backgroundColor: colors.secondPrimaryColor }]}>
+    <TouchableOpacity
+      style={[styles.card, styles.infoCard, { backgroundColor: colors.secondPrimaryColor ,borderLeftColor:colors.purple1}]}
+      onPress={onPressHolidays}
+      activeOpacity={0.85}
+    >
       <View style={[styles.infoIconBox, { backgroundColor: colors.lightPurple }]}>
-        <Ionicons name="calendar-outline" size={30} color={colors.purple1} />
+        <Ionicons name="calendar-outline" size={AppSizes.ICON_30} color={colors.purple1} />
       </View>
       <Text style={[styles.infoCardTitle, { color: colors.textPrimary }]}>Upcoming Holidays</Text>
 
@@ -50,8 +57,8 @@ const InfoCardsRow = ({ colors, totalLeaveBalance, upcomingHolidays, onPressLeav
         </>
       )}
 
-      <Ionicons name="chevron-forward" size={18} color={colors.textSecondary} style={styles.infoCardChevron} />
-    </View>
+      <Ionicons name="chevron-forward" size={verticalScale(18)} color={colors.textSecondary} style={styles.infoCardChevron} />
+    </TouchableOpacity>
   </View>
 );
 

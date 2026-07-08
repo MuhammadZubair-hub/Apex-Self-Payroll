@@ -1,5 +1,7 @@
 import React, { useMemo } from 'react';
 import { StyleSheet, Text, TouchableOpacity, View } from 'react-native';
+import { scale, verticalScale, moderateScale } from '../../../../utils/responsive';
+import { AppSizes } from '../../../../utils/AppSizes';
 import { buildMonthGrid, dateKey, isSameDay, LeaveCalendarRecord, WEEKDAYS } from './attendanceCalendar.constants';
 
 interface AttendanceCalendarGridProps {
@@ -70,12 +72,12 @@ export default React.memo(AttendanceCalendarGrid);
 const styles = StyleSheet.create({
   weekdayRow: {
     flexDirection: 'row',
-    marginBottom: 6,
+    marginBottom: verticalScale(6),
   },
   weekdayText: {
     flex: 1,
     textAlign: 'center',
-    fontSize: 11,
+    fontSize: moderateScale(11),
     fontFamily: 'PlusJakartaSans-Medium',
   },
   grid: {
@@ -89,14 +91,14 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   dayCircle: {
-    width: 32,
-    height: 32,
-    borderRadius: 16,
+    width: AppSizes.AVATAR_32,
+    height: verticalScale(32),
+    borderRadius: scale(16),
     justifyContent: 'center',
     alignItems: 'center',
   },
   dayText: {
-    fontSize: 13,
+    fontSize: moderateScale(13),
     fontFamily: 'PlusJakartaSans-Regular',
   },
 });

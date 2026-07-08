@@ -23,6 +23,7 @@ export const useHome = () => {
   const [todayAttendance, setTodayAttendance] = useState<any>(null);
   const [monthlyAttendance, setMonthlyAttendance] = useState<any[]>([]);
   const [leaveModalVisible, setLeaveModalVisible] = useState(false);
+  const [holidayModalVisible, setHolidayModalVisible] = useState(false);
 
   const totalLeaveBalance = useMemo(
     () => leaveBalance.reduce((sum, item) => sum + (Number(item?.leaveBalance) || 0), 0),
@@ -114,6 +115,8 @@ export const useHome = () => {
 
   const openLeaveModal = useCallback(() => setLeaveModalVisible(true), []);
   const closeLeaveModal = useCallback(() => setLeaveModalVisible(false), []);
+  const openHolidayModal = useCallback(() => setHolidayModalVisible(true), []);
+  const closeHolidayModal = useCallback(() => setHolidayModalVisible(false), []);
   const goToAttendance = useCallback(() => navigation.navigate('attendance'), [navigation]);
   const goToRequestLetter = useCallback(() => navigation.navigate('requestLetter'), [navigation]);
   const goToPendingApprovals = useCallback(
@@ -134,9 +137,12 @@ export const useHome = () => {
     todayStatusMeta,
     todayBottomText,
     leaveModalVisible,
+    holidayModalVisible,
     pendingrequ,
     openLeaveModal,
     closeLeaveModal,
+    openHolidayModal,
+    closeHolidayModal,
     goToAttendance,
     goToRequestLetter,
     goToPendingApprovals,
