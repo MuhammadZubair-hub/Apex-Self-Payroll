@@ -35,6 +35,8 @@ export const AppSizes = {
   MH_20: scale(20),
   MH_24: scale(24),
   MH_30: scale(30),
+  MH_40: scale(40),
+  MH_50: scale(50),
 
   // Margin Vertical
   MV_2: verticalScale(2),

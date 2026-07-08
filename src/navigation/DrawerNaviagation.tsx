@@ -5,7 +5,6 @@ import { GestureHandlerRootView } from 'react-native-gesture-handler';
 import { createDrawerNavigator } from '@react-navigation/drawer';
 import BottomNaviagtion from './BottomNaviagtion';
 import AttandenceScreen from '../screen/Attandance/AttandenceScreen';
-import LeaveRequestScreen from '../screen/LeaveRequest/LeaveRequestScreen';
 import CustomDrawerContent from '../components/CustomDrawerContent';
 import Profile from '../screen/Profile/ProfileScreen';
 import SettingsStackNavigator from './SettingsStackNavigator';
@@ -34,7 +33,7 @@ const DrawerNaviagation = () => {
                 }}
             >
                 <Drawer.Screen
-                    name="Home"
+                    name="HomeTab"
                     options={{
                         title: 'Dashboard',
                     }}
@@ -53,13 +52,6 @@ const DrawerNaviagation = () => {
                         title: 'My Profile',
                     }}
                     component={Profile}
-                />
-                <Drawer.Screen
-                    name="Leaveapplication"
-                    options={{
-                        title: 'Leave Request',
-                    }}
-                    component={LeaveRequestScreen}
                 />
                 <Drawer.Screen
                     name="requestLetter"

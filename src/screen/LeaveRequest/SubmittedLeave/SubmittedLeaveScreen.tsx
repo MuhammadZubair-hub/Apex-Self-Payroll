@@ -1,5 +1,6 @@
 import React, { useCallback } from 'react';
 import { FlatList, RefreshControl, Text, TextInput, TouchableOpacity, View } from 'react-native';
+import { useBottomTabBarHeight } from '@react-navigation/bottom-tabs';
 import Icon from '../../../components/Icons';
 import { sharedStyles } from '../components/sharedStyles';
 import { submittedLeaveStyles as styles } from './SubmittedLeave.styles';
@@ -62,6 +63,7 @@ const SubmittedLeaveScreen = ({ colors, employeeId, state }: SubmittedLeaveScree
     [colors, setSelectedApplication, openApprovalChain]
   );
   const keyExtractor = useCallback((item: any, index: number) => String(item.id ?? index), []);
+  const tabBarHeight = useBottomTabBarHeight();
 
   return (
     <>
@@ -96,7 +98,7 @@ const SubmittedLeaveScreen = ({ colors, employeeId, state }: SubmittedLeaveScree
           data={filteredApplications}
           keyExtractor={keyExtractor}
           renderItem={renderItem}
-          contentContainerStyle={sharedStyles.listContent}
+          contentContainerStyle={[sharedStyles.listContent, { paddingBottom: sharedStyles.listContent.paddingBottom as number + tabBarHeight }]}
           showsVerticalScrollIndicator={false}
           refreshControl={<RefreshControl refreshing={refreshing} onRefresh={onRefresh} colors={[colors.purple1]} />}
           ListEmptyComponent={
@@ -109,7 +111,11 @@ const SubmittedLeaveScreen = ({ colors, employeeId, state }: SubmittedLeaveScree
         />
       )}
 
-      <TouchableOpacity style={[styles.fab, { backgroundColor: colors.purple1 }]} onPress={openFormModal} activeOpacity={0.85}>
+      <TouchableOpacity
+        style={[styles.fab, { backgroundColor: colors.purple1, bottom: (styles.fab.bottom as number) + tabBarHeight }]}
+        onPress={openFormModal}
+        activeOpacity={0.85}
+      >
         <Icon type="Ionicons" name="add" size={verticalScale(28)} color="#fff" />
       </TouchableOpacity>
 

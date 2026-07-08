@@ -9,7 +9,7 @@ export const LeaveService = {
     apicall({ endpoint: `${baseUrl}${endPoints.GetLeaveApplicationByIDESS}?EmployeeId=${employeeId}`, method: 'GET' }),
 
   submitLeaveApplication: (body: Record<string, any>) =>
-    apicall({ endpoint: `${baseUrl}${endPoints.PostLeaveApplicationWithKPIs}`, method: 'POST', data: body }),
+    apicall({ endpoint: `${baseUrl}${endPoints.PostLeaveApplicationWithKPIs}`, method: 'POST', data: body, silent: true }),
 
   getApprovalChain: (applicationId: number | string) =>
     apicall({
@@ -24,11 +24,12 @@ export const LeaveService = {
       method: 'POST',
       data: formData,
       headers: { 'Content-Type': 'multipart/form-data' },
+      silent: true,
     }),
 
   getPendingApprovals: (userId: number | string) =>
     apicall({ endpoint: `${baseUrl}${endPoints.PendingLeaveApplicationsListESS}?UserId=${userId}`, method: 'GET' }),
 
   approveRejectDocument: (body: Record<string, any>) =>
-    apicall({ endpoint: `${baseUrl}${endPoints.ApproveRejectDocumentESS}`, method: 'POST', data: body }),
+    apicall({ endpoint: `${baseUrl}${endPoints.ApproveRejectDocumentESS}`, method: 'POST', data: body, silent: true }),
 };

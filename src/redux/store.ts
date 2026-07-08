@@ -5,17 +5,19 @@ import { combineReducers } from '@reduxjs/toolkit';
 
 import authSlice from './slices/authSlice';
 import themeSlice from './slices/themeSlice';
+import attendanceSlice from './slices/attendanceSlice';
 // import dashboardSlice from './slices/dashboardSlice';
 
 const persistConfig = {
   key: 'root',
   storage: AsyncStorage,
-  whitelist: ['auth', 'theme'], // Only persist auth and theme
+  whitelist: ['auth', 'theme'], // Only persist auth and theme - attendance is an in-memory fetch cache
 };
 
 const rootReducer = combineReducers({
   auth: authSlice,
   theme: themeSlice,
+  attendance: attendanceSlice,
   // dashboard: dashboardSlice,
 });
 

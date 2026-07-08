@@ -49,20 +49,22 @@ const SettingsScreen = () => {
       <Text style={[styles.headerTitle, { color: colors.textPrimary }]}>Settings</Text>
 
       <ScrollView showsVerticalScrollIndicator={false} contentContainerStyle={styles.scrollContent}>
-        <View style={[styles.profileCard]}>
+        <View style={[styles.profileCard, { backgroundColor: colors.secondPrimaryColor }]}>
           {profileImage ? (
-            <Image source={{ uri: `https://syi.superyachtinteriors.ae:2001${profileImage}` }} style={styles.avatar} />
-          ) : (
-            <View style={[styles.avatar, styles.avatarFallback, { backgroundColor: colors.primaryColor, borderColor: colors.purple1 }]}>
-              <Text style={[styles.avatarInitial, { color: colors.purple1 }]}>{fullName.charAt(0).toUpperCase()}</Text>
-            </View>
-          )}
-          <Text style={[styles.name, { color: colors.textPrimary }]} numberOfLines={1}>
-            {fullName}
-          </Text>
-          <Text style={[styles.designation, { color: colors.purple1 }]} numberOfLines={1}>
-            {designation}
-          </Text>
+              <Image source={{ uri: `https://syi.superyachtinteriors.ae:2001${profileImage}` }} style={styles.avatar} />
+            ) : (
+              <View style={[styles.avatar, styles.avatarFallback, { backgroundColor: colors.primaryColor, borderColor: colors.purple1 }]}>
+                <Text style={[styles.avatarInitial, { color: colors.purple1 }]}>{fullName.charAt(0).toUpperCase()}</Text>
+              </View>
+            )}
+           
+              <Text style={[styles.name, { color: colors.textPrimary }]} numberOfLines={1}>
+                {fullName}
+              </Text>
+              <Text style={[styles.designation, { color: colors.purple1 }]} numberOfLines={1}>
+                {designation}
+              </Text>
+           
         </View>
 
         <Text style={[styles.sectionTitle, { color: colors.textPrimary }]}>Preferences</Text>

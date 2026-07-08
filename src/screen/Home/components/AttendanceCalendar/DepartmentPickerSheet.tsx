@@ -29,7 +29,9 @@ const DepartmentPickerSheet = ({ visible, colors, departments, selectedId, onSel
             styles.optionRow,
             { borderBottomColor: colors.borderColor },
             isSelected && { backgroundColor: colors.lightPurple, borderRadius: AppSizes.RADIUS_10, 
-              paddingHorizontal: scale(5)
+              paddingHorizontal: scale(5),
+               borderBottomWidth:0,
+               marginTop:scale(10)
              },
           ]}
           onPress={() => {

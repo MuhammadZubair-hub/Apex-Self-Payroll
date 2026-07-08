@@ -1,6 +1,7 @@
 import React from 'react';
 import { RefreshControl, ScrollView, StatusBar, View } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
+import { useBottomTabBarHeight } from '@react-navigation/bottom-tabs';
 import PrimaryHeader from '../../components/header/PrimaryHeader';
 import LoadingBaseModal from '../../components/Loader/LoadingBaseModal';
 import { homeStyles as styles } from './Home.styles';
@@ -15,6 +16,8 @@ import RequestLetterCard from './components/RequestLetterCard';
 import PendingApprovalCard from './components/PendingApprovalCard';
 import AttendanceCalendarCard from './components/AttendanceCalendar/AttendanceCalendarCard';
 import { AppSizes } from '../../utils/AppSizes';
+import AttendanceBarChart from '../Attandance/components/AttendanceBarChart';
+import { useAttendance } from '../Attandance/Attandance.logic';
 
 const HomeScreen = () => {
   const {
@@ -41,9 +44,13 @@ const HomeScreen = () => {
     goToPendingApprovals,
   } = useHome();
 
+  const tabBarHeight = useBottomTabBarHeight();
+
+  const { records } = useAttendance();
+
   return (
     <SafeAreaView style={[styles.container, { backgroundColor: colors.primaryColor }]}>
-      <StatusBar backgroundColor={colors.primarayheaderColor} />
+      <StatusBar backgroundColor={colors.primarayheaderColor} barStyle={'light-content'} />
       <PrimaryHeader
         headerText="Dashboard"
         showDate
@@ -52,7 +59,7 @@ const HomeScreen = () => {
       <ScrollView
         showsVerticalScrollIndicator={false}
         refreshControl={<RefreshControl refreshing={refreshing} onRefresh={onRefresh} tintColor={colors.purple1} />}
-        contentContainerStyle={styles.scrollContent}
+        contentContainerStyle={[styles.scrollContent, { paddingBottom: styles.scrollContent.paddingVertical as number + tabBarHeight }]}
       >
         <TodayAttendanceCard
           colors={colors}
@@ -60,8 +67,14 @@ const HomeScreen = () => {
           todayStatusMeta={todayStatusMeta}
           todayBottomText={todayBottomText}
         />
+        {pendingrequ.length > 0 && (
+          <PendingApprovalCard colors={colors} count={pendingrequ.length} onPress={goToPendingApprovals} />
+        )}
 
         <AttendanceOverviewCard colors={colors} summary={attendanceSummary} onPress={goToAttendance} />
+
+        <AttendanceBarChart records={records} colors={colors} />
+
 
         <InfoCardsRow
           colors={colors}
@@ -71,13 +84,9 @@ const HomeScreen = () => {
           onPressHolidays={openHolidayModal}
         />
 
-        {pendingrequ.length > 0 && (
-          <PendingApprovalCard colors={colors} count={pendingrequ.length} onPress={goToPendingApprovals} />
-        )}
         <RequestLetterCard colors={colors} onPress={goToRequestLetter} />
 
         <AttendanceCalendarCard />
-
 
         {/* <QuickActionsGrid colors={colors} /> */}
       </ScrollView>

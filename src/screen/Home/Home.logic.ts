@@ -8,6 +8,8 @@ import { getColors } from '../../theme/color/theme';
 import { useThemeContext } from '../../theme/ThemeContex';
 import { formatTime } from '../../utils/dateTime';
 import { showThemedMessage } from '../../utils/flashMessage';
+import { useMonthlyAttendance } from '../../hooks/useMonthlyAttendance';
+// import { useMonthlyAttendance } from '../../hooks/useMonthlyAttendance';
 
 export const useHome = () => {
   const { theme } = useThemeContext();
@@ -15,13 +17,19 @@ export const useHome = () => {
   const userData = useSelector(getUser);
   const navigation = useNavigation<any>();
 
+  const now = useMemo(() => new Date(), []);
+  const { records: monthlyAttendance, fetchMonthlyAttendance } = useMonthlyAttendance(
+    userData?.employeeId,
+    now.getMonth() + 1,
+    now.getFullYear()
+  );
+
   const [loading, setLoading] = useState(true);
   const [refreshing, setRefreshing] = useState(false);
   const [upcomingHolidays, setUpcomingHolidays] = useState<any[]>([]);
   const [pendingrequ, SetPendingLeaveRequest] = useState<any[]>([]);
   const [leaveBalance, setLeaveBalance] = useState<any[]>([]);
   const [todayAttendance, setTodayAttendance] = useState<any>(null);
-  const [monthlyAttendance, setMonthlyAttendance] = useState<any[]>([]);
   const [leaveModalVisible, setLeaveModalVisible] = useState(false);
   const [holidayModalVisible, setHolidayModalVisible] = useState(false);
 
@@ -38,7 +46,8 @@ export const useHome = () => {
     let absent = 0;
     let pending = 0;
 
-    monthlyAttendance.forEach((record) => {
+    const records = monthlyAttendance || [];
+    records.forEach((record) => {
       if (record.attendanceStatus === 'Present') {
         present++;
       } else if (record.attendanceStatus === 'Absent') {
@@ -52,7 +61,7 @@ export const useHome = () => {
       }
     });
 
-    return { present, absent, pending, totalDays: monthlyAttendance.length };
+    return { present, absent, pending, totalDays: records.length };
   }, [monthlyAttendance]);
 
   const todayStatusMeta = useMemo(() => {
@@ -76,33 +85,33 @@ export const useHome = () => {
         : 'Checked in'
       : todayStatusMeta.label;
 
-  const fetchDashboardData = useCallback(async () => {
-    if (!userData?.employeeId) return;
+  const fetchDashboardData = useCallback(
+    async (force = false) => {
+      if (!userData?.employeeId) return;
 
-    try {
-      const now = new Date();
-      const [holidaysResult, leaveResult, todayAttendanceResult, monthlyAttendanceResult, pendingRequestResult] =
-        await Promise.all([
+      try {
+        const [holidaysResult, leaveResult, todayAttendanceResult, , pendingRequestResult] = await Promise.all([
           HomeService.getUpcomingHolidays(userData.employeeId),
           HomeService.getEmployeeLeavesInfo(userData.employeeId),
           AttendanceService.getTodayAttendance(userData.employeeId),
-          AttendanceService.getMonthlyAttendance(userData.employeeId, now.getMonth() + 1, now.getFullYear()),
+          fetchMonthlyAttendance(force),
           HomeService.getPendingLeaveApplications(userData.employeeId),
         ]);
 
-      if (holidaysResult.data?.status) setUpcomingHolidays(holidaysResult.data.data || []);
-      if (leaveResult.data?.status) setLeaveBalance(leaveResult.data.data || []);
-      if (todayAttendanceResult.data?.status) setTodayAttendance(todayAttendanceResult.data.data || null);
-      if (monthlyAttendanceResult.data?.status) setMonthlyAttendance(monthlyAttendanceResult.data.data || []);
-      if (pendingRequestResult.data?.status) SetPendingLeaveRequest(pendingRequestResult.data.data || []);
-    } catch (err) {
-      console.error('Error fetching dashboard data:', err);
-      showThemedMessage(colors, { message: `Error fetching dashboard data: ${err}`, type: 'danger' });
-    } finally {
-      setLoading(false);
-      setRefreshing(false);
-    }
-  }, [userData?.employeeId, colors]);
+        if (holidaysResult.data?.status) setUpcomingHolidays(holidaysResult.data.data || []);
+        if (leaveResult.data?.status) setLeaveBalance(leaveResult.data.data || []);
+        if (todayAttendanceResult.data?.status) setTodayAttendance(todayAttendanceResult.data.data || null);
+        if (pendingRequestResult.data?.status) SetPendingLeaveRequest(pendingRequestResult.data.data || []);
+      } catch (err) {
+        console.error('Error fetching dashboard data:', err);
+        showThemedMessage(colors, { message: `Error fetching dashboard data: ${err}`, type: 'danger' });
+      } finally {
+        setLoading(false);
+        setRefreshing(false);
+      }
+    },
+    [userData?.employeeId, colors, fetchMonthlyAttendance]
+  );
 
   useEffect(() => {
     fetchDashboardData();
@@ -110,7 +119,7 @@ export const useHome = () => {
 
   const onRefresh = useCallback(() => {
     setRefreshing(true);
-    fetchDashboardData();
+    fetchDashboardData(true);
   }, [fetchDashboardData]);
 
   const openLeaveModal = useCallback(() => setLeaveModalVisible(true), []);

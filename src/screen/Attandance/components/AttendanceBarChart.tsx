@@ -34,9 +34,19 @@ const parseHoursMinutes = (time?: string | null) => {
 
 // Present days are sized by hours actually worked; every other status (Absent/Pending/Leave)
 // just gets a small fixed nub so the day is visible on the axis without implying a duration.
+// `totalHours` is the actual clocked time (already includes overtime) - it's what should drive
+// bar height. `workingHours` is just the employee's fixed scheduled shift length, so relying on
+// it (as this used to) made every Present bar the same height and hid overtime entirely.
 const getWorkedHours = (item: any) => {
-  const fromField = parseFloat(item.workingHours);
-  if (!Number.isNaN(fromField) && fromField > 0) return fromField;
+  const totalHours = parseFloat(item.totalHours);
+  if (!Number.isNaN(totalHours) && totalHours > 0) return totalHours;
+
+  const workingHours = parseFloat(item.workingHours);
+  const overTime = parseFloat(item.overTime);
+  if (!Number.isNaN(workingHours) && workingHours > 0) {
+    return workingHours + (Number.isNaN(overTime) ? 0 : overTime);
+  }
+
   const start = parseHoursMinutes(item.startTime);
   const end = parseHoursMinutes(item.endTime);
   if (start == null || end == null) return 0;

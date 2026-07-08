@@ -1,11 +1,11 @@
 import { useCallback, useEffect, useMemo, useState } from 'react';
 import { useSelector } from 'react-redux';
 import { getUser } from '../../redux/slices/authSlice';
-import { AttendanceService } from '../../services/AttendanceService';
 import { getColors } from '../../theme/color/theme';
 import { useThemeContext } from '../../theme/ThemeContex';
 import { getRecordStatus } from './attandance.constants';
 import { showThemedMessage } from '../../utils/flashMessage';
+import { useMonthlyAttendance } from '../../hooks/useMonthlyAttendance';
 
 export const useAttendance = () => {
   const { theme } = useThemeContext();
@@ -15,27 +15,31 @@ export const useAttendance = () => {
   const now = useMemo(() => new Date(), []);
   const [month, setMonth] = useState(now.getMonth() + 1);
   const [year, setYear] = useState(now.getFullYear());
-  const [records, setRecords] = useState<any[]>([]);
   const [loading, setLoading] = useState(true);
   const [refreshing, setRefreshing] = useState(false);
   const [monthPickerVisible, setMonthPickerVisible] = useState(false);
 
-  const fetchAttendance = useCallback(async () => {
-    if (!userData?.employeeId) return;
-    try {
-      setLoading(true);
-      const result = await AttendanceService.getMonthlyAttendance(userData.employeeId, month, year);
-      // console.log('user attandance is ',result.data);
-      setRecords(result.data?.status ? result.data.data || [] : []);
-    } catch (err) {
-      console.error('Error fetching attendance:', err);
-      showThemedMessage(colors, { message: `Error fetching attendance: ${err}`, type: 'danger' });
-      setRecords([]);
-    } finally {
-      setLoading(false);
-      setRefreshing(false);
-    }
-  }, [userData?.employeeId, month, year]);
+  // Shared with the Home dashboard's Attendance Overview card - same employeeId/month/year
+  // reads the same cached fetch instead of hitting the API again.
+  const { records: cachedRecords, fetchMonthlyAttendance } = useMonthlyAttendance(userData?.employeeId, month, year);
+  const records = cachedRecords || [];
+
+  const fetchAttendance = useCallback(
+    async (force = false) => {
+      if (!userData?.employeeId) return;
+      try {
+        setLoading(true);
+        await fetchMonthlyAttendance(force);
+      } catch (err) {
+        console.error('Error fetching attendance:', err);
+        showThemedMessage(colors, { message: `Error fetching attendance: ${err}`, type: 'danger' });
+      } finally {
+        setLoading(false);
+        setRefreshing(false);
+      }
+    },
+    [userData?.employeeId, fetchMonthlyAttendance, colors]
+  );
 
   useEffect(() => {
     setLoading(true);
@@ -44,7 +48,7 @@ export const useAttendance = () => {
 
   const onRefresh = useCallback(() => {
     setRefreshing(true);
-    fetchAttendance();
+    fetchAttendance(true);
   }, [fetchAttendance]);
 
   const openMonthPicker = useCallback(() => setMonthPickerVisible(true), []);

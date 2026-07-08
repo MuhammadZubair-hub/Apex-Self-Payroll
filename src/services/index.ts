@@ -1,4 +1,7 @@
 import axios, { AxiosResponse, Method } from 'axios';
+import { showThemedMessage } from '../utils/flashMessage';
+import { getColors } from '../theme/color/theme';
+import { store } from '../redux/store';
 
 export interface ApiCallOptions {
   endpoint: string;
@@ -6,6 +9,9 @@ export interface ApiCallOptions {
   params?: Record<string, any>;
   data?: Record<string, any> | FormData;
   headers?: Record<string, string>;
+  // Pass true when the caller already shows its own error message on `!success` (e.g. form
+  // submits with a "Failed to submit X" toast), so the user doesn't see two toasts for one failure.
+  silent?: boolean;
 }
 
 export interface ApiCallResponse<T = any> {
@@ -25,6 +31,7 @@ export const apicall = async <T = any>({
   params = {},
   data = {},
   headers = {},
+  silent = false,
 }: ApiCallOptions): Promise<ApiCallResponse<T>> => {
   const option = {
     method,
@@ -50,6 +57,20 @@ export const apicall = async <T = any>({
     const message =
       error?.response?.data?.message || error.message || 'Something went wrong';
     console.log('The error calling API is:', error?.response?.data || message);
+
+    // Only screens that don't already show their own failure message rely on this - callers
+    // that check `!result.success` and show a specific toast pass `silent: true` to avoid
+    // showing the error twice.
+    if (!silent) {
+      const isDarkMode = store.getState().theme.isDarkMode;
+      const colors = getColors(isDarkMode ? 'dark' : 'light');
+
+      showThemedMessage(colors, {
+        message: error.message === 'Network Error' ? 'No internet connection' : 'Something went wrong',
+        description: error.message === 'Network Error' ? undefined : message,
+        type: 'danger',
+      });
+    }
 
     return {
       success: false,

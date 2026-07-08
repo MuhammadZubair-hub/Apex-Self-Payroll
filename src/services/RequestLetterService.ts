@@ -8,5 +8,6 @@ export const RequestLetterService = {
         subject
       )}&body=${encodeURIComponent(body)}`,
       method: 'GET',
+      silent: true,
     }),
 };

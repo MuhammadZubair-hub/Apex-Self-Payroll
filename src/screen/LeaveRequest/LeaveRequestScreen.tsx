@@ -13,7 +13,7 @@ const LeaveRequestScreen = () => {
 
   return (
     <SafeAreaView style={[styles.container, { backgroundColor: colors.primaryColor }]}>
-      <StatusBar backgroundColor={colors.primarayheaderColor} barStyle="dark-content" />
+      <StatusBar backgroundColor={colors.primarayheaderColor} barStyle={'light-content'} />
       <PrimaryHeader headerText="Leave Requests" />
 
       <View style={[styles.sectionSwitcher, { backgroundColor: colors.secondPrimaryColor }]}>

@@ -34,7 +34,15 @@ const CustomDrawerContent = (props: any) => {
   const drawerUserName = profileData?.name || 'Naveen Kumar';
 
   const activeRouteName = props.state.routeNames[props.state.index];
-  const isActive = (routeName: string) => activeRouteName === routeName;
+  // "Home" and "leaveRequest" both live inside the "HomeTab" bottom-tab navigator, so telling
+  // their drawer items apart needs the nested tab's active route, not just the drawer's.
+  const homeTabRoute = props.state.routes.find((r: any) => r.name === 'HomeTab');
+  const activeHomeTabScreen = homeTabRoute?.state?.routes?.[homeTabRoute.state.index ?? 0]?.name;
+  const isActive = (routeName: string) => {
+    if (routeName === 'HomeTab') return activeRouteName === 'HomeTab' && activeHomeTabScreen !== 'leaveRequest';
+    if (routeName === 'leaveRequest') return activeRouteName === 'HomeTab' && activeHomeTabScreen === 'leaveRequest';
+    return activeRouteName === routeName;
+  };
   const tintFor = (routeName: string) => (isActive(routeName) ? colors.purple1 : colors.textSecondary);
 
   return (
@@ -75,10 +83,10 @@ const CustomDrawerContent = (props: any) => {
           <DrawerItem
             label="Dashboard"
             icon={({ size }) => (
-              <Icon name="grid" type="Ionicons" size={size} color={tintFor('Home')} />
+              <Icon name="grid" type="Ionicons" size={size} color={tintFor('HomeTab')} />
             )}
-            onPress={() => props.navigation.navigate('Home', { screen: 'Home' })}
-            focused={isActive('Home')}
+            onPress={() => props.navigation.navigate('HomeTab', { screen: 'Home' })}
+            focused={isActive('HomeTab')}
             activeBackgroundColor={colors.lightPurple}
             activeTintColor={colors.purple1}
             inactiveTintColor={colors.textSecondary}
@@ -105,10 +113,10 @@ const CustomDrawerContent = (props: any) => {
           <DrawerItem
             label="Leave Request"
             icon={({ size }) => (
-              <Icon name="document-text-outline" type="Ionicons" size={size} color={tintFor('Leaveapplication')} />
+              <Icon name="document-text-outline" type="Ionicons" size={size} color={tintFor('leaveRequest')} />
             )}
-            onPress={() => props.navigation.navigate('Leaveapplication')}
-            focused={isActive('Leaveapplication')}
+            onPress={() => props.navigation.navigate('HomeTab', { screen: 'leaveRequest' })}
+            focused={isActive('leaveRequest')}
             activeBackgroundColor={colors.lightPurple}
             activeTintColor={colors.purple1}
             inactiveTintColor={colors.textSecondary}

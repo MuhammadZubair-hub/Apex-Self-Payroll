@@ -1,5 +1,6 @@
 import React, { useCallback } from 'react';
 import { FlatList, RefreshControl, Text, View } from 'react-native';
+import { useBottomTabBarHeight } from '@react-navigation/bottom-tabs';
 import Icon from '../../../components/Icons';
 import { sharedStyles } from '../components/sharedStyles';
 import { verticalScale } from '../../../utils/responsive';
@@ -33,6 +34,7 @@ const PendingApprovalScreen = ({ colors, state }: PendingApprovalScreenProps) =>
     [colors, openApprove, openReject]
   );
   const keyExtractor = useCallback((item: any, index: number) => String(item.id ?? item.fkid ?? index), []);
+  const tabBarHeight = useBottomTabBarHeight();
 
   return (
     <>
@@ -43,7 +45,7 @@ const PendingApprovalScreen = ({ colors, state }: PendingApprovalScreenProps) =>
           data={pendingApprovals}
           keyExtractor={keyExtractor}
           renderItem={renderItem}
-          contentContainerStyle={sharedStyles.listContent}
+          contentContainerStyle={[sharedStyles.listContent, { paddingBottom: sharedStyles.listContent.paddingBottom as number + tabBarHeight }]}
           showsVerticalScrollIndicator={false}
           refreshControl={<RefreshControl refreshing={refreshing} onRefresh={onRefresh} colors={[colors.purple1]} />}
           ListEmptyComponent={

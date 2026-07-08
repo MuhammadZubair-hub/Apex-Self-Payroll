@@ -32,11 +32,12 @@ export const leaveRequestStyles = StyleSheet.create({
     height: verticalScale(18),
     borderRadius: scale(9),
     paddingHorizontal: AppSizes.PH_4,
-    justifyContent: 'center',
-    alignItems: 'center',
+    // justifyContent: 'center',
+    // alignItems: 'center',
   },
   sectionBadgeText: {
     fontSize: AppSizes.FONT_10,
     fontFamily: 'PlusJakartaSans-Bold',
+    textAlign:'center'
   },
 });

@@ -6,6 +6,7 @@ import { useThemeContext } from '../../../../../theme/ThemeContex';
 import { LeaveService } from '../../../../../services/LeaveService';
 import { showThemedMessage } from '../../../../../utils/flashMessage';
 import { daysBetweenInclusive } from '../../../leaveRequest.constants';
+import { PermissionsAndroid, Platform } from 'react-native';
 
 const EXTENSION_BY_MIME: Record<string, string> = {
   'image/jpeg': 'jpg',
@@ -119,11 +120,65 @@ export const useNewLeaveRequestForm = ({ leaveTypes, employeeId, onSubmit, onClo
 
   const pickAndUploadAttachment = useCallback(() => setAttachmentSourceVisible(true), []);
 
+  // const pickFromCamera = useCallback(async () => {
+  //   setAttachmentSourceVisible(false);
+  //   const permission = PermissionsAndroid.PERMISSIONS.CAMERA;
+  //   console.log('permisson',permission)
+  //   if (permission) {
+  //     const result = await launchCamera({ mediaType: 'photo', quality: 0.7, saveToPhotos: true });
+  //     if (result.didCancel || result.errorCode || !result.assets?.[0]) return;
+  //     uploadAttachment(result.assets[0]);
+  //   } else {
+  //     console.log('coming error ,')
+  //   }
+
+  // }, [uploadAttachment]);
+
   const pickFromCamera = useCallback(async () => {
     setAttachmentSourceVisible(false);
-    const result = await launchCamera({ mediaType: 'photo', quality: 0.7, saveToPhotos: true });
-    if (result.didCancel || result.errorCode || !result.assets?.[0]) return;
-    uploadAttachment(result.assets[0]);
+
+    try {
+      // For Android
+      if (Platform.OS === 'android') {
+        const granted = await PermissionsAndroid.request(
+          PermissionsAndroid.PERMISSIONS.CAMERA,
+          {
+            title: 'Camera Permission',
+            message: 'App needs access to your camera to take photos.',
+            buttonNeutral: 'Ask Me Later',
+            buttonNegative: 'Cancel',
+            buttonPositive: 'OK',
+          }
+        );
+
+        if (granted === PermissionsAndroid.RESULTS.GRANTED) {
+          // Permission granted, launch camera
+          const result = await launchCamera({
+            mediaType: 'photo',
+            quality: 0.7,
+            saveToPhotos: true
+          });
+
+          if (result.didCancel || result.errorCode || !result.assets?.[0]) return;
+          uploadAttachment(result.assets[0]);
+        } else {
+          console.log('Camera permission denied');
+          // Show alert to user about permission
+        }
+      } else {
+        // For iOS, permissions are handled differently
+        const result = await launchCamera({
+          mediaType: 'photo',
+          quality: 0.7,
+          saveToPhotos: true
+        });
+
+        if (result.didCancel || result.errorCode || !result.assets?.[0]) return;
+        uploadAttachment(result.assets[0]);
+      }
+    } catch (error) {
+      console.log('Error opening camera:', error);
+    }
   }, [uploadAttachment]);
 
   const pickFromLibrary = useCallback(async () => {

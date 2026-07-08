@@ -25,19 +25,20 @@ export const settingsStyles = StyleSheet.create({
     borderRadius: scale(16),
     paddingVertical: scale(24),
     marginBottom: scale(20),
-    justifyContent:'center'
-    // elevation: 2,
+    justifyContent:'center',
+    elevation: 2,
     // shadowColor: '#000',
     // shadowOffset: { width: 0, height: 2 },
     // shadowOpacity: 0.05,
     // shadowRadius: 6,
   },
   avatar: {
-    width: scale(76),
-    height: verticalScale(76),
-    borderRadius: scale(38),
+    width: scale(65),
+    height: verticalScale(65),
+    borderRadius: scale(50),
     marginBottom: scale(12),
-    borderWidth:2
+    borderWidth:2,
+   
   },
   avatarFallback: {
     justifyContent: 'center',
@@ -47,6 +48,7 @@ export const settingsStyles = StyleSheet.create({
     color: '#fff',
     fontSize: AppSizes.FONT_28,
     fontFamily: 'PlusJakartaSans-Bold',
+    textAlign:'center'
   },
   name: {
     fontSize: moderateScale(17),

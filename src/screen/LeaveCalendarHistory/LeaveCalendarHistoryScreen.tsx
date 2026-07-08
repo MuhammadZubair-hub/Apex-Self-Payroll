@@ -75,7 +75,10 @@ const LeaveCalendarHistoryScreen = () => {
             style={[styles.departmentField, { borderColor: colors.borderColor, backgroundColor: colors.secondPrimaryColor }]}
             onPress={() => setDepartmentPickerVisible(true)}
           >
-            <Text style={[styles.departmentText, { color: colors.textPrimary }]} numberOfLines={1}>
+            <Text
+              style={[styles.departmentText, { color: departmentId != null ? colors.textPrimary : colors.textSecondary }]}
+              numberOfLines={1}
+            >
               {selectedDepartmentName}
             </Text>
             <Icon type="Ionicons" name="chevron-down" size={AppSizes.ICON_16} color={colors.textSecondary} />

@@ -42,7 +42,7 @@ const SplashScreen = () => {
           },
         ]}
       >
-        <Image source={require('../assets/Images/ApexLogo.png')} style={styles.logo} resizeMode="contain" />
+        <Image source={require('../../android/app/src/main/res/mipmap-hdpi/ic_launcher.png')} style={styles.logo} resizeMode="contain" />
       </Animated.View>
 
       <Animated.View
