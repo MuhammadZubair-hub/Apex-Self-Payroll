@@ -1,6 +1,6 @@
 import { DrawerContentScrollView, DrawerItem } from "@react-navigation/drawer";
 import { useState } from "react";
-import { Image, StyleSheet, Text, TouchableOpacity, View } from "react-native";
+import { Image, StatusBar, StyleSheet, Text, TouchableOpacity, View } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import Icon from "./Icons";
 import ThemeToggle from "./ThemeToggle";
@@ -47,6 +47,7 @@ const CustomDrawerContent = (props: any) => {
 
   return (
     <SafeAreaView style={[styles.container, { backgroundColor: colors.primaryColor }]}>
+      <StatusBar backgroundColor={colors.primarayheaderColor}/>
       {/* Top Header - User Profile Section */}
       <View style={[styles.profileSection, { backgroundColor: colors.primarayheaderColor }]}>
         <View style={styles.profileContent}>

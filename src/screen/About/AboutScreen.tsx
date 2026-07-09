@@ -1,5 +1,5 @@
 import React, { useMemo } from 'react';
-import { Image, Platform, ScrollView, StatusBar, Text, View } from 'react-native';
+import { Dimensions, Image, ImageBackground, Platform, ScrollView, StatusBar, StyleSheet, Text, View } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { useThemeContext } from '../../theme/ThemeContex';
 import { getColors } from '../../theme/color/theme';
@@ -9,77 +9,113 @@ import { aboutStyles as styles } from './About.styles';
 import { APP_NAME, APP_VERSION, FEATURES } from './about.constants';
 import { scale } from '../../utils/responsive';
 import { AppSizes } from '../../utils/AppSizes';
+import LinearGradient from 'react-native-linear-gradient';
+import { premiumStyles } from '../Profile/ProfileScreen';
+import { useNavigation } from '@react-navigation/native';
 
 const AboutScreen = () => {
   const { theme } = useThemeContext();
   const colors = useMemo(() => getColors(theme), [theme]);
   const currentYear = new Date().getFullYear();
 
+   const BACKGROUND_HEIGHT = Dimensions.get('window').height * 0.38;
+   const navigation = useNavigation();
+
+   const isDark = theme === 'dark';
+
   return (
-    <SafeAreaView style={[styles.container, { backgroundColor: colors.primaryColor }]}>
-      
-      <StatusBar backgroundColor={colors.primarayheaderColor} barStyle={theme === 'dark' ? 'light-content' : 'dark-content'} />
-           
-      <PrimaryHeader
-        showBackButton
-        alignTextCenter
-        headerText="About ESS"
-      />
+    <View style={{ flex: 1, backgroundColor: colors.primaryColor }}>
+      <StatusBar translucent backgroundColor="transparent" barStyle={isDark ? 'light-content' : 'dark-content'}/>
 
+      {/* Background Pattern */}
+      <ImageBackground
+        source={require('../../assets/Images/bgt.png')}
+        resizeMode="cover"
+        style={{ opacity: 0.3, position: 'absolute', top: 0, left: 0, right: 0, height: BACKGROUND_HEIGHT }}
+      >
+        {/* Premium Smooth Gradient Blend */}
+        <LinearGradient
+          colors={['rgba(230, 240, 254, 0.2)', 'rgba(230, 240, 254, 0.6)', colors.primaryColor]}
+          style={StyleSheet.absoluteFillObject}
+        />
+      </ImageBackground>
+      <SafeAreaView style={{ flex: 1 }} edges={['top', 'left', 'right']}>
 
-     
-      <ScrollView showsVerticalScrollIndicator={false} contentContainerStyle={styles.scrollContent}>
-        <View style={[styles.heroCard, { backgroundColor: colors.secondPrimaryColor }]}>
-          <Image
-            source={
-              theme === 'dark' ? require('../../assets/Images/company-logo-black.png') : require('../../assets/Images/company-logo-white.png')
-            }
-            style={styles.logo}
-            resizeMode="contain"
+       <View style={premiumStyles.headerContainer}>
+          <Icon
+            type="Ionicons"
+            name="arrow-back"
+            size={AppSizes.ICON_30}
+            color={colors.textPrimary}
+            onPress={() => navigation.goBack()}
+            style={{
+              backgroundColor: colors.secondPrimaryColor,
+              padding: AppSizes.PV_4,
+              borderRadius: AppSizes.RADIUS_15,
+              shadowColor: '#0062e3',
+              elevation: 5,
+            }}
           />
-          <Text style={[styles.appName, { color: colors.textPrimary }]}>{APP_NAME}</Text>
-          <View style={[styles.versionBadge, { backgroundColor: colors.lightPurple }]}>
-            <Text style={[styles.versionBadgeText, { color: colors.purple1 }]}>Version {APP_VERSION}</Text>
+          <Text style={[premiumStyles.premiumHeaderTitle, { color: colors.textPrimary }]}>About</Text>
+          {/* Layout balancer */}
+          <View style={{ width: AppSizes.ICON_30 }} />
+        </View>
+
+
+        <ScrollView showsVerticalScrollIndicator={false} contentContainerStyle={styles.scrollContent}>
+          <View style={[styles.heroCard, { backgroundColor: colors.secondPrimaryColor }]}>
+            <Image
+              source={
+                theme === 'dark' ? require('../../assets/Images/company-logo-black.png') : require('../../assets/Images/company-logo-white.png')
+              }
+              style={styles.logo}
+              resizeMode="contain"
+            />
+            <Text style={[styles.appName, { color: colors.textPrimary }]}>{APP_NAME}</Text>
+            <View style={[styles.versionBadge, { backgroundColor: colors.lightPurple }]}>
+              <Text style={[styles.versionBadgeText, { color: colors.purple1 }]}>Version {APP_VERSION}</Text>
+            </View>
+            <Text style={[styles.tagline, { color: colors.textSecondary }]}>
+              Employee Self Service — attendance, leave and profile management in one place.
+            </Text>
           </View>
-          <Text style={[styles.tagline, { color: colors.textSecondary }]}>
-            Employee Self Service — attendance, leave and profile management in one place.
+
+          <Text style={[styles.sectionTitle, { color: colors.textPrimary }]}>What you can do today</Text>
+          {FEATURES.map((feature) => (
+            <View key={feature.title} style={[styles.featureCard, { backgroundColor: colors.secondPrimaryColor }]}>
+              <View style={[styles.featureIconBox, { backgroundColor: colors.lightPurple }]}>
+                <Icon type="Ionicons" name={feature.icon} size={AppSizes.ICON_20} color={colors.purple1} />
+              </View>
+              <View style={{ flex: 1, marginLeft: scale(12) }}>
+                <Text style={[styles.featureTitle, { color: colors.textPrimary }]}>{feature.title}</Text>
+                <Text style={[styles.featureDescription, { color: colors.textSecondary }]}>{feature.description}</Text>
+              </View>
+            </View>
+          ))}
+
+          <Text style={[styles.sectionTitle, { color: colors.textPrimary }]}>App Information</Text>
+          <View style={[styles.infoCard, { backgroundColor: colors.secondPrimaryColor }]}>
+            <View style={[styles.infoRow, { borderBottomColor: colors.borderColor }]}>
+              <Text style={[styles.infoLabel, { color: colors.textSecondary }]}>App Name</Text>
+              <Text style={[styles.infoValue, { color: colors.textPrimary }]}>{APP_NAME}</Text>
+            </View>
+            <View style={[styles.infoRow, { borderBottomColor: colors.borderColor }]}>
+              <Text style={[styles.infoLabel, { color: colors.textSecondary }]}>Version</Text>
+              <Text style={[styles.infoValue, { color: colors.textPrimary }]}>{APP_VERSION}</Text>
+            </View>
+            <View style={styles.infoRow}>
+              <Text style={[styles.infoLabel, { color: colors.textSecondary }]}>Platform</Text>
+              <Text style={[styles.infoValue, { color: colors.textPrimary }]}>{Platform.OS === 'ios' ? 'iOS' : 'Android'}</Text>
+            </View>
+          </View>
+
+          <Text style={[styles.footerText, { color: colors.textSecondary }]}>
+            © {currentYear} {APP_NAME}. All rights reserved.
           </Text>
-        </View>
+        </ScrollView>
+      </SafeAreaView>
 
-        <Text style={[styles.sectionTitle, { color: colors.textPrimary }]}>What you can do today</Text>
-        {FEATURES.map((feature) => (
-          <View key={feature.title} style={[styles.featureCard, { backgroundColor: colors.secondPrimaryColor }]}>
-            <View style={[styles.featureIconBox, { backgroundColor: colors.lightPurple }]}>
-              <Icon type="Ionicons" name={feature.icon} size={AppSizes.ICON_20} color={colors.purple1} />
-            </View>
-            <View style={{ flex: 1, marginLeft: scale(12) }}>
-              <Text style={[styles.featureTitle, { color: colors.textPrimary }]}>{feature.title}</Text>
-              <Text style={[styles.featureDescription, { color: colors.textSecondary }]}>{feature.description}</Text>
-            </View>
-          </View>
-        ))}
-
-        <Text style={[styles.sectionTitle, { color: colors.textPrimary }]}>App Information</Text>
-        <View style={[styles.infoCard, { backgroundColor: colors.secondPrimaryColor }]}>
-          <View style={[styles.infoRow, { borderBottomColor: colors.borderColor }]}>
-            <Text style={[styles.infoLabel, { color: colors.textSecondary }]}>App Name</Text>
-            <Text style={[styles.infoValue, { color: colors.textPrimary }]}>{APP_NAME}</Text>
-          </View>
-          <View style={[styles.infoRow, { borderBottomColor: colors.borderColor }]}>
-            <Text style={[styles.infoLabel, { color: colors.textSecondary }]}>Version</Text>
-            <Text style={[styles.infoValue, { color: colors.textPrimary }]}>{APP_VERSION}</Text>
-          </View>
-          <View style={styles.infoRow}>
-            <Text style={[styles.infoLabel, { color: colors.textSecondary }]}>Platform</Text>
-            <Text style={[styles.infoValue, { color: colors.textPrimary }]}>{Platform.OS === 'ios' ? 'iOS' : 'Android'}</Text>
-          </View>
-        </View>
-
-        <Text style={[styles.footerText, { color: colors.textSecondary }]}>
-          © {currentYear} {APP_NAME}. All rights reserved.
-        </Text>
-      </ScrollView>
-    </SafeAreaView>
+    </View>
   );
 };
 

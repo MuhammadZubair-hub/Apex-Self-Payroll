@@ -14,6 +14,8 @@ const EXTENSION_BY_MIME: Record<string, string> = {
   'application/pdf': 'pdf',
 };
 
+const MAX_ATTACHMENT_SIZE_BYTES = 2 * 1024 * 1024;
+
 export interface NewLeaveRequestPayload {
   leaveTypeId: number | string;
   leaveTypeLabel: string;
@@ -85,6 +87,7 @@ export const useNewLeaveRequestForm = ({ leaveTypes, employeeId, onSubmit, onClo
       const extension = EXTENSION_BY_MIME[asset.type || ''] || 'jpg';
       const fileName = asset.fileName || `attachment_${Date.now()}.${extension}`;
 
+    
       setAttachmentUploading(true);
       try {
         const formData = new FormData();
@@ -120,19 +123,6 @@ export const useNewLeaveRequestForm = ({ leaveTypes, employeeId, onSubmit, onClo
 
   const pickAndUploadAttachment = useCallback(() => setAttachmentSourceVisible(true), []);
 
-  // const pickFromCamera = useCallback(async () => {
-  //   setAttachmentSourceVisible(false);
-  //   const permission = PermissionsAndroid.PERMISSIONS.CAMERA;
-  //   console.log('permisson',permission)
-  //   if (permission) {
-  //     const result = await launchCamera({ mediaType: 'photo', quality: 0.7, saveToPhotos: true });
-  //     if (result.didCancel || result.errorCode || !result.assets?.[0]) return;
-  //     uploadAttachment(result.assets[0]);
-  //   } else {
-  //     console.log('coming error ,')
-  //   }
-
-  // }, [uploadAttachment]);
 
   const pickFromCamera = useCallback(async () => {
     setAttachmentSourceVisible(false);
@@ -160,6 +150,14 @@ export const useNewLeaveRequestForm = ({ leaveTypes, employeeId, onSubmit, onClo
           });
 
           if (result.didCancel || result.errorCode || !result.assets?.[0]) return;
+          const fileSize = result.assets[0].fileSize
+          if (fileSize && fileSize > MAX_ATTACHMENT_SIZE_BYTES) {
+            showThemedMessage(colors, { 
+              message: 'File size exceeds 2MB limit. Please choose a smaller file.', 
+              type: 'danger' 
+            });
+            return;
+          }
           uploadAttachment(result.assets[0]);
         } else {
           console.log('Camera permission denied');
@@ -174,6 +172,14 @@ export const useNewLeaveRequestForm = ({ leaveTypes, employeeId, onSubmit, onClo
         });
 
         if (result.didCancel || result.errorCode || !result.assets?.[0]) return;
+        const fileSize = result.assets[0].fileSize ;
+        if (fileSize && fileSize > MAX_ATTACHMENT_SIZE_BYTES) {
+          showThemedMessage(colors, { 
+            message: 'File size exceeds 2MB limit. Please choose a smaller file.', 
+            type: 'danger' 
+          });
+          return;
+        }
         uploadAttachment(result.assets[0]);
       }
     } catch (error) {
@@ -185,6 +191,14 @@ export const useNewLeaveRequestForm = ({ leaveTypes, employeeId, onSubmit, onClo
     setAttachmentSourceVisible(false);
     const result = await launchImageLibrary({ mediaType: 'photo', quality: 0.7 });
     if (result.didCancel || result.errorCode || !result.assets?.[0]) return;
+    const fileSize = result.assets[0].fileSize ;
+    if (fileSize && fileSize > MAX_ATTACHMENT_SIZE_BYTES) {
+      showThemedMessage(colors, { 
+        message: 'File size exceeds 2MB limit. Please choose a smaller file.', 
+        type: 'danger' 
+      });
+      return;
+    }
     uploadAttachment(result.assets[0]);
   }, [uploadAttachment]);
 
@@ -192,6 +206,14 @@ export const useNewLeaveRequestForm = ({ leaveTypes, employeeId, onSubmit, onClo
     setAttachmentSourceVisible(false);
     try {
       const [result] = await pick({ type: [types.pdf] });
+       const fileSize = result.size ;
+      if (fileSize && fileSize > MAX_ATTACHMENT_SIZE_BYTES) {
+        showThemedMessage(colors, { 
+          message: 'File size exceeds 2MB limit. Please choose a smaller file.', 
+          type: 'danger' 
+        });
+        return;
+      }
       uploadAttachment({ uri: result.uri, fileName: result.name || undefined, type: result.type || 'application/pdf' });
     } catch (error) {
       if (isErrorWithCode(error) && error.code === errorCodes.OPERATION_CANCELED) return;

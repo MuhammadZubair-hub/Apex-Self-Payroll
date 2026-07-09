@@ -48,6 +48,7 @@ export const useSubmittedLeave = (employeeId: number | string | undefined, profi
   const fetchLeaveTypes = useCallback(async () => {
     try {
       const r = await LeaveService.getLeaveTypes(employeeId!);
+      console.log('leave types are this :',r);
       setLeaveType(r.data?.status ? r.data.data || [] : []);
     } catch (error) {
       console.log('error fetching leave types', error);

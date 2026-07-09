@@ -61,6 +61,7 @@ export const useProfile = () => {
 
   return {
     colors,
+    theme,
     fullName,
     employeeId,
     designation,

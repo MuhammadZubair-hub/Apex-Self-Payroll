@@ -13,7 +13,7 @@ export const useLoginUser = () => {
   const [userCredentials, setUserCredentials] = useState<{
     email: string;
     password: string;
-  }>({ email: "Zubairess", password: "Zubair123" });
+  }>({ email: "", password: "" });
   const [isLoading, setIsLoading] = useState(false);
   const dispatch = useDispatch();
 //   const router = useRouter();
