@@ -63,9 +63,10 @@ const CustomDrawerContent = (props: any) => {
             </Text>
             <Text style={[styles.userSubText, { color: 'rgba(255,255,255,0.85)' }]}>
               {profileData?.legacyCode || 'EMP2'}
+            
+            </Text>
             <Text style={[styles.userSubText, { color: 'rgba(255,255,255,0.85)' }]}>
               {profileData?.role || 'Software Engineer'}
-            </Text>
             </Text>
           </View>
         </View>

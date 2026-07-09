@@ -10,10 +10,10 @@ interface LeaveApplicationCardProps {
   item: any;
   colors: any;
   onPress: (item: any) => void;
-  onPressEye: (item: any) => void;
+  onPressApprovalChain: (item: any) => void;
 }
 
-const LeaveApplicationCard = ({ item, colors, onPress, onPressEye }: LeaveApplicationCardProps) => {
+const LeaveApplicationCard = ({ item, colors, onPress, onPressApprovalChain }: LeaveApplicationCardProps) => {
   const statusMeta = useMemo(
     () => getStatusMeta(colors)[item.requestStatus] || getStatusMeta(colors).Pending,
     [colors, item.requestStatus]
@@ -23,7 +23,7 @@ const LeaveApplicationCard = ({ item, colors, onPress, onPressEye }: LeaveApplic
 
   return (
     <TouchableOpacity
-      style={[sharedStyles.card, { backgroundColor: colors.secondPrimaryColor }]}
+      style={[sharedStyles.card, styles.cardAlign, { backgroundColor: colors.secondPrimaryColor }]}
       onPress={() => onPress(item)}
       activeOpacity={0.8}
     >
@@ -53,13 +53,24 @@ const LeaveApplicationCard = ({ item, colors, onPress, onPressEye }: LeaveApplic
         </View>
       </View>
 
-      <TouchableOpacity
-        style={styles.eyeButton}
-        onPress={() => onPressEye(item)}
-        hitSlop={{ top: 10, bottom: 10, left: 10, right: 10 }}
-      >
-        <Icon type="Ionicons" name="eye-outline" size={AppSizes.ICON_20} color={colors.purple1} />
-      </TouchableOpacity>
+      {/* Right-side action column: eye (detail) aligned with the status row up top,
+          approval-chain (branch) icon stacked below it. */}
+      <View style={styles.actionsColumn}>
+        <TouchableOpacity
+          style={styles.actionButton}
+          onPress={() => onPress(item)}
+          hitSlop={{ top: 8, bottom: 8, left: 8, right: 8 }}
+        >
+          <Icon type="Ionicons" name="eye-outline" size={AppSizes.ICON_20} color={colors.purple1} />
+        </TouchableOpacity>
+        <TouchableOpacity
+          style={styles.actionButton}
+          onPress={() => onPressApprovalChain(item)}
+          hitSlop={{ top: 8, bottom: 8, left: 8, right: 8 }}
+        >
+          <Icon type="Ionicons" name="git-branch-outline" size={AppSizes.ICON_20} color={colors.purple1} />
+        </TouchableOpacity>
+      </View>
     </TouchableOpacity>
   );
 };
@@ -67,7 +78,13 @@ const LeaveApplicationCard = ({ item, colors, onPress, onPressEye }: LeaveApplic
 export default React.memo(LeaveApplicationCard);
 
 const styles = StyleSheet.create({
-  eyeButton: {
-    paddingLeft: scale(8),
+  cardAlign: {
+    alignItems: 'flex-start',
   },
+  actionsColumn: {
+    alignItems: 'center',
+    paddingLeft: scale(8),
+    gap: scale(10),
+  },
+  actionButton: {},
 });

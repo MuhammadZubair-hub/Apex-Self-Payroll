@@ -30,7 +30,10 @@ const ApproverRow = ({ approver, colors }: { approver: any; colors: any }) => {
           {approver.name || 'N/A'}
         </Text>
         <Text style={[styles.subText, { color: colors.textSecondary }]} numberOfLines={1}>
-          {[approver.designationName?.trim(), approver.departmentName].filter(Boolean).join(' • ')}
+          {approver.designationName?.trim()}
+        </Text>
+        <Text style={[styles.subText, { color: colors.textSecondary }]} numberOfLines={1}>
+          {approver.departmentName}
         </Text>
         {approver.approvedDate ? (
           <Text style={[styles.subText, { color: colors.textSecondary }]}>{formatDateTime(approver.approvedDate)}</Text>

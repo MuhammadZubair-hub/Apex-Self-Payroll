@@ -20,18 +20,18 @@ import SplashScreen from './src/screen/Splasscreen';
 
 function App() {
   const isDarkMode = useColorScheme() === 'dark';
-   const [isLoading, setIsLoading] = useState(true);
+  //  const [isLoading, setIsLoading] = useState(true);
 
-  useEffect(() => {
-    // Show splash for 3 seconds, then navigate to main app
-    setTimeout(() => {
-      setIsLoading(false);
-    }, 3000);
-  }, []);
+  // useEffect(() => {
+  //   // Show splash for 3 seconds, then navigate to main app
+  //   setTimeout(() => {
+  //     setIsLoading(false);
+  //   }, 3000);
+  // }, []);
 
-  if (isLoading) {
-    return <SplashScreen />;
-  }
+  // if (isLoading) {
+  //   return <SplashScreen />;
+  // }
 
   return (
     <GestureHandlerRootView style={{ flex: 1 }}>

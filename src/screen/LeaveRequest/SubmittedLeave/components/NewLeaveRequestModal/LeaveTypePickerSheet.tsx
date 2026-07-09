@@ -30,7 +30,7 @@ const LeaveTypePickerSheet = ({ visible, colors, types, selectedId, onSelect, on
           style={[
             styles.optionRow,
             { borderBottomColor: colors.borderColor },
-            isSelected && { backgroundColor: colors.lightPurple, borderRadius: AppSizes.RADIUS_10, paddingHorizontal: scale(10) },
+            isSelected && { backgroundColor: colors.lightPurple, borderRadius: AppSizes.RADIUS_10, paddingHorizontal: AppSizes.PH_10,borderBottomWidth:0 },
           ]}
           onPress={() => onSelect(item.id)}
         >
@@ -48,7 +48,7 @@ const LeaveTypePickerSheet = ({ visible, colors, types, selectedId, onSelect, on
               Leaves Remaining: {item.leaveBalance.toString()}
             </Text>
           </View>
-          {isSelected && <Icon type="Ionicons" name="checkmark" size={verticalScale(18)} color={colors.purple1} />}
+          {/* {isSelected && <Icon type="Ionicons" name="checkmark" size={verticalScale(18)} color={colors.purple1} />} */}
         </TouchableOpacity>
       );
     },

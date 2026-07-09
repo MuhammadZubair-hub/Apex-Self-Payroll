@@ -58,7 +58,7 @@ const SubmittedLeaveScreen = ({ colors, employeeId, state }: SubmittedLeaveScree
 
   const renderItem = useCallback(
     ({ item }: { item: any }) => (
-      <LeaveApplicationCard item={item} colors={colors} onPress={setSelectedApplication} onPressEye={openApprovalChain} />
+      <LeaveApplicationCard item={item} colors={colors} onPress={setSelectedApplication} onPressApprovalChain={openApprovalChain} />
     ),
     [colors, setSelectedApplication, openApprovalChain]
   );
