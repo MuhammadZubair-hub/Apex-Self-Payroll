@@ -49,7 +49,7 @@ export const submittedLeaveStyles = StyleSheet.create({
     right: scale(20),
     width: scale(58),
     height: verticalScale(58),
-    borderRadius: scale(29),
+    borderRadius: AppSizes.RADIUS_15,
     justifyContent: 'center',
     alignItems: 'center',
     elevation: 6,

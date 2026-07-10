@@ -15,6 +15,8 @@ import { store, persistor } from './src/redux/store';
 import RootNaviagtion from './src/navigation/RootNaviagtion';
 import { ActivityTracker } from './src/components/ActivityTracker';
 import { useSessionTimeout } from './src/hooks/useTimeSessionOut';
+import { useEffect, useState } from 'react';
+import SplashScreen from './src/screen/Splasscreen';
 
 function App() {
   const isDarkMode = useColorScheme() === 'dark';
@@ -38,6 +40,19 @@ export default App;
 
 
 const AppContent = () => {
+  // const [loading, setloading] = useState(true);
+
+  // useEffect(() => {
+  //   if (loading) {
+  //     setTimeout(() => {
+  //       setloading(false);
+  //     }, 5000)
+  //   }
+  // }, [])
+
+  // if (loading) {
+  //   return <SplashScreen />
+  // }
 
   const { handleUserActivity } = useSessionTimeout();
   return (
