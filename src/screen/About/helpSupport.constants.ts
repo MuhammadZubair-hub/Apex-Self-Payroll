@@ -1,4 +1,4 @@
-export const SUPPORT_EMAIL = 'support@apexinnovat.com';
+export const SUPPORT_EMAIL = 'HR@nexusworksllc.com';
 export const SUPPORT_PHONE = '+92 300 0000000';
 
 export const FAQS = [

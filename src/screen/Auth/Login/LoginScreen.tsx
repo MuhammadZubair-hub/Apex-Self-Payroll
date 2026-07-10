@@ -123,12 +123,12 @@ const LoginScreen = () => {
                 }}
               />
 
-              <View style={{flexDirection:'row',gap:AppSizes.GAP_20,justifyContent:'center'}}>
+              {/* <View style={{flexDirection:'row',gap:AppSizes.GAP_20,justifyContent:'center'}}>
                 <Text style={{ fontFamily: 'PlusJakartaSans-Regular', fontSize: AppSizes.FONT_12, alignSelf: 'center', color: colors.textSecondary }}>version 1.0.0 </Text>
                 <Text style={{ fontFamily: 'PlusJakartaSans-Regular', fontSize: AppSizes.FONT_12, alignSelf: 'center', color: colors.textSecondary }}>|</Text>
                 <Text style={{ fontFamily: 'PlusJakartaSans-Regular', fontSize: AppSizes.FONT_12, alignSelf: 'center', color: colors.purple1 }}>Privacypolicy </Text>
 
-              </View>
+              </View> */}
 
             </View>
           </ScrollView>

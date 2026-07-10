@@ -57,15 +57,15 @@ export const useHelpSupport = () => {
 
   const contactMethods = useMemo(
     () => [
-      {
-        key: 'call',
-        icon: 'call-outline',
-        tint: colors.greenTint,
-        color: colors.greenColor,
-        title: 'Call HR Department',
-        subtitle: SUPPORT_PHONE,
-        onPress: callHR,
-      },
+      // {
+      //   key: 'call',
+      //   icon: 'call-outline',
+      //   tint: colors.greenTint,
+      //   color: colors.greenColor,
+      //   title: 'Call HR Department',
+      //   subtitle: SUPPORT_PHONE,
+      //   onPress: callHR,
+      // },
       {
         key: 'email',
         icon: 'mail-outline',
