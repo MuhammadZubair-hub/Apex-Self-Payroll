@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Native pre-JS splash background (set as windowBackground in styles.xml) - this is the
+     app's only splash screen. Mirrors the white rounded card + centered icon look the JS
+     Splasscreen.tsx used to draw, so there's just one consistent branded splash instead of a
+     native flash followed by a separate JS-rendered one. -->
+<layer-list xmlns:android="http://schemas.android.com/apk/res/android">
+    <item android:drawable="@color/splashBackground" />
+
+    <item
+        android:width="120dp"
+        android:height="120dp"
+        android:gravity="center">
+        <shape android:shape="rectangle">
+            <solid android:color="#FFFFFF" />
+            <corners android:radius="28dp" />
+        </shape>
+    </item>
+
+    <item
+        android:width="78dp"
+        android:height="78dp"
+        android:gravity="center"
+        android:drawable="@mipmap/ic_launcher" />
+</layer-list>
