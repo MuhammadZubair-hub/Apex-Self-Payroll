@@ -61,19 +61,22 @@ const LoginScreen = () => {
           keyboardShouldPersistTaps="handled"
           showsVerticalScrollIndicator={false}
         >
+          <Text style={{ fontFamily: 'PlusJakartaSans-Bold', fontSize: AppSizes.FONT_28, alignSelf: 'center', color: colors.purple1 , marginTop: verticalScale(20),letterSpacing:2}}>ESS</Text>
+
+          <Text style={{ fontFamily: 'PlusJakartaSans-Semibold', fontSize: AppSizes.FONT_14, alignSelf: 'center', color: colors.purple1 }}>Employee Self Service</Text>
           <Image
 
-            source={require('../../../assets/Images/esslogo.png')}
+            source={require('../../../assets/Images/esslogo2.png')}
             style={styles.logo}
-            // resizeMode="contain"
-            resizeMode="cover"
+            resizeMode="contain"
+          // resizeMode="cover"
           />
 
 
 
           <Text style={{ fontFamily: 'PlusJakartaSans-Bold', fontSize: AppSizes.FONT_24, alignSelf: 'center', color: colors.textPrimary }}>Welcome Back!</Text>
 
-          <Text style={{ fontFamily: 'PlusJakartaSans-Semibold', fontSize: AppSizes.FONT_14, alignSelf: 'center', color: colors.textSecondary }}>Sign in to access your employee account </Text>
+          <Text style={{ fontFamily: 'PlusJakartaSans-Semibold', fontSize: AppSizes.FONT_14, alignSelf: 'center', color: colors.textSecondary }}>Sign In to access your employee account </Text>
 
           <View style={styles.formGroup}>
             <MyInput
@@ -107,7 +110,7 @@ const LoginScreen = () => {
             />
 
             <MyButton
-              text="Signin"
+              text="Sign In"
               style={[
                 styles.loginButton,
                 { backgroundColor: colors.purple1 },
@@ -154,7 +157,7 @@ const styles = StyleSheet.create({
     paddingBottom: verticalScale(8),
   },
   logo: {
-    marginTop: verticalScale(60),
+    // marginTop: verticalScale(60),
     width: scale(350),
     height: scale(250),
     // resizeMode: "contain",

@@ -3,7 +3,6 @@ import { ScrollView, Text, TouchableOpacity, View } from 'react-native';
 import { Fold } from 'react-native-animated-spinkit';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import Icon from '../../components/Icons';
-import MyButton from '../../components/MyButton';
 import PrimaryHeader from '../../components/header/PrimaryHeader';
 import MonthYearPickerSheet from '../Attandance/components/MonthYearPickerSheet';
 import { MONTH_NAMES } from '../Home/components/AttendanceCalendar/attendanceCalendar.constants';
@@ -25,8 +24,7 @@ const LeaveCalendarHistoryScreen = () => {
     departments,
     departmentId,
     selectedDepartmentName,
-    setDepartmentId,
-    onPressGet,
+    selectDepartment,
     selectMonthYear,
     records,
     markedDates,
@@ -70,25 +68,18 @@ const LeaveCalendarHistoryScreen = () => {
           <Icon type="Ionicons" name="calendar-outline" size={AppSizes.ICON_20} color={colors.purple1} />
         </TouchableOpacity>
 
-        <View style={styles.filterRow}>
-          <TouchableOpacity
-            style={[styles.departmentField, { borderColor: colors.borderColor, backgroundColor: colors.secondPrimaryColor }]}
-            onPress={() => setDepartmentPickerVisible(true)}
+        <TouchableOpacity
+          style={[styles.departmentField, { borderColor: colors.borderColor, backgroundColor: colors.secondPrimaryColor }]}
+          onPress={() => setDepartmentPickerVisible(true)}
+        >
+          <Text
+            style={[styles.departmentText, { color: departmentId != null ? colors.textPrimary : colors.textSecondary }]}
+            numberOfLines={1}
           >
-            <Text
-              style={[styles.departmentText, { color: departmentId != null ? colors.textPrimary : colors.textSecondary }]}
-              numberOfLines={1}
-            >
-              {selectedDepartmentName}
-            </Text>
-            <Icon type="Ionicons" name="chevron-down" size={AppSizes.ICON_16} color={colors.textSecondary} />
-          </TouchableOpacity>
-          <MyButton
-            text="Get"
-            onPress={onPressGet}
-            style={{ ...styles.getButton, backgroundColor: colors.primarayheaderColor }}
-          />
-        </View>
+            {selectedDepartmentName}
+          </Text>
+          <Icon type="Ionicons" name="chevron-down" size={AppSizes.ICON_16} color={colors.textSecondary} />
+        </TouchableOpacity>
 
         <View style={[styles.calendarCard, { backgroundColor: colors.secondPrimaryColor }]}>
           {loading ? (
@@ -147,7 +138,7 @@ const LeaveCalendarHistoryScreen = () => {
         colors={colors}
         departments={departments}
         selectedId={departmentId}
-        onSelect={setDepartmentId}
+        onSelect={selectDepartment}
         onClose={() => setDepartmentPickerVisible(false)}
       />
     </SafeAreaView>

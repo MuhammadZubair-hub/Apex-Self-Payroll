@@ -20,7 +20,7 @@ export const FAQS = [
   {
     question: 'How do I approve or reject a teammate’s leave request?',
     answer:
-      'Switch to the "Pending Approval" tab on the Leave Requests screen. Each request there has Approve and Reject buttons — you’ll be asked for a short remark before it’s submitted.',
+      'Switch to the "Pending Approval" tab on the Leave Requests screen. Each request there has Approve and Reject buttons — you’ll be asked for a short remark before it’s submitted.(Manager only)',
   },
   {
     question: 'Where can I see my attendance history?',
@@ -37,7 +37,8 @@ export const FAQS = [
     answer: 'Your total leave balance is shown on the Home dashboard. Tap the Leave Balance card to see the breakdown by leave type.',
   },
   {
-    question: 'How do I update my profile information?',
-    answer: 'Open Profile from the drawer to view your personal and employment details. If anything needs to be corrected, please contact HR.',
+    question: 'How do I update my password ?',
+    answer: 'Open Settings and tap Change Password, then enter your old and new passwords. After any password change you will be signed out, so just sign in again with your new password.'
+
   },
 ];

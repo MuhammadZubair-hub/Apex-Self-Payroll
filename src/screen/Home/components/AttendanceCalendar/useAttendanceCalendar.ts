@@ -94,13 +94,7 @@ export const useAttendanceCalendar = () => {
 
   const markedDates = useMemo(() => buildMarkedDates(records), [records]);
 
-  const onPressGet = useCallback(() => {
-    if (departmentId == null) return;
-    fetchLeaveCalendar(departmentId, month, year);
-  }, [departmentId, month, year, fetchLeaveCalendar]);
-
-  // Used by the Home dashboard card, which has no "Get" button - picking a department there
-  // fetches immediately instead of waiting to be applied alongside a month/year change.
+  // Picking a department fetches immediately - there's no "Get" button to apply it.
   const selectDepartment = useCallback(
     (id: number | string) => {
       setDepartmentId(id);
@@ -109,12 +103,15 @@ export const useAttendanceCalendar = () => {
     [month, year, fetchLeaveCalendar]
   );
 
-  // Month/year are staged filters, just like department - only the "Get" button (onPressGet)
-  // actually re-fetches, so all three can be changed together before applying.
-  const selectMonthYear = useCallback((selectedMonth: number, selectedYear: number) => {
-    setMonth(selectedMonth);
-    setYear(selectedYear);
-  }, []);
+  // Same as selectDepartment - changing month/year fetches right away using the current department.
+  const selectMonthYear = useCallback(
+    (selectedMonth: number, selectedYear: number) => {
+      setMonth(selectedMonth);
+      setYear(selectedYear);
+      if (departmentId != null) fetchLeaveCalendar(departmentId, selectedMonth, selectedYear);
+    },
+    [departmentId, fetchLeaveCalendar]
+  );
 
   const openDetails = useCallback((filterDate?: string) => {
     setDetailsFilterDate(filterDate ?? null);
@@ -140,7 +137,6 @@ export const useAttendanceCalendar = () => {
     selectedDepartmentName,
     setDepartmentId,
     selectDepartment,
-    onPressGet,
     selectMonthYear,
     records,
     markedDates,

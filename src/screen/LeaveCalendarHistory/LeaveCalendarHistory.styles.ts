@@ -24,14 +24,7 @@ export const leaveCalendarHistoryStyles = StyleSheet.create({
     fontSize: AppSizes.FONT_16,
     fontFamily: 'PlusJakartaSans-SemiBold',
   },
-  filterRow: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    gap: scale(10),
-    marginBottom: scale(16),
-  },
   departmentField: {
-    flex: 1,
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'center',
@@ -39,17 +32,13 @@ export const leaveCalendarHistoryStyles = StyleSheet.create({
     borderRadius: AppSizes.RADIUS_10,
     paddingHorizontal: scale(14),
     paddingVertical: scale(13),
+    marginBottom: scale(16),
   },
   departmentText: {
     fontSize: AppSizes.FONT_14,
     fontFamily: 'PlusJakartaSans-Regular',
     flex: 1,
     marginRight: scale(6),
-  },
-  getButton: {
-    width: scale(70),
-    height: scale(46),
-    paddingVertical: verticalScale(0),
   },
   calendarCard: {
     padding: scale(16),

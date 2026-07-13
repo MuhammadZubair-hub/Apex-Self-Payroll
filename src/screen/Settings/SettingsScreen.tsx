@@ -183,9 +183,16 @@ const dispatch = useDispatch();
               icon={isDark ? 'moon' : 'sunny'}
               label="Dark Mode"
               colors={colors}
-              // isLast
+              isLast
               rightElement={<ThemeToggle theme={theme} colors={colors} onToggle={toggleTheme} />}
             />
+           
+          </View>
+
+          {/* Account Section */}
+          <Text style={[premiumStyles.premiumSectionTitle, { color: colors.textPrimary }]}>ACCOUNT SERVICES</Text>
+          <View style={[premiumStyles.premiumCard, { backgroundColor: cardBg, borderColor: cardBorder, }]}>
+            <SettingsRow icon="person-outline" label="My Profile" colors={colors} onPress={goToProfile} />
             <SettingsRow
               icon={'lock-closed-outline'}
               label="Change Password"
@@ -194,12 +201,6 @@ const dispatch = useDispatch();
               onPress={() => { setPasswordModal(prev => !prev) }}
               // rightElement={<ThemeToggle theme={theme} colors={colors} onToggle={toggleTheme} />}
             />
-          </View>
-
-          {/* Account Section */}
-          <Text style={[premiumStyles.premiumSectionTitle, { color: colors.textPrimary }]}>ACCOUNT SERVICES</Text>
-          <View style={[premiumStyles.premiumCard, { backgroundColor: cardBg, borderColor: cardBorder, }]}>
-            <SettingsRow icon="person-outline" label="My Profile" colors={colors} onPress={goToProfile} />
             <SettingsRow icon="help-circle-outline" label="Help & Support" colors={colors} onPress={goToSupport} />
             <SettingsRow icon="information-circle-outline" label="About ESS" colors={colors} onPress={goToAbout} isLast />
           </View>

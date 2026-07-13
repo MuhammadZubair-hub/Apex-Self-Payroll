@@ -72,7 +72,7 @@ const MyInput = ({
             type={iconType}
             name={iconName}
             size={scale(20)}
-            color={isFocused ? colors.primarayheaderColor : colors.purple1}
+            color={colors.purple1}
           />
         )}
 
