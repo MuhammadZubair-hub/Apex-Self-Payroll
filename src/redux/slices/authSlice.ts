@@ -8,7 +8,8 @@ export interface User {
   lastName: string;
   refreshToken: string;
   phoneNumber: string;
- 
+  firstTimeLogged?: boolean;
+
 };
 
 interface todayAttend {

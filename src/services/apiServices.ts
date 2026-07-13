@@ -10,6 +10,18 @@ export const API_Config = {
       data: { UserName, Password, BackEndUrl: 'https://ait.vdc.services:1410' },
     });
   },
+   changePassword: async (employeeId: string, oldPassword: string,newPassword:string) => {
+    console.log(employeeId, oldPassword,newPassword,`${baseUrl}${endPoints.changePassword}`)
+    return apicall({
+      endpoint: `${baseUrl}${endPoints.changePassword}`,
+      method: "POST",
+      data: { 
+      employeeId: parseInt(employeeId), 
+      oldPassword, 
+      newPassword 
+    },
+    });
+  },
 
   OtpVerfify: async (preAuthToken: string, otp: string) => {
     return apicall({

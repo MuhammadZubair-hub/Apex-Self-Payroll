@@ -6,6 +6,7 @@ import { loginSuccess } from "../../../redux/slices/authSlice";
 import { getColors } from "../../../theme/color/theme";
 import { useThemeContext } from "../../../theme/ThemeContex";
 import { showThemedMessage } from "../../../utils/flashMessage";
+import { decodeJwt } from "../../../utils/jwt";
 
 export const useLoginUser = () => {
   const { theme } = useThemeContext();
@@ -16,9 +17,9 @@ export const useLoginUser = () => {
   }>({ email: "", password: "" });
   const [isLoading, setIsLoading] = useState(false);
   const dispatch = useDispatch();
-//   const router = useRouter();
+  //   const router = useRouter();
 
-  const navigation = useNavigation();
+  const navigation = useNavigation<any>();
   const fetchProfileData = async (employeeId: any) => {
     if (!employeeId) {
       // setLoading(false);
@@ -55,23 +56,47 @@ export const useLoginUser = () => {
         userCredentials.password.trim(),
       );
 
-      // console.log("API Response:", response.data.data);
-      if (response?.success) {
-        const profileData = await fetchProfileData(response.data.data.data.employeeId);
+      console.log("API Response:", response);
+      if (response?.success && response.data.status == "1") {
+        const loginData = response.data.data.data;
+
+        console.log(loginData);
+
+        // `firstTimeLogged` isn't in the login response body yet, so it's read off the JWT
+        // claims instead. Defaults to true (normal flow) until the token actually carries it.
+
+
+        const tokenClaims = decodeJwt(loginData.token);
+        console.log('the tokeclaims are this :', tokenClaims);
+        const firstTimeLogged = tokenClaims?.FirstTimeLogged === '0';
+        console.log(firstTimeLogged);
+
+        if (!firstTimeLogged) {
+          navigation.navigate('ChangePassword', {
+            employeeId: loginData.employeeId,
+            userName: loginData.userName,
+          });
+          return;
+        }
+
+        const profileData = await fetchProfileData(loginData.employeeId);
 
         if (profileData) {
           dispatch(
             loginSuccess({
               data: {
-                data: response.data.data.data,
+                data: loginData,
                 profileData: profileData
               },
             }),
           );
         }
-        // router.push("/(app)/(tabs)");
 
 
+
+      }
+      else{
+        showThemedMessage(colors, { message: ` ${response.data.message}`, type: 'danger' });
       }
     } catch (error) {
       // console.error("Login error:", error);

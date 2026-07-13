@@ -44,99 +44,89 @@ const LoginScreen = () => {
 
   return (
 
-    <SafeAreaView style={[styles.container,{backgroundColor:colors.primaryColor}]}>
-      
-        <StatusBar
-          backgroundColor={colors.primarayheaderColor}
-          barStyle="light-content"
-        />
+    <SafeAreaView style={[styles.container, { backgroundColor: colors.primaryColor }]}>
 
-        <KeyboardAvoidingView
-          style={{ flex: 1 }}
-          behavior={Platform.OS === "ios" ? "padding" : 'height'}
+      <StatusBar
+        backgroundColor={colors.primarayheaderColor}
+        barStyle="light-content"
+      />
+
+      <KeyboardAvoidingView
+        style={{ flex: 1 }}
+        behavior={Platform.OS === "ios" ? "padding" : "height"}
+        keyboardVerticalOffset={Platform.OS === "ios" ? 0 : 40}
+      >
+        <ScrollView
+          contentContainerStyle={styles.scrollContent}
+          keyboardShouldPersistTaps="handled"
+          showsVerticalScrollIndicator={false}
         >
-          <ScrollView
-            contentContainerStyle={styles.scrollContent}
-            keyboardShouldPersistTaps="handled"
-            showsVerticalScrollIndicator={false}
-          >
-              <Image
-                // source={
-                //   theme == "dark"
-                //     ? require("./../../src/assets/Images/company-logo-black.png")
-                //     : require("./../../src/assets/Images/company-logo-white.png")
-                // }
-                //source={{ uri: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSC0SaFGGoJber21xJukDLpCHrql1k4rmx-rZhe1QVdLQ&s=10' }}
-                //source={{ uri: 'https://img.magnific.com/premium-vector/online-scam-malware-password-phishing-funny-hacker-mask-steals-information-flat-vector_985641-5690.jpg' }}
-                source={require('../../../assets/Images/esslogo.png')}
-                style={styles.logo}
-                // resizeMode="contain"
-                resizeMode="cover"
-              />
+          <Image
 
-           
+            source={require('../../../assets/Images/esslogo.png')}
+            style={styles.logo}
+            // resizeMode="contain"
+            resizeMode="cover"
+          />
 
-            <Text style={{ fontFamily: 'PlusJakartaSans-Bold', fontSize: AppSizes.FONT_24, alignSelf: 'center', color: colors.textPrimary }}>Welcome Back!</Text>
 
-            <Text style={{ fontFamily: 'PlusJakartaSans-Semibold', fontSize: AppSizes.FONT_14, alignSelf: 'center', color: colors.textSecondary }}>Sign in to access your employee account </Text>
 
-            <View style={styles.formGroup}>
-              <MyInput
-                placeholder="Enter your Username"
-                label="User Name"
-                value={userCredentials.email}
-                onChangeText={(v) => {
-                  setUserCredentials((prev) => ({ ...prev, email: v }));
-                }}
-                iconType="Ionicons"
-                iconName="person-outline"
-                containerStyle={styles.inputContainer}
-              />
+          <Text style={{ fontFamily: 'PlusJakartaSans-Bold', fontSize: AppSizes.FONT_24, alignSelf: 'center', color: colors.textPrimary }}>Welcome Back!</Text>
 
-              <MyInput
-                placeholder="Enter Password"
-                label="Password"
-                value={userCredentials.password}
-                onChangeText={(v) => {
-                  setUserCredentials((prev) => ({ ...prev, password: v }));
-                }}
-                iconType="Ionicons"
-                iconName="lock-closed-outline"
-                secure={isSecure}
-                containerStyle={styles.inputContainer}
-                rightComponent={
-                  <Icon name={isSecure ? "eye-off-outline" : "eye-outline"}
-                    onPress={() => { setIsSecure(prev => !prev) }}
-                    type={"Ionicons"} color={colors.textSecondary} />
-                }
-              />
+          <Text style={{ fontFamily: 'PlusJakartaSans-Semibold', fontSize: AppSizes.FONT_14, alignSelf: 'center', color: colors.textSecondary }}>Sign in to access your employee account </Text>
 
-              <MyButton
-                text="Signin"
-                style={[
-                  styles.loginButton,
-                  { backgroundColor: colors.purple1 },
-                ]}
-                onPress={() => {
-                  // navigation.navigate('MainApp');
-                  handleLogin();
-                }}
-              />
+          <View style={styles.formGroup}>
+            <MyInput
+              placeholder="Enter your Username"
+              label="User Name"
+              value={userCredentials.email}
+              onChangeText={(v) => {
+                setUserCredentials((prev) => ({ ...prev, email: v }));
+              }}
+              iconType="Ionicons"
+              iconName="person-outline"
+              containerStyle={styles.inputContainer}
+            />
 
-              {/* <View style={{flexDirection:'row',gap:AppSizes.GAP_20,justifyContent:'center'}}>
-                <Text style={{ fontFamily: 'PlusJakartaSans-Regular', fontSize: AppSizes.FONT_12, alignSelf: 'center', color: colors.textSecondary }}>version 1.0.0 </Text>
-                <Text style={{ fontFamily: 'PlusJakartaSans-Regular', fontSize: AppSizes.FONT_12, alignSelf: 'center', color: colors.textSecondary }}>|</Text>
-                <Text style={{ fontFamily: 'PlusJakartaSans-Regular', fontSize: AppSizes.FONT_12, alignSelf: 'center', color: colors.purple1 }}>Privacypolicy </Text>
+            <MyInput
+              placeholder="Enter Password"
+              label="Password"
+              value={userCredentials.password}
+              onChangeText={(v) => {
+                setUserCredentials((prev) => ({ ...prev, password: v }));
+              }}
+              iconType="Ionicons"
+              iconName="lock-closed-outline"
+              secure={isSecure}
+              containerStyle={styles.inputContainer}
+              rightComponent={
+                <Icon name={isSecure ? "eye-off-outline" : "eye-outline"}
+                  onPress={() => { setIsSecure(prev => !prev) }}
+                  type={"Ionicons"} color={colors.textSecondary} />
+              }
+            />
 
-              </View> */}
+            <MyButton
+              text="Signin"
+              style={[
+                styles.loginButton,
+                { backgroundColor: colors.purple1 },
+              ]}
+              onPress={() => {
+                // navigation.navigate('MainApp');
+                handleLogin();
+              }}
+            />
 
-            </View>
-          </ScrollView>
-        </KeyboardAvoidingView>
 
-        <LoadingBaseModal
-          visible={isLoading}
-        />
+
+          </View>
+        </ScrollView>
+      </KeyboardAvoidingView>
+
+      <LoadingBaseModal
+        visible={isLoading}
+      />
 
     </SafeAreaView>
 

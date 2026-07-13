@@ -10,6 +10,8 @@ export const endPoints = {
   forgetpassord: "auth/password/forgot",
   passwordreset: "auth/password/reset",
 
+  changePassword :'Account/ChangePassword',
+
 
 
   TodayAttendance :'ESSDashboard/GetTodayEmployeeAttendence',
@@ -40,7 +42,7 @@ export const endPoints = {
 
   //dummy
   RegisterUser: "Registeruser",
-  changePassword: "changePassword",
+  // changePassword: "changePassword",
   deleteUser: "deleteUser",
   updateUser: "updateUser",
 
