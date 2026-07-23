@@ -98,6 +98,9 @@ export const useHome = () => {
           HomeService.getPendingLeaveApplications(userData.employeeId),
         ]);
 
+        console.log('att: ', todayAttendanceResult.data.data )
+        console.log('att2: ', pendingRequestResult.data.data )
+
         if (holidaysResult.data?.status) setUpcomingHolidays(holidaysResult.data.data || []);
         if (leaveResult.data?.status) setLeaveBalance(leaveResult.data.data || []);
         if (todayAttendanceResult.data?.status) setTodayAttendance(todayAttendanceResult.data.data || null);

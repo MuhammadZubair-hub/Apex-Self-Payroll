@@ -247,7 +247,7 @@ const dispatch = useDispatch();
 
             <Text style={{ fontFamily: 'PlusJakartaSans-Bold', fontSize: AppSizes.FONT_24, alignSelf: 'center', color: colors.textPrimary }}>Forget Password!</Text>
 
-            <Text style={{ fontFamily: 'PlusJakartaSans-Semibold', fontSize: AppSizes.FONT_14, alignSelf: 'center', color: colors.textSecondary }}>Update your password to access your account </Text>
+            <Text style={{ fontFamily: 'PlusJakartaSans-SemiBold', fontSize: AppSizes.FONT_14, alignSelf: 'center', color: colors.textSecondary }}>Update your password to access your account </Text>
 
             <View style={premiumStyles.formGroup}>
               <MyInput

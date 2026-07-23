@@ -108,14 +108,16 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     borderRadius: AppSizes.RADIUS_10,
     paddingHorizontal: AppSizes.PH_10,
-    paddingVertical: verticalScale(3),
+    // paddingVertical: verticalScale(10),
     elevation: 1,
+
   },
   input: {
     flex: 1,
     marginLeft: AppSizes.MV_10,
     fontSize: AppSizes.FONT_14,
-    fontFamily:'PlusJakartaSans-Regular'
+    fontFamily:'PlusJakartaSans-Regular',
+    paddingVertical: verticalScale(14),
   },
 });
 

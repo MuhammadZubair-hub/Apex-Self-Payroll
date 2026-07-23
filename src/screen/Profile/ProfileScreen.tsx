@@ -26,7 +26,6 @@ const ProfileScreen = () => {
 
   const navigation = useNavigation<any>();
   const BACKGROUND_HEIGHT = Dimensions.get('window').height * 0.38;
-
   // Same premium styling as SettingsScreen - keep the two in sync if this look changes.
   const isDark = theme === 'dark';
   const cardBg = isDark ? 'rgb(30, 41, 59)' : 'rgb(255, 255, 255)';
@@ -91,7 +90,8 @@ const ProfileScreen = () => {
               <View style={premiumStyles.topRow}>
                 <View style={premiumStyles.avatarContainer}>
                   {profileImage ? (
-                    <Image source={{ uri: `https://syi.superyachtinteriors.ae:2001${profileImage}` }} style={premiumStyles.premiumAvatar} />
+                    <Image source={{ uri: `https://ait.vdc.services:1410${profileImage}` }} style={premiumStyles.premiumAvatar} />
+                    // <Image source={{ uri: `https://syi.superyachtinteriors.ae:2001${profileImage}` }} style={premiumStyles.premiumAvatar} />
                   ) : (
                     <View style={[premiumStyles.premiumAvatar, { backgroundColor: '#0062e3' }]}>
                       <Text style={premiumStyles.avatarInitial}>{fullName.charAt(0).toUpperCase()}</Text>
@@ -126,7 +126,7 @@ const ProfileScreen = () => {
               <View style={premiumStyles.contactRow}>
                 <Icon type="Ionicons" name="call-outline" size={verticalScale(15)} color={colors.purple1} />
                 <Text style={[premiumStyles.contactText, { color: colors.textSecondary }]} numberOfLines={1}>
-                  {mobileNo}
+                  +92{mobileNo}
                 </Text>
               </View>
             </View>

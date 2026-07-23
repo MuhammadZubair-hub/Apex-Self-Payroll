@@ -29,20 +29,31 @@ export const apicall = async <T = any>({
   endpoint,
   method,
   params = {},
-  data = {},
+  data,
   headers = {},
   silent = false,
 }: ApiCallOptions): Promise<ApiCallResponse<T>> => {
-  const option = {
+  const isGet = method.toUpperCase() === 'GET';
+  const isFormData = typeof FormData !== 'undefined' && data instanceof FormData;
+
+  const defaultHeaders: Record<string, string> = {};
+  if (!isGet && !isFormData) {
+    defaultHeaders['Content-Type'] = 'application/json';
+  }
+
+  const option: any = {
     method,
     url: endpoint,
     params,
-    data,
     headers: {
-      'Content-Type': 'application/json',
+      ...defaultHeaders,
       ...headers,
     },
   };
+
+  if (!isGet && data !== undefined && data !== null && (isFormData || Object.keys(data).length > 0)) {
+    option.data = data;
+  }
 
   try {
     const response: AxiosResponse<T> = await axios.request(option);
@@ -57,7 +68,7 @@ export const apicall = async <T = any>({
     const message =
       error?.response?.data?.message || error.message || 'Something went wrong';
     console.log('The error calling API is:', error?.response?.data || message);
-
+console.log('error:',error)
     // Only screens that don't already show their own failure message rely on this - callers
     // that check `!result.success` and show a specific toast pass `silent: true` to avoid
     // showing the error twice.

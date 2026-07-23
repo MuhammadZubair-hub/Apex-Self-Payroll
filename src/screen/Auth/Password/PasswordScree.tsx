@@ -61,7 +61,7 @@ const PasswordScreen = () => {
 
           <Text style={{ fontFamily: 'PlusJakartaSans-Bold', fontSize: AppSizes.FONT_24, alignSelf: 'center', color: colors.textPrimary }}>Update Password</Text>
 
-          <Text style={{ fontFamily: 'PlusJakartaSans-Semibold', fontSize: AppSizes.FONT_14, alignSelf: 'center', color: colors.textSecondary }}>Update your password to secure your account </Text>
+          <Text style={{ fontFamily: 'PlusJakartaSans-SemiBold', fontSize: AppSizes.FONT_14, alignSelf: 'center', color: colors.textSecondary }}>Update your password to secure your account </Text>
 
           <View style={styles.formGroup}>
             <MyInput

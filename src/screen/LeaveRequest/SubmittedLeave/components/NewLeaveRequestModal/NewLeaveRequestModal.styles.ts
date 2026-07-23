@@ -5,6 +5,7 @@ import { AppSizes } from '../../../../../utils/AppSizes';
 export const newLeaveRequestStyles = StyleSheet.create({
   container: {
     flex: 1,
+    
   },
   formHeaderRow: {
     flexDirection: 'row',

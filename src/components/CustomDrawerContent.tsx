@@ -52,7 +52,8 @@ const CustomDrawerContent = (props: any) => {
       <View style={[styles.profileSection, { backgroundColor: colors.primarayheaderColor }]}>
         <View style={styles.profileContent}>
           {profileData?.profileImage ? (
-            <Image source={{uri: `https://syi.superyachtinteriors.ae:2001${profileData?.profileImage}` }} style={styles.profileImage} />
+            // <Image source={{uri: `https://syi.superyachtinteriors.ae:2001${profileData?.profileImage}` }} style={styles.profileImage} />
+            <Image source={{uri: `https://ait.vdc.services:1410${profileData?.profileImage}` }} style={styles.profileImage} />
           ) : (
             <View style={[styles.profileImage, styles.profileImageFallback]}>
               <Text style={styles.profileImageInitial}>{drawerUserName.charAt(0).toUpperCase()}</Text>

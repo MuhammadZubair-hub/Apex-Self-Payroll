@@ -1,7 +1,7 @@
 import React from 'react';
 import { Modal, ScrollView, StatusBar, Text, TextInput, TouchableOpacity, View } from 'react-native';
 import { Fold } from 'react-native-animated-spinkit';
-import { SafeAreaView } from 'react-native-safe-area-context';
+import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import ConfirmModal from '../../../../../components/ConfirmModal';
 import Icon from '../../../../../components/Icons';
 import MyButton from '../../../../../components/MyButton';
@@ -27,6 +27,7 @@ interface NewLeaveRequestModalProps {
 }
 
 const NewLeaveRequestModal = ({ visible, colors, leaveTypes, employeeId, onClose, onSubmit }: NewLeaveRequestModalProps) => {
+  const insets = useSafeAreaInsets();
   const {
     leaveTypeId,
     setLeaveTypeId,
@@ -62,10 +63,12 @@ const NewLeaveRequestModal = ({ visible, colors, leaveTypes, employeeId, onClose
     confirmSubmit,
   } = useNewLeaveRequestForm({ leaveTypes, employeeId, onSubmit, onClose });
 
+  if (!visible) return null;
+
   return (
     <Modal visible={visible} animationType="slide" onRequestClose={handleClose}>
       <ModalFlashMessage visible={visible} />
-      <SafeAreaView style={[styles.container, { backgroundColor: colors.primaryColor }]}>
+      <View style={[styles.container, { backgroundColor: colors.primaryColor, paddingTop: insets.top, paddingBottom: insets.bottom }]}>
         <StatusBar backgroundColor={colors.primaryColor} barStyle="dark-content" />
 
         <View style={styles.formHeaderRow}>
@@ -184,7 +187,7 @@ const NewLeaveRequestModal = ({ visible, colors, leaveTypes, employeeId, onClose
             style={{ backgroundColor: colors.purple1, marginTop: scale(24) }}
           />
         </ScrollView>
-      </SafeAreaView>
+      </View>
 
       <LeaveTypePickerSheet
         visible={typePickerVisible}

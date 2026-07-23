@@ -63,7 +63,7 @@ const LoginScreen = () => {
         >
           <Text style={{ fontFamily: 'PlusJakartaSans-Bold', fontSize: AppSizes.FONT_28, alignSelf: 'center', color: colors.purple1 , marginTop: verticalScale(20),letterSpacing:2}}>ESS</Text>
 
-          <Text style={{ fontFamily: 'PlusJakartaSans-Semibold', fontSize: AppSizes.FONT_14, alignSelf: 'center', color: colors.purple1 }}>Employee Self Service</Text>
+          <Text style={{ fontFamily: 'PlusJakartaSans-SemiBold', fontSize: AppSizes.FONT_14, alignSelf: 'center', color: colors.purple1 }}>Employee Self Service</Text>
           <Image
 
             source={require('../../../assets/Images/esslogo2.png')}
@@ -76,7 +76,7 @@ const LoginScreen = () => {
 
           <Text style={{ fontFamily: 'PlusJakartaSans-Bold', fontSize: AppSizes.FONT_24, alignSelf: 'center', color: colors.textPrimary }}>Welcome Back!</Text>
 
-          <Text style={{ fontFamily: 'PlusJakartaSans-Semibold', fontSize: AppSizes.FONT_14, alignSelf: 'center', color: colors.textSecondary }}>Sign In to access your employee account </Text>
+          <Text style={{ fontFamily: 'PlusJakartaSans-SemiBold', fontSize: AppSizes.FONT_14, alignSelf: 'center', color: colors.textSecondary }}>Sign In to access your employee account </Text>
 
           <View style={styles.formGroup}>
             <MyInput
