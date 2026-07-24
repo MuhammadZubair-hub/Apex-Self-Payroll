@@ -95,8 +95,8 @@ export const useLoginUser = () => {
 
 
       }
-      else{
-        showThemedMessage(colors, { message: ` ${response.data.message}`, type: 'danger' });
+      else {
+        showThemedMessage(colors, { message: ` ${response.data.message || response.message}`, type: 'danger' });
       }
     } catch (error) {
       // console.error("Login error:", error);

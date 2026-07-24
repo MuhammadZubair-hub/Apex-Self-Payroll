@@ -50,10 +50,12 @@ const authSlice = createSlice({
       // Unwrap nested API response
       state.user = action.payload.data.data;
       state.userProfile = action.payload.data.profileData;
+      state.isAuthenticated = true;
     },
     logout: state => {
       state.user = null;
       state.userProfile = null;
+      state.isAuthenticated = false;
     },
      attendanceMarked: (state, action) => {
       // console.log('on reducer this is ;',action.payload);

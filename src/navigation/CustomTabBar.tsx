@@ -72,9 +72,9 @@ const CustomTabBar = ({ state, navigation }: BottomTabBarProps) => {
               size={AppSizes.ICON_20}
               color={focused ? '#fff' : colors.textSecondary}
             />
-              <Text style={[styles.activeLabel,!focused && {color:colors.textSecondary,}]} numberOfLines={1}>
-                {label}
-              </Text>
+            <Text style={[styles.activeLabel, !focused && { color: colors.textSecondary, }]} numberOfLines={1}>
+              {label}
+            </Text>
             {/* {focused && (
             )} */}
           </TouchableOpacity>
@@ -121,7 +121,7 @@ const styles = StyleSheet.create({
     fontSize: AppSizes.FONT_12,
     fontFamily: 'PlusJakartaSans-SemiBold',
   },
-  
+
 });
 
 export default CustomTabBar;
