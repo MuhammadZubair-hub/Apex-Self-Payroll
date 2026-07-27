@@ -6,5 +6,5 @@ export const formatTime = (time?: string | null) => {
   if (isNaN(hourNum)) return '--:--';
   const period = hourNum >= 12 ? 'PM' : 'AM';
   const hour12 = hourNum % 12 === 0 ? 12 : hourNum % 12;
-  return `${String(hour12).padStart(2, '0')}:${m} ${period}`;
+  return `${String(hour12).padStart(2, '0')}:${m} ${period}` || 'N/A';
 };

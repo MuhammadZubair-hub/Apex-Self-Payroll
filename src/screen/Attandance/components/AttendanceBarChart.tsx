@@ -1,5 +1,5 @@
 import React, { useEffect, useMemo, useRef } from 'react';
-import { Animated, ScrollView, StyleSheet, Text, View } from 'react-native';
+import { Animated, ScrollView, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 import { getRecordStatus } from '../attandance.constants';
 import { scale, verticalScale } from '../../../utils/responsive';
 import { AppSizes } from '../../../utils/AppSizes';
@@ -56,9 +56,10 @@ const getWorkedHours = (item: any) => {
 interface AttendanceBarChartProps {
   records: any[];
   colors: any;
+  onSelectRecord?: (record: any) => void;
 }
 
-const AttendanceBarChart = ({ records, colors }: AttendanceBarChartProps) => {
+const AttendanceBarChart = ({ records, colors, onSelectRecord }: AttendanceBarChartProps) => {
   const bars = useMemo(() => {
     const withStatus = records.map((item) => ({ item, status: getRecordStatus(item) }));
     const maxWorked = Math.max(...withStatus.map(({ status, item }) => (status === 'Present' ? getWorkedHours(item) : 0)), 1);
@@ -72,6 +73,7 @@ const AttendanceBarChart = ({ records, colors }: AttendanceBarChartProps) => {
         color: getBarColor(colors, status),
         targetHeight,
         worked,
+        item,
       };
     });
   }, [records, colors]);
@@ -114,7 +116,12 @@ const AttendanceBarChart = ({ records, colors }: AttendanceBarChartProps) => {
 
           <ScrollView horizontal showsHorizontalScrollIndicator={false} contentContainerStyle={styles.scrollContent}>
             {bars.map((bar, index) => (
-              <View key={bar.key} style={styles.column}>
+              <TouchableOpacity
+                key={bar.key}
+                style={styles.column}
+                activeOpacity={0.7}
+                onPress={() => onSelectRecord?.(bar.item)}
+              >
                 <Animated.View
                   style={[
                     styles.bar,
@@ -128,7 +135,7 @@ const AttendanceBarChart = ({ records, colors }: AttendanceBarChartProps) => {
                   ]}
                 />
                 <Text style={[styles.dayLabel, { color: colors.textSecondary }]}>{bar.day}</Text>
-              </View>
+              </TouchableOpacity>
             ))}
           </ScrollView>
         </View>

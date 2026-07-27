@@ -6,6 +6,53 @@ export const attendanceStyles = StyleSheet.create({
   container: {
     flex: 1,
   },
+  filterSection: {
+    paddingHorizontal: scale(16),
+    paddingTop: scale(8),
+    paddingBottom: scale(4),
+  },
+  employeeSelector: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-between',
+    paddingHorizontal: scale(14),
+    paddingVertical: scale(10),
+    borderRadius: scale(12),
+    borderWidth: 1,
+    elevation: 1,
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 1 },
+    shadowOpacity: 0.04,
+    shadowRadius: 3,
+  },
+  employeeSelectorLeft: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    flex: 1,
+    marginRight: scale(8),
+  },
+  employeeAvatar: {
+    width: scale(32),
+    height: scale(32),
+    borderRadius: scale(16),
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  employeeTextInfo: {
+    marginLeft: scale(10),
+    flex: 1,
+  },
+  employeeLabel: {
+    fontSize: moderateScale(10),
+    fontFamily: 'PlusJakartaSans-Regular',
+    textTransform: 'uppercase',
+    letterSpacing: 0.5,
+  },
+  employeeName: {
+    fontSize: AppSizes.FONT_14,
+    fontFamily: 'PlusJakartaSans-SemiBold',
+    marginTop: verticalScale(1),
+  },
   monthNavRow: {
     flexDirection: 'row',
     alignItems: 'center',

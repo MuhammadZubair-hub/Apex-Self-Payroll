@@ -22,7 +22,8 @@ const TodayAttendanceCard = ({ colors, todayAttendance, todayStatusMeta, todayBo
     </View>
 
     <View style={styles.attendanceTimeRow}>
-      <Text style={[styles.checkInTime, { color: colors.textPrimary }]}>{formatTime(todayAttendance?.startTime)}</Text>
+      {/* <Text style={[styles.checkInTime, { color: colors.textPrimary }]}>{formatTime(todayAttendance?.startTime)}</Text> */}
+      <Text style={[styles.checkInTime, { color: colors.textPrimary }]}>{todayAttendance?.startTime.split(' ')[3]}</Text>
       <View style={[styles.iconCircle, { backgroundColor: colors.blueTint }]}>
         <Ionicons name="calendar-outline" size={AppSizes.ICON_30} color={colors.purple1} />
       </View>
@@ -32,6 +33,16 @@ const TodayAttendanceCard = ({ colors, todayAttendance, todayStatusMeta, todayBo
       <View style={[styles.statusDot, { backgroundColor: todayStatusMeta.dot }]} />
       <Text style={[styles.checkInText, { color: colors.textSecondary }]}>{todayBottomText}</Text>
     </View>
+    {
+      todayAttendance?.endTime ? (
+        <View style={styles.attendanceTimeRow}>
+          <Text style={[styles.checkOutTime, { color: colors.textPrimary }]}>{todayAttendance?.endTime.split(' ')[3]}</Text>
+          <View style={[styles.iconCircle, { backgroundColor: colors.blueTint }]}>
+            <Ionicons name="calendar-outline" size={AppSizes.ICON_30} color={colors.purple1} />
+          </View>
+        </View>
+      ) : (null)
+    }
   </View>
 );
 

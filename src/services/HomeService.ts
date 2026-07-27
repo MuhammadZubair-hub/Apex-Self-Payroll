@@ -13,4 +13,7 @@ export const HomeService = {
       endpoint: `${baseUrl}${endPoints.PendingLeaveApplicationsListESS}?UserId=${employeeId}`,
       method: 'GET',
     }),
+  getAllEmployess: () =>
+    apicall({ endpoint: `${baseUrl}${endPoints.GetAllEmployesDataESS}`, method: 'GET' }),
+
 };

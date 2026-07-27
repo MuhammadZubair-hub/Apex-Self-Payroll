@@ -20,7 +20,7 @@ const AttendanceRecordCard = ({ item, colors }: { item: any; colors: any }) => {
       <View style={styles.recordBody}>
         {status === 'Present' ? (
           <Text style={[styles.recordDetailText, { color: colors.textSecondary }]}>
-            {formatTime(item.startTime)} - {formatTime(item.endTime)}
+            {formatTime(item.startTime) || 'N/A'} - {formatTime(item.endTime) || 'N/A'}
             {item.totalHours ? ` • ${item.totalHours}h worked` : ''}
           </Text>
         ) : status === 'Leave' ? (

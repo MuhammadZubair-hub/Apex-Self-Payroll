@@ -16,7 +16,7 @@ interface InfoCardsRowProps {
 const InfoCardsRow = ({ colors, totalLeaveBalance, upcomingHolidays, onPressLeaveBalance, onPressHolidays }: InfoCardsRowProps) => (
   <View style={styles.infoCardsRow}>
     <TouchableOpacity
-      style={[styles.card, styles.infoCard, { backgroundColor: colors.secondPrimaryColor,borderLeftColor:colors.purple1 }]}
+      style={[styles.card, styles.infoCard, { backgroundColor: colors.secondPrimaryColor, borderLeftColor: colors.purple1 }]}
       onPress={onPressLeaveBalance}
       activeOpacity={0.85}
     >
@@ -32,7 +32,7 @@ const InfoCardsRow = ({ colors, totalLeaveBalance, upcomingHolidays, onPressLeav
     </TouchableOpacity>
 
     <TouchableOpacity
-      style={[styles.card, styles.infoCard, { backgroundColor: colors.secondPrimaryColor ,borderLeftColor:colors.purple1}]}
+      style={[styles.card, styles.infoCard, { backgroundColor: colors.secondPrimaryColor, borderLeftColor: colors.purple1 }]}
       onPress={onPressHolidays}
       activeOpacity={0.85}
     >
@@ -44,10 +44,10 @@ const InfoCardsRow = ({ colors, totalLeaveBalance, upcomingHolidays, onPressLeav
       {upcomingHolidays.length > 0 ? (
         <>
           <Text style={[styles.leaveLabel, { color: colors.textSecondary }]} numberOfLines={1}>
-            {upcomingHolidays[0]?.Date || 'N/A'}
+            {upcomingHolidays[0]?.date?.split("T", 1) || 'N/A'}
           </Text>
           <Text style={[styles.holidayNameText, { color: colors.textPrimary }]} numberOfLines={1}>
-            {upcomingHolidays[0]?.Holiday || 'N/A'}
+            {upcomingHolidays[0]?.remarks || 'N/A'}
           </Text>
         </>
       ) : (

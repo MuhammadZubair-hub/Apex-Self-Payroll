@@ -10,6 +10,8 @@ import AttendanceRecordCard from './components/AttendanceRecordCard';
 import AttendanceListSkeleton from './components/AttendanceListSkeleton';
 import AttendanceBarChart from './components/AttendanceBarChart';
 import MonthYearPickerSheet from './components/MonthYearPickerSheet';
+import EmployeePickerSheet from './components/EmployeePickerSheet';
+import AttendanceDetailModal from './components/AttendanceDetailModal';
 import { verticalScale } from '../../utils/responsive';
 import { AppSizes } from '../../utils/AppSizes';
 
@@ -27,14 +29,66 @@ const AttendanceScreen = () => {
     closeMonthPicker,
     selectMonthYear,
     summary,
+    isManager,
+    employeesList,
+    selectedEmployee,
+    employeePickerVisible,
+    openEmployeePicker,
+    closeEmployeePicker,
+    selectEmployee,
+    selectedRecord,
+    recordModalVisible,
+    openRecordModal,
+    closeRecordModal,
   } = useAttendance();
 
-  const renderItem = useCallback(({ item }: { item: any }) => <AttendanceRecordCard item={item} colors={colors} />, [colors]);
+  const renderItem = useCallback(
+    ({ item }: { item: any }) => (
+      <TouchableOpacity activeOpacity={0.8} onPress={() => openRecordModal(item)}>
+        <AttendanceRecordCard item={item} colors={colors} />
+      </TouchableOpacity>
+    ),
+    [colors, openRecordModal]
+  );
+
   const keyExtractor = useCallback((item: any, index: number) => item.date || String(index), []);
+
+  const hasManagedEmployees = isManager && employeesList.length > 1;
 
   return (
     <SafeAreaView style={[styles.container, { backgroundColor: colors.primaryColor }]}>
-      <PrimaryHeader headerText="Attendance"  alignTextCenter/>
+      <PrimaryHeader headerText="Attendance" alignTextCenter />
+
+      {/* Managed Employees Filter for Managers */}
+      {hasManagedEmployees && (
+        <View style={styles.filterSection}>
+          <TouchableOpacity
+            style={[
+              styles.employeeSelector,
+              {
+                backgroundColor: colors.secondPrimaryColor,
+                borderColor: colors.borderColor || colors.purple1 + '30',
+              },
+            ]}
+            onPress={openEmployeePicker}
+            activeOpacity={0.7}
+          >
+            <View style={styles.employeeSelectorLeft}>
+              <View style={[styles.employeeAvatar, { backgroundColor: colors.purple1 + '20' }]}>
+                <Ionicons name="person-outline" size={AppSizes.ICON_16} color={colors.purple1} />
+              </View>
+              <View style={styles.employeeTextInfo}>
+                <Text style={[styles.employeeLabel, { color: colors.textSecondary }]}>Select Employee</Text>
+                <Text style={[styles.employeeName, { color: colors.textPrimary }]} numberOfLines={1}>
+                  {selectedEmployee?.name || 'Select Employee'}
+                  {selectedEmployee?.code ? ` (${selectedEmployee.code})` : ''}
+                </Text>
+              </View>
+            </View>
+            <Ionicons name="chevron-down-outline" size={AppSizes.ICON_20} color={colors.purple1} />
+          </TouchableOpacity>
+        </View>
+      )}
 
       <TouchableOpacity style={styles.monthNavRow} onPress={openMonthPicker} activeOpacity={0.7}>
         <Text style={[styles.monthNavText, { color: colors.textPrimary }]}>
@@ -72,7 +126,7 @@ const AttendanceScreen = () => {
           contentContainerStyle={styles.listContent}
           showsVerticalScrollIndicator={false}
           refreshControl={<RefreshControl refreshing={refreshing} onRefresh={onRefresh} colors={[colors.purple1]} />}
-          ListHeaderComponent={<AttendanceBarChart records={records} colors={colors} />}
+          ListHeaderComponent={<AttendanceBarChart records={records} colors={colors} onSelectRecord={openRecordModal} />}
           ListEmptyComponent={
             <View style={styles.emptyContainer}>
               <Ionicons name="calendar-outline" size={verticalScale(48)} color={colors.textSecondary} />
@@ -89,6 +143,24 @@ const AttendanceScreen = () => {
         colors={colors}
         onClose={closeMonthPicker}
         onConfirm={selectMonthYear}
+      />
+
+      {hasManagedEmployees && (
+        <EmployeePickerSheet
+          visible={employeePickerVisible}
+          employees={employeesList}
+          selectedEmployeeId={selectedEmployee?.id}
+          colors={colors}
+          onClose={closeEmployeePicker}
+          onSelect={selectEmployee}
+        />
+      )}
+
+      <AttendanceDetailModal
+        visible={recordModalVisible}
+        record={selectedRecord}
+        colors={colors}
+        onClose={closeRecordModal}
       />
     </SafeAreaView>
   );

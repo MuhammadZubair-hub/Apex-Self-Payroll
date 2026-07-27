@@ -31,13 +31,13 @@ const HolidaysModal = ({ visible, colors, holidays, onClose }: HolidaysModalProp
             <View style={[styles.leaveTypeIconBox, { backgroundColor: colors.lightPurple }]}>
               <Ionicons name="calendar-outline" size={AppSizes.ICON_16} color={colors.purple1} />
             </View>
-            <Text style={[styles.leaveTypeName, { color: colors.textPrimary }]}>{item?.Holiday || 'N/A'}</Text>
+            <Text style={[styles.leaveTypeName, { color: colors.textPrimary }]}>{item?.remarks || 'N/A'}</Text>
           </View>
-          <Text style={[styles.leaveTypeValue, { color: colors.textSecondary }]}>{item?.Date || 'N/A'}</Text>
+          <Text style={[styles.leaveTypeValue, { color: colors.textSecondary }]}>{item?.date.split('T', 1) || 'N/A'}</Text>
         </View>
       ))
     ) : (
-      <Text style={[styles.leaveLabel, { color: colors.textSecondary, marginBottom: scale(12),textAlign:'center' }]}>
+      <Text style={[styles.leaveLabel, { color: colors.textSecondary, marginBottom: scale(12), textAlign: 'center' }]}>
         No upcoming holidays !
       </Text>
     )}

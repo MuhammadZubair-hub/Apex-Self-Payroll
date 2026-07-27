@@ -57,7 +57,7 @@ const SettingsScreen = () => {
   const userData = useSelector(getUser);
 
 
-const dispatch = useDispatch();
+  const dispatch = useDispatch();
   // const {
   //   userName,
   //   passwordPayload,
@@ -161,7 +161,7 @@ const dispatch = useDispatch();
           <View style={[premiumStyles.premiumCard, { backgroundColor: cardBg, borderColor: cardBorder, marginTop: verticalScale(10) }]}>
             <View style={premiumStyles.avatarContainer}>
               {profileImage ? (
-                <Image source={{ uri: `https://superyachtinteriors.ae${profileImage}` }} style={premiumStyles.premiumAvatar} />
+                <Image source={{ uri: `https://ait.vdc.services:1410${profileImage}` }} style={premiumStyles.premiumAvatar} />
               ) : (
                 <View style={[premiumStyles.premiumAvatar, { backgroundColor: '#0062e3' }]}>
                   <Text style={premiumStyles.avatarInitial}>{fullName.charAt(0).toUpperCase()}</Text>
@@ -186,7 +186,7 @@ const dispatch = useDispatch();
               isLast
               rightElement={<ThemeToggle theme={theme} colors={colors} onToggle={toggleTheme} />}
             />
-           
+
           </View>
 
           {/* Account Section */}
@@ -199,7 +199,7 @@ const dispatch = useDispatch();
               colors={colors}
               isLast
               onPress={() => { setPasswordModal(prev => !prev) }}
-              // rightElement={<ThemeToggle theme={theme} colors={colors} onToggle={toggleTheme} />}
+            // rightElement={<ThemeToggle theme={theme} colors={colors} onToggle={toggleTheme} />}
             />
             <SettingsRow icon="help-circle-outline" label="Help & Support" colors={colors} onPress={goToSupport} />
             <SettingsRow icon="information-circle-outline" label="About ESS" colors={colors} onPress={goToAbout} isLast />
@@ -331,15 +331,15 @@ const dispatch = useDispatch();
 
       </BottomSheet> */}
 
-<ChangePasswordModal
-  visible={passwordModal}
-  onClose={() => setPasswordModal(prev => !prev)}
-  colors={colors}
-  userName={userData?.userName}
-  passwordPayload={passwordPayload}
-  setPasswordPayload={setPasswordPayload}
-  onSubmit={handleUpdatePassword}
-/>
+      <ChangePasswordModal
+        visible={passwordModal}
+        onClose={() => setPasswordModal(prev => !prev)}
+        colors={colors}
+        userName={userData?.userName}
+        passwordPayload={passwordPayload}
+        setPasswordPayload={setPasswordPayload}
+        onSubmit={handleUpdatePassword}
+      />
       <LoadingBaseModal
         visible={isLoading}
       />

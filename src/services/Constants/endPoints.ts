@@ -10,17 +10,20 @@ export const endPoints = {
   forgetpassord: "auth/password/forgot",
   passwordreset: "auth/password/reset",
 
-  changePassword :'Account/ChangePassword',
+  changePassword: 'Account/ChangePassword',
 
 
 
-  TodayAttendance :'ESSDashboard/GetTodayEmployeeAttendence',
-  MonthlyAttendance :'ESSDailytimesheet/GetMonthlyAttendance',
+  TodayAttendance: 'ESSDashboard/GetTodayEmployeeAttendence',
+  MonthlyAttendance: 'ESSDailytimesheet/GetMonthlyAttendance',
   GetUpcomingHolidays: 'ESSDashboard/GetUpcomingHolidays',
   GetEmployeeLeavesInfo: 'ESSDashboard/GetEmployeeLeavesInfo',
   GetEmployessDataESS: 'ESSEmployee/GetEmployessDataESS',
 
-  SubmitNewLeaveRequest :'',
+  // all employes 
+  GetAllEmployesDataESS: 'ESSEmployee/GetEmployeesESS',
+
+  SubmitNewLeaveRequest: '',
 
   GetLeaveTypesESS: 'EmployeeLeaveDetailESS/GetLeaveApplicationESS',
   GetLeaveApplicationByIDESS: 'EmployeeLeaveDetailESS/GetLeaveApplicationByIDESS',

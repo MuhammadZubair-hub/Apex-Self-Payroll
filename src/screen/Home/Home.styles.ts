@@ -55,6 +55,10 @@ export const homeStyles = StyleSheet.create({
     fontSize: AppSizes.FONT_28,
     fontFamily: 'PlusJakartaSans-Bold',
   },
+  checkOutTime: {
+    fontSize: AppSizes.FONT_28,
+    fontFamily: 'PlusJakartaSans-Bold',
+  },
   iconCircle: {
     width: scale(44),
     height: verticalScale(44),
@@ -134,7 +138,7 @@ export const homeStyles = StyleSheet.create({
     flex: 1,
     marginBottom: scale(16),
     maxWidth: '50%',
-    borderLeftWidth:3,
+    borderLeftWidth: 3,
   },
   infoIconBox: {
     width: scale(36),
