@@ -16,7 +16,7 @@ import { AppSizes } from "../utils/AppSizes";
 const CustomDrawerContent = (props: any) => {
   const { theme, toggleTheme } = useThemeContext();
   const colors = getColors(theme);
-//   const router = useRouter();
+  //   const router = useRouter();
   const dispatch = useDispatch();
   const profileData = useSelector(getUserProfileData);
   const { isManager } = useIsManager();
@@ -47,13 +47,13 @@ const CustomDrawerContent = (props: any) => {
 
   return (
     <SafeAreaView style={[styles.container, { backgroundColor: colors.primaryColor }]}>
-      <StatusBar backgroundColor={colors.primarayheaderColor}/>
+      <StatusBar backgroundColor={colors.primarayheaderColor} />
       {/* Top Header - User Profile Section */}
       <View style={[styles.profileSection, { backgroundColor: colors.primarayheaderColor }]}>
         <View style={styles.profileContent}>
           {profileData?.profileImage ? (
             // <Image source={{uri: `https://syi.superyachtinteriors.ae:2001${profileData?.profileImage}` }} style={styles.profileImage} />
-            <Image source={{uri: `https://ait.vdc.services:1410${profileData?.profileImage}` }} style={styles.profileImage} />
+            <Image source={{ uri: `https://ait.vdc.services:1410${profileData?.profileImage}` }} style={styles.profileImage} />
           ) : (
             <View style={[styles.profileImage, styles.profileImageFallback]}>
               <Text style={styles.profileImageInitial}>{drawerUserName.charAt(0).toUpperCase()}</Text>
@@ -65,7 +65,7 @@ const CustomDrawerContent = (props: any) => {
             </Text>
             <Text style={[styles.userSubText, { color: 'rgba(255,255,255,0.85)' }]}>
               {profileData?.legacyCode || 'EMP2'}
-            
+
             </Text>
             <Text style={[styles.userSubText, { color: 'rgba(255,255,255,0.85)' }]}>
               {profileData?.role || 'Software Engineer'}
@@ -316,13 +316,13 @@ const styles = StyleSheet.create({
   userName: {
     fontSize: AppSizes.FONT_20,
     // fontWeight: 'bold',
-    fontFamily:'PlusJakartaSans-SemiBold',
+    fontFamily: 'PlusJakartaSans-SemiBold',
     marginBottom: verticalScale(4),
   },
   userSubText: {
     fontSize: AppSizes.FONT_14,
     marginBottom: AppSizes.MV_2,
-    fontFamily:'PlusJakartaSans-Regular',
+    fontFamily: 'PlusJakartaSans-Regular',
   },
   // Navigation Section - 75%
   navigationSection: {
@@ -346,7 +346,7 @@ const styles = StyleSheet.create({
   drawerLabel: {
     fontSize: AppSizes.FONT_16,
     marginLeft: AppSizes.MH_10,
-    fontFamily:'PlusJakartaSans-SemiBold'
+    fontFamily: 'PlusJakartaSans-SemiBold'
   },
   bottomControls: {
     borderTopWidth: 1,
@@ -366,7 +366,7 @@ const styles = StyleSheet.create({
   themeText: {
     fontSize: AppSizes.FONT_16,
     marginLeft: AppSizes.MH_10,
-    fontFamily:'PlusJakartaSans-SemiBold'
+    fontFamily: 'PlusJakartaSans-SemiBold'
   },
   logoutButton: {
     flexDirection: 'row',
@@ -376,7 +376,7 @@ const styles = StyleSheet.create({
   logoutText: {
     fontSize: AppSizes.FONT_16,
     marginLeft: AppSizes.MH_10,
-    fontFamily:'PlusJakartaSans-SemiBold',
+    fontFamily: 'PlusJakartaSans-SemiBold',
 
   },
   notificationItemContainer: {
@@ -412,7 +412,7 @@ const styles = StyleSheet.create({
   themeLabelText: {
     fontSize: AppSizes.FONT_16,
     marginLeft: AppSizes.MH_10,
-    fontFamily:'PlusJakartaSans-SemiBold'
+    fontFamily: 'PlusJakartaSans-SemiBold'
   },
   logoutRow: {
     flexDirection: 'row',
