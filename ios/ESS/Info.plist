@@ -35,6 +35,8 @@
 	<string></string>
 	<key>NSPhotoLibraryUsageDescription</key>
 	<string>Allow ESS to access your photo library to attach documents to leave requests.</string>
+	<key>NSFaceIDUsageDescription</key>
+	<string>Allow ESS to use Face ID for quick and secure login.</string>
 	<key>RCTNewArchEnabled</key>
 	<true/>
 	<key>UIAppFonts</key>

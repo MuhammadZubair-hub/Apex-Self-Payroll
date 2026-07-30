@@ -1,11 +1,12 @@
 import { useNavigation } from '@react-navigation/native';
-import React, { useState } from 'react';
-import { Image, ScrollView, StatusBar, Text, View, ImageBackground, Dimensions, StyleSheet, KeyboardAvoidingView, Platform } from 'react-native';
+import React, { useEffect, useState, useCallback } from 'react';
+import { Image, ScrollView, StatusBar, Text, View, ImageBackground, Dimensions, StyleSheet, KeyboardAvoidingView, Platform, Switch } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import LinearGradient from 'react-native-linear-gradient'; // Use 'expo-linear-gradient' if on Expo
 import Icon from '../../components/Icons';
 import MyButton from '../../components/MyButton';
 import ThemeToggle from '../../components/ThemeToggle';
+import BiometricToggle from '../../components/BiometricToggle';
 import { AppSizes } from '../../utils/AppSizes';
 import { scale, verticalScale } from '../../utils/responsive';
 import { settingsStyles as styles } from './Settings.styles';
@@ -21,6 +22,11 @@ import { useDispatch, useSelector } from 'react-redux';
 import { getUser, logout } from '../../redux/slices/authSlice';
 import LoadingBaseModal from '../../components/Loader/LoadingBaseModal';
 import ChangePasswordModal from './components/ChangePasswordModal';
+import {
+  isBiometricEnabled,
+  enableBiometric,
+  disableBiometric,
+} from '../../utils/biometricService';
 
 
 const SettingsScreen = () => {
@@ -54,6 +60,33 @@ const SettingsScreen = () => {
   const [isSecure, setIsSecure] = useState(true);
   const [isOldSecure, setIsOldSecure] = useState(true);
   const [isnewSecure, setIsNewSecure] = useState(true);
+
+  // Biometric toggle state
+  const [biometricEnabled, setBiometricEnabled] = useState(false);
+
+  useEffect(() => {
+    const loadBiometricState = async () => {
+      const enabled = await isBiometricEnabled();
+      setBiometricEnabled(enabled);
+    };
+    loadBiometricState();
+  }, []);
+
+  const handleBiometricToggle = useCallback(async (value: boolean) => {
+    if (value) {
+      const result = await enableBiometric();
+      if (result.success) {
+        setBiometricEnabled(true);
+        showThemedMessage(colors, { message: 'Biometric login enabled', type: 'success' });
+      } else {
+        showThemedMessage(colors, { message: result.error || 'Failed to enable biometric', type: 'danger' });
+      }
+    } else {
+      await disableBiometric();
+      setBiometricEnabled(false);
+      showThemedMessage(colors, { message: 'Biometric login disabled', type: 'success' });
+    }
+  }, [colors]);
   const userData = useSelector(getUser);
 
 
@@ -183,10 +216,21 @@ const SettingsScreen = () => {
               icon={isDark ? 'moon' : 'sunny'}
               label="Dark Mode"
               colors={colors}
-              isLast
               rightElement={<ThemeToggle theme={theme} colors={colors} onToggle={toggleTheme} />}
             />
-
+            <SettingsRow
+              icon="finger-print"
+              label="Biometric Login"
+              colors={colors}
+              isLast
+              rightElement={
+                <BiometricToggle
+                  enabled={biometricEnabled}
+                  colors={colors}
+                  onToggle={handleBiometricToggle}
+                />
+              }
+            />
           </View>
 
           {/* Account Section */}
@@ -433,7 +477,7 @@ const premiumStyles = StyleSheet.create({
   },
   logoutButton: {
     marginTop: verticalScale(12),
-    backgroundColor: 'rgba(239, 68, 68, 0.08)',
+    backgroundColor: 'rgba(239, 68, 68, 0.25)',
     borderRadius: scale(16),
     height: verticalScale(52),
     justifyContent: 'center',

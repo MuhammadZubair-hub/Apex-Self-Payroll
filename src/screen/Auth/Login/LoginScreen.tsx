@@ -1,12 +1,3 @@
-// import Icon from "@/src/components/Icons";
-// import LoadingBaseModal from "@/src/components/Loader/LoadingBaseModal";
-// import MyButton from "@/src/components/MyButton";
-// import MyInput from "@/src/components/MyInput";
-// import { useLoginUser } from "@/src/screens/Auth/Login/login";
-// import { getColors } from "@/src/theme/color/theme";
-// import { useThemeContext } from "@/src/theme/ThemeContex";
-// import { AppSizes } from "@/src/utils/AppSizes";
-// import { scale, verticalScale } from "@/src/utils/responsive";
 import React, { useState } from "react";
 import {
   Image,
@@ -16,6 +7,7 @@ import {
   StatusBar,
   StyleSheet,
   Text,
+  TouchableOpacity,
   View
 } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
@@ -35,12 +27,8 @@ const LoginScreen = () => {
 
   const [isSecure, setIsSecure] = useState(true);
 
-  const { handleLogin, isLoading, userCredentials, setUserCredentials } =
+  const { handleLogin, handleBiometricLogin, isLoading, userCredentials, setUserCredentials } =
     useLoginUser();
-
-  // Purple gradient used for the background + illustration backdrop.
-  // Falls back to a default purple pair if the active theme doesn't define them.
-
 
   return (
 
@@ -53,35 +41,38 @@ const LoginScreen = () => {
 
       <KeyboardAvoidingView
         style={{ flex: 1 }}
-        behavior={Platform.OS === "ios" ? "padding" : "height"}
-        keyboardVerticalOffset={Platform.OS === "ios" ? 0 : 40}
+        behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
       >
         <ScrollView
           contentContainerStyle={styles.scrollContent}
           keyboardShouldPersistTaps="handled"
           showsVerticalScrollIndicator={false}
+          automaticallyAdjustKeyboardInsets={true}
         >
-          <Text style={{ fontFamily: 'PlusJakartaSans-Bold', fontSize: AppSizes.FONT_28, alignSelf: 'center', color: colors.purple1 , marginTop: verticalScale(20),letterSpacing:2}}>ESS</Text>
+          <Text style={{ fontFamily: 'PlusJakartaSans-Bold', fontSize: AppSizes.FONT_28, alignSelf: 'center', color: colors.purple1, marginTop: verticalScale(10), letterSpacing: 2 }}>ESS</Text>
 
           <Text style={{ fontFamily: 'PlusJakartaSans-SemiBold', fontSize: AppSizes.FONT_14, alignSelf: 'center', color: colors.purple1 }}>Employee Self Service</Text>
           <Image
 
             source={require('../../../assets/Images/esslogo2.png')}
             style={styles.logo}
-            resizeMode="contain"
-          // resizeMode="cover"
+            // resizeMode="contain"
+            resizeMode="cover"
           />
 
 
 
-          <Text style={{ fontFamily: 'PlusJakartaSans-Bold', fontSize: AppSizes.FONT_24, alignSelf: 'center', color: colors.textPrimary }}>Welcome Back!</Text>
-
-          <Text style={{ fontFamily: 'PlusJakartaSans-SemiBold', fontSize: AppSizes.FONT_14, alignSelf: 'center', color: colors.textSecondary }}>Sign In to access your employee account </Text>
 
           <View style={styles.formGroup}>
+            <View>
+              <Text style={{ fontFamily: 'PlusJakartaSans-Bold', fontSize: AppSizes.FONT_24, alignSelf: 'center', color: colors.textPrimary }}>Welcome Back!</Text>
+
+              <Text style={{ fontFamily: 'PlusJakartaSans-SemiBold', fontSize: AppSizes.FONT_14, alignSelf: 'center', color: colors.textSecondary }}>Sign In to access your employee account </Text>
+
+            </View>
             <MyInput
-              placeholder="Enter your Username"
-              label="User Name"
+              placeholder="Enter your Usercode"
+              label="User Code"
               value={userCredentials.email}
               onChangeText={(v) => {
                 setUserCredentials((prev) => ({ ...prev, email: v }));
@@ -109,18 +100,39 @@ const LoginScreen = () => {
               }
             />
 
-            <MyButton
-              text="Sign In"
-              style={[
-                styles.loginButton,
-                { backgroundColor: colors.purple1 },
-              ]}
-              onPress={() => {
-                // navigation.navigate('MainApp');
-                handleLogin();
-              }}
-            />
+            <View style={styles.loginRow}>
+              <MyButton
+                text="Sign In"
+                style={StyleSheet.flatten([
+                  styles.loginButton,
+                  { backgroundColor: colors.purple1 },
+                ])}
+                onPress={() => {
+                  handleLogin();
+                }}
+              />
 
+              {/* Biometric Login Button — always visible */}
+
+            </View>
+            <Text style={{ fontSize: AppSizes.FONT_12, alignSelf: 'center', color: colors.textSecondary }}>Sign in with  Biometrics</Text>
+            <TouchableOpacity
+              style={[
+                styles.biometricButton,
+                {
+                  // backgroundColor: colors.purple1,
+                },
+              ]}
+              onPress={handleBiometricLogin}
+              activeOpacity={0.7}
+            >
+              <Icon
+                type="Ionicons"
+                name="finger-print"
+                size={scale(34)}
+                color={colors.purple1}
+              />
+            </TouchableOpacity>
 
 
           </View>
@@ -147,22 +159,20 @@ const styles = StyleSheet.create({
   },
   scrollContent: {
     flexGrow: 1,
+    paddingBottom: verticalScale(15),
   },
 
   // Illustration / avatar section
   illustrationContainer: {
     alignItems: "center",
     justifyContent: "center",
-    paddingTop: verticalScale(16),
-    paddingBottom: verticalScale(8),
+    paddingTop: verticalScale(4),
+    paddingBottom: verticalScale(4),
   },
   logo: {
-    // marginTop: verticalScale(60),
-    width: scale(350),
-    height: scale(250),
-    // resizeMode: "contain",
+    width: scale(300),
+    height: scale(140),
     alignSelf: "center",
-    // justifyContent: "center",
   },
 
   formGroup: {
@@ -174,12 +184,24 @@ const styles = StyleSheet.create({
   inputContainer: {
     borderRadius: scale(16),
   },
+  loginRow: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'flex-end',
+    marginTop: scale(10),
+    gap: scale(12),
+  },
   loginButton: {
-    marginTop: scale(20),
     borderRadius: scale(10),
     paddingVertical: scale(10),
-    // width: '40%',
-    alignSelf: 'flex-end',
+  },
+  biometricButton: {
+    width: scale(44),
+    height: scale(44),
+    borderRadius: scale(12),
+    alignSelf: 'center',
+    justifyContent: 'center',
+    alignItems: 'center',
   },
 });
 

@@ -7,6 +7,11 @@ import { getColors } from "../../../theme/color/theme";
 import { useThemeContext } from "../../../theme/ThemeContex";
 import { showThemedMessage } from "../../../utils/flashMessage";
 import { decodeJwt } from "../../../utils/jwt";
+import {
+  saveCredentials,
+  authenticateAndGetCredentials,
+  isBiometricEnabled,
+} from "../../../utils/biometricService";
 
 export const useLoginUser = () => {
   const { theme } = useThemeContext();
@@ -40,9 +45,14 @@ export const useLoginUser = () => {
     }
   };
 
-  const handleLogin = async () => {
+  const handleLogin = async (
+    overrideEmail?: string,
+    overridePassword?: string,
+  ) => {
+    const email = overrideEmail ?? userCredentials.email;
+    const password = overridePassword ?? userCredentials.password;
 
-    if (!userCredentials.email || !userCredentials.password) {
+    if (!email || !password) {
       showThemedMessage(colors, { message: 'Please enter both fields', type: 'danger' });
       return;
     }
@@ -52,8 +62,8 @@ export const useLoginUser = () => {
 
     try {
       const response = await API_Config.loginUser(
-        userCredentials.email.trim(),
-        userCredentials.password.trim(),
+        email.trim(),
+        password.trim(),
       );
 
       console.log("API Response:", response);
@@ -78,6 +88,11 @@ export const useLoginUser = () => {
           });
           return;
         }
+
+        // Save credentials for biometric login on next session.
+        // This runs silently — credentials are stored in AsyncStorage and only
+        // accessible after a successful biometric prompt.
+        await saveCredentials(email.trim(), password.trim());
 
         const profileData = await fetchProfileData(loginData.employeeId);
 
@@ -106,10 +121,49 @@ export const useLoginUser = () => {
     }
   };
 
+  /**
+   * Biometric login — prompt fingerprint/face, retrieve saved credentials,
+   * then call the normal login flow with them.
+   */
+  const handleBiometricLogin = async () => {
+    try {
+      // Check if biometric is enabled first
+      const enabled = await isBiometricEnabled();
+      if (!enabled) {
+        showThemedMessage(colors, {
+          message: 'Please enable biometric login from Settings first',
+          type: 'warning',
+        });
+        return;
+      }
+
+      setIsLoading(true);
+      const result = await authenticateAndGetCredentials();
+
+      if (!result.success || !result.email || !result.password) {
+        if (result.error) {
+          showThemedMessage(colors, { message: result.error, type: 'danger' });
+        }
+        return;
+      }
+
+      // Call the normal login flow with the retrieved credentials
+      await handleLogin(result.email, result.password);
+    } catch (error) {
+      showThemedMessage(colors, {
+        message: `Biometric login failed: ${error}`,
+        type: 'danger',
+      });
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
   return {
     userCredentials,
     setUserCredentials,
     handleLogin,
+    handleBiometricLogin,
     isLoading,
   };
 };
