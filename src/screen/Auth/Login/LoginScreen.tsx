@@ -9,8 +9,8 @@ import {
   Text,
   TouchableOpacity,
   View,
-  
 } from 'react-native';
+import Animated, { FadeInDown, FadeInUp, ZoomIn } from 'react-native-reanimated';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { useThemeContext } from '../../../theme/ThemeContex';
 import { getColors } from '../../../theme/color/theme';
@@ -27,7 +27,6 @@ const LoginScreen = () => {
   const colors = getColors(theme);
 
   const [isSecure, setIsSecure] = useState(true);
-  
 
   const {
     handleLogin,
@@ -56,37 +55,41 @@ const LoginScreen = () => {
           showsVerticalScrollIndicator={false}
           automaticallyAdjustKeyboardInsets={true}
         >
-          <Text
-            style={{
-              fontFamily: 'PlusJakartaSans-Bold',
-              fontSize: AppSizes.FONT_28,
-              alignSelf: 'center',
-              color: colors.purple1,
-              marginTop: verticalScale(10),
-              letterSpacing: 2,
-            }}
-          >
-            ESS
-          </Text>
+          <Animated.View entering={FadeInDown.duration(400).springify()}>
+            <Text
+              style={{
+                fontFamily: 'PlusJakartaSans-Bold',
+                fontSize: AppSizes.FONT_28,
+                alignSelf: 'center',
+                color: colors.purple1,
+                marginTop: verticalScale(10),
+                letterSpacing: 2,
+              }}
+            >
+              ESS
+            </Text>
 
-          <Text
-            style={{
-              fontFamily: 'PlusJakartaSans-SemiBold',
-              fontSize: AppSizes.FONT_14,
-              alignSelf: 'center',
-              color: colors.purple1,
-            }}
-          >
-            Employee Self Service
-          </Text>
-          <Image
-            source={require('../../../assets/Images/esslogo2.png')}
-            style={styles.logo}
-            // resizeMode="contain"
-            resizeMode="cover"
-          />
+            <Text
+              style={{
+                fontFamily: 'PlusJakartaSans-SemiBold',
+                fontSize: AppSizes.FONT_14,
+                alignSelf: 'center',
+                color: colors.purple1,
+              }}
+            >
+              Employee Self Service
+            </Text>
+            <Image
+              source={require('../../../assets/Images/esslogo2.png')}
+              style={styles.logo}
+              resizeMode="cover"
+            />
+          </Animated.View>
 
-          <View style={styles.formGroup}>
+          <Animated.View
+            entering={FadeInUp.duration(500).delay(150).springify()}
+            style={styles.formGroup}
+          >
             <View>
               <Text
                 style={{
@@ -105,7 +108,6 @@ const LoginScreen = () => {
                   fontSize: AppSizes.FONT_14,
                   alignSelf: 'center',
                   color: colors.textSecondary,
-                  
                 }}
               >
                 Sign In to access your employee account{' '}
@@ -157,28 +159,21 @@ const LoginScreen = () => {
                   handleLogin();
                 }}
               />
-
-              {/* Biometric Login Button — always visible */}
             </View>
            
-            <View>
+            <Animated.View entering={ZoomIn.duration(300).delay(300)}>
               <Text
                 style={{
                   fontSize: AppSizes.FONT_12,
                   alignSelf: 'center',
                   color: colors.textSecondary,
-                  marginBottom:20
+                  marginBottom: 20
                 }}
               >
                 {Platform.OS === 'ios' ? 'Sign in with Face ID' : 'Sign in with Biometrics'}
               </Text>
               <TouchableOpacity
-                style={[
-                  styles.biometricButton,
-                  {
-                    // backgroundColor: colors.purple1,
-                  },
-                ]}
+                style={styles.biometricButton}
                 onPress={handleBiometricLogin}
                 activeOpacity={0.7}
               >
@@ -189,9 +184,9 @@ const LoginScreen = () => {
                   color={colors.purple1}
                 />
               </TouchableOpacity>
-            </View>
+            </Animated.View>
 
-          </View>
+          </Animated.View>
         </ScrollView>
       </KeyboardAvoidingView>
 

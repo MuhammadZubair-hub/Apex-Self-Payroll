@@ -1,5 +1,6 @@
 import React, { useCallback } from 'react';
 import { FlatList, RefreshControl, Text, TouchableOpacity, View } from 'react-native';
+import Animated, { FadeInDown } from 'react-native-reanimated';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import Ionicons from '@react-native-vector-icons/ionicons';
 import PrimaryHeader from '../../components/header/PrimaryHeader';
@@ -43,10 +44,12 @@ const AttendanceScreen = () => {
   } = useAttendance();
 
   const renderItem = useCallback(
-    ({ item }: { item: any }) => (
-      <TouchableOpacity activeOpacity={0.8} onPress={() => openRecordModal(item)}>
-        <AttendanceRecordCard item={item} colors={colors} />
-      </TouchableOpacity>
+    ({ item, index }: { item: any; index: number }) => (
+      <Animated.View entering={FadeInDown.duration(350).delay(Math.min(index * 40, 400)).springify()}>
+        <TouchableOpacity activeOpacity={0.8} onPress={() => openRecordModal(item)}>
+          <AttendanceRecordCard item={item} colors={colors} />
+        </TouchableOpacity>
+      </Animated.View>
     ),
     [colors, openRecordModal]
   );
@@ -61,7 +64,7 @@ const AttendanceScreen = () => {
 
       {/* Managed Employees Filter for Managers */}
       {hasManagedEmployees && (
-        <View style={styles.filterSection}>
+        <Animated.View entering={FadeInDown.duration(300).springify()} style={styles.filterSection}>
           <TouchableOpacity
             style={[
               styles.employeeSelector,
@@ -87,17 +90,19 @@ const AttendanceScreen = () => {
             </View>
             <Ionicons name="chevron-down-outline" size={AppSizes.ICON_20} color={colors.purple1} />
           </TouchableOpacity>
-        </View>
+        </Animated.View>
       )}
 
-      <TouchableOpacity style={styles.monthNavRow} onPress={openMonthPicker} activeOpacity={0.7}>
-        <Text style={[styles.monthNavText, { color: colors.textPrimary }]}>
-          {MONTH_NAMES[month - 1]} {year}
-        </Text>
-        <Ionicons name="calendar-outline" size={AppSizes.ICON_20} color={colors.purple1} />
-      </TouchableOpacity>
+      <Animated.View entering={FadeInDown.duration(350).delay(50).springify()}>
+        <TouchableOpacity style={styles.monthNavRow} onPress={openMonthPicker} activeOpacity={0.7}>
+          <Text style={[styles.monthNavText, { color: colors.textPrimary }]}>
+            {MONTH_NAMES[month - 1]} {year}
+          </Text>
+          <Ionicons name="calendar-outline" size={AppSizes.ICON_20} color={colors.purple1} />
+        </TouchableOpacity>
+      </Animated.View>
 
-      <View style={[styles.summaryRow, { backgroundColor: colors.secondPrimaryColor }]}>
+      <Animated.View entering={FadeInDown.duration(350).delay(100).springify()} style={[styles.summaryRow, { backgroundColor: colors.secondPrimaryColor }]}>
         <View style={styles.summaryItem}>
           <Text style={[styles.summaryValue, { color: colors.greenColor }]}>{summary.present}</Text>
           <Text style={[styles.summaryLabel, { color: colors.textSecondary }]}>Present</Text>
@@ -114,7 +119,7 @@ const AttendanceScreen = () => {
           <Text style={[styles.summaryValue, { color: colors.purple1 }]}>{summary.leave}</Text>
           <Text style={[styles.summaryLabel, { color: colors.textSecondary }]}>Leave</Text>
         </View>
-      </View>
+      </Animated.View>
 
       {loading && !refreshing ? (
         <AttendanceListSkeleton colors={colors} />

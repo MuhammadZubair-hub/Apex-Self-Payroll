@@ -1,6 +1,7 @@
 import { useNavigation } from '@react-navigation/native';
 import React from 'react';
 import { Dimensions, Image, ImageBackground, ScrollView, StatusBar, StyleSheet, Text, View } from 'react-native';
+import Animated, { FadeInUp } from 'react-native-reanimated';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import LinearGradient from 'react-native-linear-gradient';
 import Icon from '../../components/Icons';
@@ -26,7 +27,6 @@ const ProfileScreen = () => {
 
   const navigation = useNavigation<any>();
   const BACKGROUND_HEIGHT = Dimensions.get('window').height * 0.38;
-  // Same premium styling as SettingsScreen - keep the two in sync if this look changes.
   const isDark = theme === 'dark';
   const cardBg = isDark ? 'rgb(30, 41, 59)' : 'rgb(255, 255, 255)';
   const cardBorder = isDark ? 'rgba(255, 255, 255, 0.08)' : 'rgba(0, 98, 227, 0.06)';
@@ -53,9 +53,6 @@ const ProfileScreen = () => {
       </ImageBackground>
 
       <SafeAreaView style={{ flex: 1 }} edges={['top', 'left', 'right']}>
-        {/* Header Navigation Menu */}
-
-
         <View style={premiumStyles.headerContainer}>
           <Icon
             type="Ionicons"
@@ -72,80 +69,78 @@ const ProfileScreen = () => {
             }}
           />
           <Text style={[premiumStyles.premiumHeaderTitle, { color: colors.textPrimary }]}>Profile</Text>
-          {/* Layout balancer */}
           <View style={{ width: AppSizes.ICON_30 }} />
         </View>
 
-        <ScrollView showsVerticalScrollIndicator={false}
-
-        // contentContainerStyle={premiumStyles.scrollContent}
-        >
-
-
-
+        <ScrollView showsVerticalScrollIndicator={false}>
           <View style={premiumStyles.scrollContent}>
 
             {/* Profile Card with Premium Glassmorphism Look */}
-            <View style={[premiumStyles.premiumCard, { backgroundColor: cardBg, borderColor: cardBorder, marginTop: verticalScale(10) }]}>
-              <View style={premiumStyles.topRow}>
-                <View style={premiumStyles.avatarContainer}>
-                  {profileImage ? (
-                    <Image source={{ uri: `https://ait.vdc.services:1410${profileImage}` }} style={premiumStyles.premiumAvatar} />
-                    // <Image source={{ uri: `https://syi.superyachtinteriors.ae:2001${profileImage}` }} style={premiumStyles.premiumAvatar} />
-                  ) : (
-                    <View style={[premiumStyles.premiumAvatar, { backgroundColor: '#0062e3' }]}>
-                      <Text style={premiumStyles.avatarInitial}>{fullName.charAt(0).toUpperCase()}</Text>
-                    </View>
-                  )}
-                </View>
-
-                <View style={premiumStyles.infoColumn}>
-                  <Text style={[premiumStyles.premiumName, { color: colors.textPrimary }]} numberOfLines={1}>
-                    {fullName}
-                  </Text>
-
-                  <View style={[premiumStyles.badge, { backgroundColor: colors.primarayheaderColor }]}>
-                    <Text style={premiumStyles.badgeText}>{employeeId}</Text>
+            <Animated.View entering={FadeInUp.duration(400).springify()}>
+              <View style={[premiumStyles.premiumCard, { backgroundColor: cardBg, borderColor: cardBorder, marginTop: verticalScale(10) }]}>
+                <View style={premiumStyles.topRow}>
+                  <View style={premiumStyles.avatarContainer}>
+                    {profileImage ? (
+                      <Image source={{ uri: `https://ait.vdc.services:1410${profileImage}` }} style={premiumStyles.premiumAvatar} />
+                    ) : (
+                      <View style={[premiumStyles.premiumAvatar, { backgroundColor: '#0062e3' }]}>
+                        <Text style={premiumStyles.avatarInitial}>{fullName.charAt(0).toUpperCase()}</Text>
+                      </View>
+                    )}
                   </View>
 
-                  <Text style={premiumStyles.premiumDesignation} numberOfLines={1}>
-                    {designation}
+                  <View style={premiumStyles.infoColumn}>
+                    <Text style={[premiumStyles.premiumName, { color: colors.textPrimary }]} numberOfLines={1}>
+                      {fullName}
+                    </Text>
+
+                    <View style={[premiumStyles.badge, { backgroundColor: colors.primarayheaderColor }]}>
+                      <Text style={premiumStyles.badgeText}>{employeeId}</Text>
+                    </View>
+
+                    <Text style={premiumStyles.premiumDesignation} numberOfLines={1}>
+                      {designation}
+                    </Text>
+                  </View>
+                </View>
+
+                <View style={[premiumStyles.divider, { backgroundColor: cardBorder }]} />
+
+                <View style={premiumStyles.contactRow}>
+                  <Icon type="Ionicons" name="mail-outline" size={verticalScale(15)} color={colors.purple1} />
+                  <Text style={[premiumStyles.contactText, { color: colors.textSecondary }]} numberOfLines={1}>
+                    {companyEmail}
+                  </Text>
+                </View>
+
+                <View style={premiumStyles.contactRow}>
+                  <Icon type="Ionicons" name="call-outline" size={verticalScale(15)} color={colors.purple1} />
+                  <Text style={[premiumStyles.contactText, { color: colors.textSecondary }]} numberOfLines={1}>
+                    +92{mobileNo}
                   </Text>
                 </View>
               </View>
-
-              <View style={[premiumStyles.divider, { backgroundColor: cardBorder }]} />
-
-              <View style={premiumStyles.contactRow}>
-                <Icon type="Ionicons" name="mail-outline" size={verticalScale(15)} color={colors.purple1} />
-                <Text style={[premiumStyles.contactText, { color: colors.textSecondary }]} numberOfLines={1}>
-                  {companyEmail}
-                </Text>
-              </View>
-
-              <View style={premiumStyles.contactRow}>
-                <Icon type="Ionicons" name="call-outline" size={verticalScale(15)} color={colors.purple1} />
-                <Text style={[premiumStyles.contactText, { color: colors.textSecondary }]} numberOfLines={1}>
-                  +92{mobileNo}
-                </Text>
-              </View>
-            </View>
+            </Animated.View>
 
             {/* Personal Information Section */}
-            <Text style={[premiumStyles.premiumSectionTitle, { color: colors.textPrimary }]}>PERSONAL INFORMATION</Text>
-            <View style={[premiumStyles.premiumCard, { backgroundColor: cardBg, borderColor: cardBorder }]}>
-              {personalFields.map((item, index) => (
-                <ProfileInfoRow key={item.label} item={item} colors={colors} isLast={index === personalFields.length - 1} />
-              ))}
-            </View>
+            <Animated.View entering={FadeInUp.duration(400).delay(100).springify()}>
+              <Text style={[premiumStyles.premiumSectionTitle, { color: colors.textPrimary }]}>PERSONAL INFORMATION</Text>
+              <View style={[premiumStyles.premiumCard, { backgroundColor: cardBg, borderColor: cardBorder }]}>
+                {personalFields.map((item, index) => (
+                  <ProfileInfoRow key={item.label} item={item} colors={colors} isLast={index === personalFields.length - 1} />
+                ))}
+              </View>
+            </Animated.View>
 
             {/* Employment Information Section */}
-            <Text style={[premiumStyles.premiumSectionTitle, { color: colors.textPrimary }]}>EMPLOYMENT INFORMATION</Text>
-            <View style={[premiumStyles.premiumCard, { backgroundColor: cardBg, borderColor: cardBorder }]}>
-              {employmentFields.map((item, index) => (
-                <ProfileInfoRow key={item.label} item={item} colors={colors} isLast={index === employmentFields.length - 1} />
-              ))}
-            </View>
+            <Animated.View entering={FadeInUp.duration(400).delay(200).springify()}>
+              <Text style={[premiumStyles.premiumSectionTitle, { color: colors.textPrimary }]}>EMPLOYMENT INFORMATION</Text>
+              <View style={[premiumStyles.premiumCard, { backgroundColor: cardBg, borderColor: cardBorder }]}>
+                {employmentFields.map((item, index) => (
+                  <ProfileInfoRow key={item.label} item={item} colors={colors} isLast={index === employmentFields.length - 1} />
+                ))}
+              </View>
+            </Animated.View>
           </View>
         </ScrollView>
       </SafeAreaView>

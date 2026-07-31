@@ -39,7 +39,7 @@ export const showThemedMessage = (
       shadowOpacity: 0.15,
       shadowRadius: 6,
       elevation: 5,
-      paddingVertical: Platform.OS === 'ios' ? 5 : 10,
+      paddingVertical: Platform.OS === 'ios' ? 10 : 10,
     },
     textStyle: {
       fontSize: AppSizes.FONT_14,

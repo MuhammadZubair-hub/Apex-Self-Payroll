@@ -1,5 +1,6 @@
 import React from 'react';
 import { RefreshControl, ScrollView, StatusBar, View } from 'react-native';
+import Animated, { FadeInDown } from 'react-native-reanimated';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { useBottomTabBarHeight } from '@react-navigation/bottom-tabs';
 import PrimaryHeader from '../../components/header/PrimaryHeader';
@@ -9,7 +10,6 @@ import { useHome } from './Home.logic';
 import TodayAttendanceCard from './components/TodayAttendanceCard';
 import AttendanceOverviewCard from './components/AttendanceOverviewCard';
 import InfoCardsRow from './components/InfoCardsRow';
-// import QuickActionsGrid from './components/QuickActionsGrid';
 import LeaveBalanceModal from './components/LeaveBalanceModal';
 import HolidaysModal from './components/HolidaysModal';
 import RequestLetterCard from './components/RequestLetterCard';
@@ -61,34 +61,46 @@ const HomeScreen = () => {
         refreshControl={<RefreshControl refreshing={refreshing} onRefresh={onRefresh} tintColor={colors.purple1} />}
         contentContainerStyle={[styles.scrollContent, { paddingBottom: styles.scrollContent.paddingVertical as number + tabBarHeight }]}
       >
-        <TodayAttendanceCard
-          colors={colors}
-          todayAttendance={todayAttendance}
-          todayStatusMeta={todayStatusMeta}
-          todayBottomText={todayBottomText}
-        />
+        <Animated.View entering={FadeInDown.duration(400).delay(50).springify()}>
+          <TodayAttendanceCard
+            colors={colors}
+            todayAttendance={todayAttendance}
+            todayStatusMeta={todayStatusMeta}
+            todayBottomText={todayBottomText}
+          />
+        </Animated.View>
+
         {pendingrequ.length > 0 && (
-          <PendingApprovalCard colors={colors} count={pendingrequ.length} onPress={goToPendingApprovals} />
+          <Animated.View entering={FadeInDown.duration(400).delay(100).springify()}>
+            <PendingApprovalCard colors={colors} count={pendingrequ.length} onPress={goToPendingApprovals} />
+          </Animated.View>
         )}
 
-        <AttendanceOverviewCard colors={colors} summary={attendanceSummary} onPress={goToAttendance} />
+        <Animated.View entering={FadeInDown.duration(400).delay(150).springify()}>
+          <AttendanceOverviewCard colors={colors} summary={attendanceSummary} onPress={goToAttendance} />
+        </Animated.View>
 
-        <AttendanceBarChart records={records} colors={colors} />
+        <Animated.View entering={FadeInDown.duration(400).delay(200).springify()}>
+          <AttendanceBarChart records={records} colors={colors} />
+        </Animated.View>
 
+        <Animated.View entering={FadeInDown.duration(400).delay(250).springify()}>
+          <InfoCardsRow
+            colors={colors}
+            totalLeaveBalance={totalLeaveBalance}
+            upcomingHolidays={upcomingHolidays}
+            onPressLeaveBalance={openLeaveModal}
+            onPressHolidays={openHolidayModal}
+          />
+        </Animated.View>
 
-        <InfoCardsRow
-          colors={colors}
-          totalLeaveBalance={totalLeaveBalance}
-          upcomingHolidays={upcomingHolidays}
-          onPressLeaveBalance={openLeaveModal}
-          onPressHolidays={openHolidayModal}
-        />
+        <Animated.View entering={FadeInDown.duration(400).delay(300).springify()}>
+          <RequestLetterCard colors={colors} onPress={goToRequestLetter} />
+        </Animated.View>
 
-        <RequestLetterCard colors={colors} onPress={goToRequestLetter} />
-
-        <AttendanceCalendarCard />
-
-        {/* <QuickActionsGrid colors={colors} /> */}
+        <Animated.View entering={FadeInDown.duration(400).delay(350).springify()}>
+          <AttendanceCalendarCard />
+        </Animated.View>
       </ScrollView>
 
       <LeaveBalanceModal
@@ -105,8 +117,6 @@ const HomeScreen = () => {
         holidays={upcomingHolidays}
         onClose={closeHolidayModal}
       />
-
-      {/* <View style={{marginVertical:AppSizes.MV_30}}/> */}
 
       <LoadingBaseModal visible={loading} />
     </SafeAreaView>

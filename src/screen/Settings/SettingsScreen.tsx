@@ -2,7 +2,8 @@ import { useNavigation } from '@react-navigation/native';
 import React, { useEffect, useState, useCallback } from 'react';
 import { Image, ScrollView, StatusBar, Text, View, ImageBackground, Dimensions, StyleSheet, KeyboardAvoidingView, Platform, Switch } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
-import LinearGradient from 'react-native-linear-gradient'; // Use 'expo-linear-gradient' if on Expo
+import Animated, { FadeInUp } from 'react-native-reanimated';
+import LinearGradient from 'react-native-linear-gradient';
 import Icon from '../../components/Icons';
 import MyButton from '../../components/MyButton';
 import ThemeToggle from '../../components/ThemeToggle';
@@ -191,71 +192,78 @@ const SettingsScreen = () => {
         <ScrollView showsVerticalScrollIndicator={false} contentContainerStyle={premiumStyles.scrollContent}>
 
           {/* Profile Card with Premium Glassmorphism Look */}
-          <View style={[premiumStyles.premiumCard, { backgroundColor: cardBg, borderColor: cardBorder, marginTop: verticalScale(10) }]}>
-            <View style={premiumStyles.avatarContainer}>
-              {profileImage ? (
-                <Image source={{ uri: `https://ait.vdc.services:1410${profileImage}` }} style={premiumStyles.premiumAvatar} />
-              ) : (
-                <View style={[premiumStyles.premiumAvatar, { backgroundColor: '#0062e3' }]}>
-                  <Text style={premiumStyles.avatarInitial}>{fullName.charAt(0).toUpperCase()}</Text>
-                </View>
-              )}
+          <Animated.View entering={FadeInUp.duration(400).springify()}>
+            <View style={[premiumStyles.premiumCard, { backgroundColor: cardBg, borderColor: cardBorder, marginTop: verticalScale(10) }]}>
+              <View style={premiumStyles.avatarContainer}>
+                {profileImage ? (
+                  <Image source={{ uri: `https://ait.vdc.services:1410${profileImage}` }} style={premiumStyles.premiumAvatar} />
+                ) : (
+                  <View style={[premiumStyles.premiumAvatar, { backgroundColor: '#0062e3' }]}>
+                    <Text style={premiumStyles.avatarInitial}>{fullName.charAt(0).toUpperCase()}</Text>
+                  </View>
+                )}
+              </View>
+              <Text style={[premiumStyles.premiumName, { color: colors.textPrimary }]} numberOfLines={1}>
+                {fullName}
+              </Text>
+              <Text style={premiumStyles.premiumDesignation} numberOfLines={1}>
+                {designation}
+              </Text>
             </View>
-            <Text style={[premiumStyles.premiumName, { color: colors.textPrimary }]} numberOfLines={1}>
-              {fullName}
-            </Text>
-            <Text style={premiumStyles.premiumDesignation} numberOfLines={1}>
-              {designation}
-            </Text>
-          </View>
+          </Animated.View>
 
           {/* Preferences Section */}
-          <Text style={[premiumStyles.premiumSectionTitle, { color: colors.textPrimary }]}>PREFERENCES</Text>
-          <View style={[premiumStyles.premiumCard, premiumStyles.compactCard, { backgroundColor: cardBg, borderColor: cardBorder }]}>
-            <SettingsRow
-              icon={isDark ? 'moon' : 'sunny'}
-              label={isDark ? 'Dark Mode' : 'Light Mode'}
-              colors={colors}
-              rightElement={<ThemeToggle theme={theme} colors={colors} onToggle={toggleTheme} />}
-            />
-            <SettingsRow
-              icon="finger-print"
-              label="Biometric Login"
-              colors={colors}
-              isLast
-              rightElement={
-                <BiometricToggle
-                  enabled={biometricEnabled}
-                  colors={colors}
-                  onToggle={handleBiometricToggle}
-                />
-              }
-            />
-          </View>
+          <Animated.View entering={FadeInUp.duration(400).delay(100).springify()}>
+            <Text style={[premiumStyles.premiumSectionTitle, { color: colors.textPrimary }]}>PREFERENCES</Text>
+            <View style={[premiumStyles.premiumCard, premiumStyles.compactCard, { backgroundColor: cardBg, borderColor: cardBorder }]}>
+              <SettingsRow
+                icon={isDark ? 'moon' : 'sunny'}
+                label={isDark ? 'Dark Mode' : 'Light Mode'}
+                colors={colors}
+                rightElement={<ThemeToggle theme={theme} colors={colors} onToggle={toggleTheme} />}
+              />
+              <SettingsRow
+                icon="finger-print"
+                label="Biometric Login"
+                colors={colors}
+                isLast
+                rightElement={
+                  <BiometricToggle
+                    enabled={biometricEnabled}
+                    colors={colors}
+                    onToggle={handleBiometricToggle}
+                  />
+                }
+              />
+            </View>
+          </Animated.View>
 
           {/* Account Section */}
-          <Text style={[premiumStyles.premiumSectionTitle, { color: colors.textPrimary }]}>ACCOUNT SERVICES</Text>
-          <View style={[premiumStyles.premiumCard, { backgroundColor: cardBg, borderColor: cardBorder, }]}>
-            <SettingsRow icon="person-outline" label="My Profile" colors={colors} onPress={goToProfile} />
-            <SettingsRow
-              icon={'lock-closed-outline'}
-              label="Change Password"
-              colors={colors}
-              isLast
-              onPress={() => { setPasswordModal(prev => !prev) }}
-            // rightElement={<ThemeToggle theme={theme} colors={colors} onToggle={toggleTheme} />}
-            />
-            <SettingsRow icon="help-circle-outline" label="Help & Support" colors={colors} onPress={goToSupport} />
-            <SettingsRow icon="information-circle-outline" label="About ESS" colors={colors} onPress={goToAbout} isLast />
-          </View>
+          <Animated.View entering={FadeInUp.duration(400).delay(200).springify()}>
+            <Text style={[premiumStyles.premiumSectionTitle, { color: colors.textPrimary }]}>ACCOUNT SERVICES</Text>
+            <View style={[premiumStyles.premiumCard, { backgroundColor: cardBg, borderColor: cardBorder, }]}>
+              <SettingsRow icon="person-outline" label="My Profile" colors={colors} onPress={goToProfile} />
+              <SettingsRow
+                icon={'lock-closed-outline'}
+                label="Change Password"
+                colors={colors}
+                isLast
+                onPress={() => { setPasswordModal(prev => !prev) }}
+              />
+              <SettingsRow icon="help-circle-outline" label="Help & Support" colors={colors} onPress={goToSupport} />
+              <SettingsRow icon="information-circle-outline" label="About ESS" colors={colors} onPress={goToAbout} isLast />
+            </View>
+          </Animated.View>
 
           {/* Clean Redesigned Sign Out Button */}
-          <MyButton
-            text="Sign Out"
-            onPress={handleLogout}
-            textColor={colors.redColor}
-            style={premiumStyles.logoutButton}
-          />
+          <Animated.View entering={FadeInUp.duration(400).delay(300).springify()}>
+            <MyButton
+              text="Sign Out"
+              onPress={handleLogout}
+              textColor={colors.redColor}
+              style={premiumStyles.logoutButton}
+            />
+          </Animated.View>
         </ScrollView>
       </SafeAreaView>
 

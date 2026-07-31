@@ -1,5 +1,6 @@
 import React, { useCallback } from 'react';
 import { FlatList, RefreshControl, Text, TextInput, TouchableOpacity, View } from 'react-native';
+import Animated, { FadeInDown, ZoomIn } from 'react-native-reanimated';
 import { useBottomTabBarHeight } from '@react-navigation/bottom-tabs';
 import Icon from '../../../components/Icons';
 import { sharedStyles } from '../components/sharedStyles';
@@ -57,8 +58,10 @@ const SubmittedLeaveScreen = ({ colors, employeeId, state }: SubmittedLeaveScree
   } = state;
 
   const renderItem = useCallback(
-    ({ item }: { item: any }) => (
-      <LeaveApplicationCard item={item} colors={colors} onPress={setSelectedApplication} onPressApprovalChain={openApprovalChain} />
+    ({ item, index }: { item: any; index: number }) => (
+      <Animated.View entering={FadeInDown.duration(350).delay(Math.min(index * 40, 400)).springify()}>
+        <LeaveApplicationCard item={item} colors={colors} onPress={setSelectedApplication} onPressApprovalChain={openApprovalChain} />
+      </Animated.View>
     ),
     [colors, setSelectedApplication, openApprovalChain]
   );
@@ -67,7 +70,7 @@ const SubmittedLeaveScreen = ({ colors, employeeId, state }: SubmittedLeaveScree
 
   return (
     <>
-      <View style={styles.searchFilterRow}>
+      <Animated.View entering={FadeInDown.duration(350).springify()} style={styles.searchFilterRow}>
         <View style={[styles.searchRow, { borderColor: colors.borderColor, backgroundColor: colors.secondPrimaryColor }]}>
           <Icon type="Ionicons" name="search" size={scale(18)} color={colors.textSecondary} />
           <TextInput
@@ -89,7 +92,7 @@ const SubmittedLeaveScreen = ({ colors, employeeId, state }: SubmittedLeaveScree
           <Icon type="Ionicons" name="options-outline" size={AppSizes.ICON_20} color={hasActiveFilters ? colors.purple1 : colors.textSecondary} />
           {hasActiveFilters && <View style={[styles.filterDot, { backgroundColor: colors.purple1 }]} />}
         </TouchableOpacity>
-      </View>
+      </Animated.View>
 
       {loadingApplications && filteredApplications.length === 0 ? (
         <ListSkeleton colors={colors} />
@@ -111,13 +114,15 @@ const SubmittedLeaveScreen = ({ colors, employeeId, state }: SubmittedLeaveScree
         />
       )}
 
-      <TouchableOpacity
-        style={[styles.fab, { backgroundColor: colors.purple1, bottom: (styles.fab.bottom as number) + tabBarHeight }]}
-        onPress={openFormModal}
-        activeOpacity={0.85}
-      >
-        <Icon type="Ionicons" name="add" size={verticalScale(28)} color="#fff" />
-      </TouchableOpacity>
+      <Animated.View entering={ZoomIn.duration(300).delay(200).springify()} style={[styles.fab, { backgroundColor: colors.purple1, bottom: (styles.fab.bottom as number) + tabBarHeight }]}>
+        <TouchableOpacity
+          style={{ width: '100%', height: '100%', justifyContent: 'center', alignItems: 'center' }}
+          onPress={openFormModal}
+          activeOpacity={0.85}
+        >
+          <Icon type="Ionicons" name="add" size={scale(22)} color="#fff" />
+        </TouchableOpacity>
+      </Animated.View>
 
       <LeaveFilterModal
         visible={filterModalVisible}

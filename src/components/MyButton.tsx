@@ -1,14 +1,11 @@
 import React from "react";
-import { StyleSheet, Text, TouchableOpacity, ViewStyle } from "react-native";
+import { Pressable, StyleSheet, Text, ViewStyle } from "react-native";
+import Animated, { useAnimatedStyle, useSharedValue, withSpring } from "react-native-reanimated";
 import { Fold } from "react-native-animated-spinkit";
-// import { useTheme } from "../theme/ThemeContext";
-import { scale, } from "../utils/responsive";
-// import { useTheme } from "../theme/ThemeContex";
+import { scale } from "../utils/responsive";
 import { AppSizes } from "../utils/AppSizes";
-
 import { getColors } from "../theme/color/theme";
 import { useThemeContext } from "../theme/ThemeContex";
-// import Icon from "../utils/Icons";
 
 interface Props {
   text: string;
@@ -19,23 +16,45 @@ interface Props {
   textColor?: string;
 }
 
+const AnimatedPressable = Animated.createAnimatedComponent(Pressable);
+
 const MyButton = ({ text, onPress, disabled, loading, style, textColor = "#fff" }: Props) => {
   const { theme } = useThemeContext();
   const colors = getColors(theme);
 
+  const scaleValue = useSharedValue(1);
+
+  const animatedStyle = useAnimatedStyle(() => ({
+    transform: [{ scale: scaleValue.value }],
+  }));
+
+  const handlePressIn = () => {
+    if (!disabled && !loading) {
+      scaleValue.value = withSpring(0.96, { damping: 15, stiffness: 300 });
+    }
+  };
+
+  const handlePressOut = () => {
+    if (!disabled && !loading) {
+      scaleValue.value = withSpring(1, { damping: 15, stiffness: 300 });
+    }
+  };
+
   return (
-    <TouchableOpacity
+    <AnimatedPressable
       style={[
         styles.button,
         { backgroundColor: disabled ? colors.borderColor : colors.primaryColor },
         style,
+        animatedStyle,
       ]}
       onPress={onPress}
-      activeOpacity={0.7}
+      onPressIn={handlePressIn}
+      onPressOut={handlePressOut}
       disabled={disabled || loading}
     >
       {loading ? <Fold size={AppSizes.ICON_20} color={textColor} /> : <Text style={[styles.text, { color: textColor }]}>{text}</Text>}
-    </TouchableOpacity>
+    </AnimatedPressable>
   );
 };
 
@@ -50,8 +69,7 @@ const styles = StyleSheet.create({
   },
   text: {
     fontSize: AppSizes.FONT_18,
-    // fontWeight: "600",
-    fontFamily:'PlusJakartaSans-SemiBold'
+    fontFamily: 'PlusJakartaSans-SemiBold',
   },
 });
 

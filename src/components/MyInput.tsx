@@ -6,10 +6,8 @@ import {
   View,
   ViewStyle
 } from 'react-native';
-// import Icon from "../utils/Icons";
-// import { useTheme } from "../theme/ThemeContext";
+import Animated, { useAnimatedStyle, useSharedValue, withTiming } from 'react-native-reanimated';
 import { scale, verticalScale } from '../utils/responsive';
-// import { useTheme } from '../theme/ThemeContex';
 import { useThemeContext } from '../theme/ThemeContex';
 import { getColors } from '../theme/color/theme';
 import { AppSizes } from '../utils/AppSizes';
@@ -45,18 +43,22 @@ const MyInput = ({
   rightComponent,
   containerStyle,
   label,
-
 }: Props) => {
   const { theme } = useThemeContext();
   const colors = getColors(theme);
   const [isFocused, setIsFocused] = useState(false);
+  const focusAnim = useSharedValue(0);
+
+  const animatedContainerStyle = useAnimatedStyle(() => ({
+    transform: [{ scale: withTiming(focusAnim.value ? 1.01 : 1, { duration: 180 }) }],
+  }));
 
   return (
     <View>
       {label ?
       <Text style={{color: colors.textPrimary,marginBottom:verticalScale(8),fontSize:AppSizes.FONT_14,fontFamily:'PlusJakartaSans-Bold'}}>{label}</Text> : null}
 
-      <View
+      <Animated.View
         style={[
           styles.container,
           {
@@ -65,6 +67,7 @@ const MyInput = ({
             backgroundColor: colors.secondPrimaryColor,
           },
           containerStyle,
+          animatedContainerStyle,
         ]}
       >
         {iconName && (
@@ -83,10 +86,12 @@ const MyInput = ({
           onChangeText={onChangeText}
           onFocus={() => {
             setIsFocused(true);
+            focusAnim.value = 1;
             onFocus?.();
           }}
           onBlur={() => {
             setIsFocused(false);
+            focusAnim.value = 0;
             onBlur?.();
           }}
           secureTextEntry={secure}
@@ -96,7 +101,7 @@ const MyInput = ({
         />
 
         {rightComponent}
-      </View>
+      </Animated.View>
     </View>
   );
 };
@@ -108,9 +113,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     borderRadius: AppSizes.RADIUS_10,
     paddingHorizontal: AppSizes.PH_10,
-    // paddingVertical: verticalScale(10),
     elevation: 1,
-
   },
   input: {
     flex: 1,

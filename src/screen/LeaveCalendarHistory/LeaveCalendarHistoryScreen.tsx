@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { ScrollView, Text, TouchableOpacity, View } from 'react-native';
+import Animated, { FadeInDown } from 'react-native-reanimated';
 import { Fold } from 'react-native-animated-spinkit';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import Icon from '../../components/Icons';
@@ -57,68 +58,76 @@ const LeaveCalendarHistoryScreen = () => {
       <PrimaryHeader headerText="Leave Calendar" alignTextCenter />
 
       <ScrollView showsVerticalScrollIndicator={false} contentContainerStyle={styles.scrollContent}>
-        <TouchableOpacity
-          style={[styles.monthNavRow, { backgroundColor: colors.secondPrimaryColor }]}
-          onPress={() => setMonthPickerVisible(true)}
-          activeOpacity={0.7}
-        >
-          <Text style={[styles.monthNavText, { color: colors.textPrimary }]}>
-            {MONTH_NAMES[month - 1]} {year}
-          </Text>
-          <Icon type="Ionicons" name="calendar-outline" size={AppSizes.ICON_20} color={colors.purple1} />
-        </TouchableOpacity>
-
-        <TouchableOpacity
-          style={[styles.departmentField, { borderColor: colors.borderColor, backgroundColor: colors.secondPrimaryColor }]}
-          onPress={() => setDepartmentPickerVisible(true)}
-        >
-          <Text
-            style={[styles.departmentText, { color: departmentId != null ? colors.textPrimary : colors.textSecondary }]}
-            numberOfLines={1}
+        <Animated.View entering={FadeInDown.duration(350).springify()}>
+          <TouchableOpacity
+            style={[styles.monthNavRow, { backgroundColor: colors.secondPrimaryColor }]}
+            onPress={() => setMonthPickerVisible(true)}
+            activeOpacity={0.7}
           >
-            {selectedDepartmentName}
-          </Text>
-          <Icon type="Ionicons" name="chevron-down" size={AppSizes.ICON_16} color={colors.textSecondary} />
-        </TouchableOpacity>
+            <Text style={[styles.monthNavText, { color: colors.textPrimary }]}>
+              {MONTH_NAMES[month - 1]} {year}
+            </Text>
+            <Icon type="Ionicons" name="calendar-outline" size={AppSizes.ICON_20} color={colors.purple1} />
+          </TouchableOpacity>
+        </Animated.View>
 
-        <View style={[styles.calendarCard, { backgroundColor: colors.secondPrimaryColor }]}>
-          {loading ? (
-            <View style={styles.loadingBox}>
-              <Fold size={verticalScale(32)} color={colors.purple1} />
-            </View>
-          ) : (
-            <AttendanceCalendarGrid
-              month={month}
-              year={year}
-              markedDates={markedDates}
-              colors={colors}
-              onPressDay={(key) => openDetails(key)}
-            />
-          )}
+        <Animated.View entering={FadeInDown.duration(350).delay(50).springify()}>
+          <TouchableOpacity
+            style={[styles.departmentField, { borderColor: colors.borderColor, backgroundColor: colors.secondPrimaryColor }]}
+            onPress={() => setDepartmentPickerVisible(true)}
+          >
+            <Text
+              style={[styles.departmentText, { color: departmentId != null ? colors.textPrimary : colors.textSecondary }]}
+              numberOfLines={1}
+            >
+              {selectedDepartmentName}
+            </Text>
+            <Icon type="Ionicons" name="chevron-down" size={AppSizes.ICON_16} color={colors.textSecondary} />
+          </TouchableOpacity>
+        </Animated.View>
 
-          <View style={styles.legendRow}>
-            <View style={styles.legendItem}>
-              <View style={[styles.legendDot, { backgroundColor: colors.purple1 }]} />
-              <Text style={[styles.legendText, { color: colors.textSecondary }]}>On Leave</Text>
-            </View>
-            <View style={styles.legendItem}>
-              <View style={[styles.legendDot, { backgroundColor: colors.redColor }]} />
-              <Text style={[styles.legendText, { color: colors.textSecondary }]}>Today</Text>
+        <Animated.View entering={FadeInDown.duration(400).delay(100).springify()}>
+          <View style={[styles.calendarCard, { backgroundColor: colors.secondPrimaryColor }]}>
+            {loading ? (
+              <View style={styles.loadingBox}>
+                <Fold size={verticalScale(32)} color={colors.purple1} />
+              </View>
+            ) : (
+              <AttendanceCalendarGrid
+                month={month}
+                year={year}
+                markedDates={markedDates}
+                colors={colors}
+                onPressDay={(key) => openDetails(key)}
+              />
+            )}
+
+            <View style={styles.legendRow}>
+              <View style={styles.legendItem}>
+                <View style={[styles.legendDot, { backgroundColor: colors.purple1 }]} />
+                <Text style={[styles.legendText, { color: colors.textSecondary }]}>On Leave</Text>
+              </View>
+              <View style={styles.legendItem}>
+                <View style={[styles.legendDot, { backgroundColor: colors.redColor }]} />
+                <Text style={[styles.legendText, { color: colors.textSecondary }]}>Today</Text>
+              </View>
             </View>
           </View>
-        </View>
+        </Animated.View>
 
-        <View style={styles.sectionTitleRow}>
-          <Text style={[styles.sectionTitle, { color: colors.textPrimary }]}>
-            {detailsVisible ? 'Selected Day' : `All Leaves in ${MONTH_NAMES[month - 1]}`}
-          </Text>
-          {detailsVisible && (
-            <TouchableOpacity onPress={closeDetails} hitSlop={{ top: 8, bottom: 8, left: 8, right: 8 }}>
-              <Text style={[styles.clearFilterText, { color: colors.purple1 }]}>Show all</Text>
-            </TouchableOpacity>
-          )}
-        </View>
-        <LeaveRecordsList colors={colors} records={detailsVisible ? detailsRecords : records} />
+        <Animated.View entering={FadeInDown.duration(400).delay(150).springify()}>
+          <View style={styles.sectionTitleRow}>
+            <Text style={[styles.sectionTitle, { color: colors.textPrimary }]}>
+              {detailsVisible ? 'Selected Day' : `All Leaves in ${MONTH_NAMES[month - 1]}`}
+            </Text>
+            {detailsVisible && (
+              <TouchableOpacity onPress={closeDetails} hitSlop={{ top: 8, bottom: 8, left: 8, right: 8 }}>
+                <Text style={[styles.clearFilterText, { color: colors.purple1 }]}>Show all</Text>
+              </TouchableOpacity>
+            )}
+          </View>
+          <LeaveRecordsList colors={colors} records={detailsVisible ? detailsRecords : records} />
+        </Animated.View>
       </ScrollView>
 
       <MonthYearPickerSheet
