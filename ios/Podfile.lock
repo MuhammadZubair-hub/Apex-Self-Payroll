@@ -1679,6 +1679,8 @@ PODS:
     - React-RCTFBReactNativeSpec
     - ReactCommon/turbomodule/core
     - SocketRocket
+  - react-native-biometrics (3.0.1):
+    - React-Core
   - react-native-blob-util (0.24.10):
     - boost
     - DoubleConversion
@@ -2617,6 +2619,7 @@ DEPENDENCIES:
   - React-logger (from `../node_modules/react-native/ReactCommon/logger`)
   - React-Mapbuffer (from `../node_modules/react-native/ReactCommon`)
   - React-microtasksnativemodule (from `../node_modules/react-native/ReactCommon/react/nativemodule/microtasks`)
+  - react-native-biometrics (from `../node_modules/react-native-biometrics`)
   - react-native-blob-util (from `../node_modules/react-native-blob-util`)
   - "react-native-document-picker (from `../node_modules/@react-native-documents/picker`)"
   - react-native-image-picker (from `../node_modules/react-native-image-picker`)
@@ -2749,6 +2752,8 @@ EXTERNAL SOURCES:
     :path: "../node_modules/react-native/ReactCommon"
   React-microtasksnativemodule:
     :path: "../node_modules/react-native/ReactCommon/react/nativemodule/microtasks"
+  react-native-biometrics:
+    :path: "../node_modules/react-native-biometrics"
   react-native-blob-util:
     :path: "../node_modules/react-native-blob-util"
   react-native-document-picker:
@@ -2873,6 +2878,7 @@ SPEC CHECKSUMS:
   React-logger: 7cfc7b1ae1f8e5fe5097f9c746137cc3a8fad4ce
   React-Mapbuffer: 7018c5b7da5b13ed22fe55dae51d50187a00b2d7
   React-microtasksnativemodule: 8ff9cb220a8efa625b5885996bd69e69db9edf02
+  react-native-biometrics: 43ed5b828646a7862dbc7945556446be00798e7d
   react-native-blob-util: 5181e5a619545573b57bcb82efad01bf46e41402
   react-native-document-picker: bfbf5f649a98597ef6dfea3f93213c9267c93bd9
   react-native-image-picker: e9d833df19e87e25e38ddc0be3bad92f57307765
@@ -2917,4 +2923,4 @@ SPEC CHECKSUMS:
 
 PODFILE CHECKSUM: 63fc2d1d910a32c3fc7ea0b83683ae3f31b870c1
 
-COCOAPODS: 1.16.2
+COCOAPODS: 1.17.0

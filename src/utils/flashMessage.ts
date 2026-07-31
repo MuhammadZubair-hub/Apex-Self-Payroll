@@ -1,3 +1,4 @@
+import { Platform } from 'react-native';
 import { showMessage } from 'react-native-flash-message';
 import { scale, verticalScale } from './responsive';
 import { AppSizes } from './AppSizes';
@@ -21,8 +22,10 @@ export const showThemedMessage = (
     description,
     type,
     color: colors.textPrimary,
+    statusBarHeight: Platform.OS === 'ios' ? 0 : undefined,
     style: {
       backgroundColor: colors.secondPrimaryColor,
+      // height:80,
       borderLeftWidth: 4,
       borderLeftColor: ACCENT_COLOR[type],
       width: '90%',
@@ -36,6 +39,13 @@ export const showThemedMessage = (
       shadowOpacity: 0.15,
       shadowRadius: 6,
       elevation: 5,
+      paddingVertical: Platform.OS === 'ios' ? 5 : 10,
+    },
+    textStyle: {
+      fontSize: AppSizes.FONT_14,
+    },
+    titleStyle: {
+      fontSize: AppSizes.FONT_14,
     },
   });
 };

@@ -214,7 +214,7 @@ const SettingsScreen = () => {
           <View style={[premiumStyles.premiumCard, premiumStyles.compactCard, { backgroundColor: cardBg, borderColor: cardBorder }]}>
             <SettingsRow
               icon={isDark ? 'moon' : 'sunny'}
-              label="Dark Mode"
+              label={isDark ? 'Dark Mode' : 'Light Mode'}
               colors={colors}
               rightElement={<ThemeToggle theme={theme} colors={colors} onToggle={toggleTheme} />}
             />

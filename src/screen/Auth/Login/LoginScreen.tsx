@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState } from 'react';
 import {
   Image,
   KeyboardAvoidingView,
@@ -8,32 +8,39 @@ import {
   StyleSheet,
   Text,
   TouchableOpacity,
-  View
-} from "react-native";
-import { SafeAreaView } from "react-native-safe-area-context";
-import { useThemeContext } from "../../../theme/ThemeContex";
-import { getColors } from "../../../theme/color/theme";
-import { useLoginUser } from "./login";
-import { AppSizes } from "../../../utils/AppSizes";
-import Icon from "../../../components/Icons";
-import MyInput from "../../../components/MyInput";
-import MyButton from "../../../components/MyButton";
-import LoadingBaseModal from "../../../components/Loader/LoadingBaseModal";
-import { scale, verticalScale } from "../../../utils/responsive";
+  View,
+  
+} from 'react-native';
+import { SafeAreaView } from 'react-native-safe-area-context';
+import { useThemeContext } from '../../../theme/ThemeContex';
+import { getColors } from '../../../theme/color/theme';
+import { useLoginUser } from './login';
+import { AppSizes } from '../../../utils/AppSizes';
+import Icon from '../../../components/Icons';
+import MyInput from '../../../components/MyInput';
+import MyButton from '../../../components/MyButton';
+import LoadingBaseModal from '../../../components/Loader/LoadingBaseModal';
+import { scale, verticalScale } from '../../../utils/responsive';
 
 const LoginScreen = () => {
   const { theme } = useThemeContext();
   const colors = getColors(theme);
 
   const [isSecure, setIsSecure] = useState(true);
+  
 
-  const { handleLogin, handleBiometricLogin, isLoading, userCredentials, setUserCredentials } =
-    useLoginUser();
+  const {
+    handleLogin,
+    handleBiometricLogin,
+    isLoading,
+    userCredentials,
+    setUserCredentials,
+  } = useLoginUser();
 
   return (
-
-    <SafeAreaView style={[styles.container, { backgroundColor: colors.primaryColor }]}>
-
+    <SafeAreaView
+      style={[styles.container, { backgroundColor: colors.primaryColor }]}
+    >
       <StatusBar
         backgroundColor={colors.primarayheaderColor}
         barStyle="light-content"
@@ -49,33 +56,67 @@ const LoginScreen = () => {
           showsVerticalScrollIndicator={false}
           automaticallyAdjustKeyboardInsets={true}
         >
-          <Text style={{ fontFamily: 'PlusJakartaSans-Bold', fontSize: AppSizes.FONT_28, alignSelf: 'center', color: colors.purple1, marginTop: verticalScale(10), letterSpacing: 2 }}>ESS</Text>
+          <Text
+            style={{
+              fontFamily: 'PlusJakartaSans-Bold',
+              fontSize: AppSizes.FONT_28,
+              alignSelf: 'center',
+              color: colors.purple1,
+              marginTop: verticalScale(10),
+              letterSpacing: 2,
+            }}
+          >
+            ESS
+          </Text>
 
-          <Text style={{ fontFamily: 'PlusJakartaSans-SemiBold', fontSize: AppSizes.FONT_14, alignSelf: 'center', color: colors.purple1 }}>Employee Self Service</Text>
+          <Text
+            style={{
+              fontFamily: 'PlusJakartaSans-SemiBold',
+              fontSize: AppSizes.FONT_14,
+              alignSelf: 'center',
+              color: colors.purple1,
+            }}
+          >
+            Employee Self Service
+          </Text>
           <Image
-
             source={require('../../../assets/Images/esslogo2.png')}
             style={styles.logo}
             // resizeMode="contain"
             resizeMode="cover"
           />
 
-
-
-
           <View style={styles.formGroup}>
             <View>
-              <Text style={{ fontFamily: 'PlusJakartaSans-Bold', fontSize: AppSizes.FONT_24, alignSelf: 'center', color: colors.textPrimary }}>Welcome Back!</Text>
+              <Text
+                style={{
+                  fontFamily: 'PlusJakartaSans-Bold',
+                  fontSize: AppSizes.FONT_24,
+                  alignSelf: 'center',
+                  color: colors.textPrimary,
+                }}
+              >
+                Welcome Back!
+              </Text>
 
-              <Text style={{ fontFamily: 'PlusJakartaSans-SemiBold', fontSize: AppSizes.FONT_14, alignSelf: 'center', color: colors.textSecondary }}>Sign In to access your employee account </Text>
-
+              <Text
+                style={{
+                  fontFamily: 'PlusJakartaSans-SemiBold',
+                  fontSize: AppSizes.FONT_14,
+                  alignSelf: 'center',
+                  color: colors.textSecondary,
+                  
+                }}
+              >
+                Sign In to access your employee account{' '}
+              </Text>
             </View>
             <MyInput
               placeholder="Enter your Usercode"
               label="User Code"
               value={userCredentials.email}
-              onChangeText={(v) => {
-                setUserCredentials((prev) => ({ ...prev, email: v }));
+              onChangeText={v => {
+                setUserCredentials(prev => ({ ...prev, email: v }));
               }}
               iconType="Ionicons"
               iconName="person-outline"
@@ -86,17 +127,22 @@ const LoginScreen = () => {
               placeholder="Enter Password"
               label="Password"
               value={userCredentials.password}
-              onChangeText={(v) => {
-                setUserCredentials((prev) => ({ ...prev, password: v }));
+              onChangeText={v => {
+                setUserCredentials(prev => ({ ...prev, password: v }));
               }}
               iconType="Ionicons"
               iconName="lock-closed-outline"
               secure={isSecure}
               containerStyle={styles.inputContainer}
               rightComponent={
-                <Icon name={isSecure ? "eye-off-outline" : "eye-outline"}
-                  onPress={() => { setIsSecure(prev => !prev) }}
-                  type={"Ionicons"} color={colors.textSecondary} />
+                <Icon
+                  name={isSecure ? 'eye-off-outline' : 'eye-outline'}
+                  onPress={() => {
+                    setIsSecure(prev => !prev);
+                  }}
+                  type={'Ionicons'}
+                  color={colors.textSecondary}
+                />
               }
             />
 
@@ -113,46 +159,52 @@ const LoginScreen = () => {
               />
 
               {/* Biometric Login Button — always visible */}
-
             </View>
-            <Text style={{ fontSize: AppSizes.FONT_12, alignSelf: 'center', color: colors.textSecondary }}>Sign in with  Biometrics</Text>
-            <TouchableOpacity
-              style={[
-                styles.biometricButton,
-                {
-                  // backgroundColor: colors.purple1,
-                },
-              ]}
-              onPress={handleBiometricLogin}
-              activeOpacity={0.7}
-            >
-              <Icon
-                type="Ionicons"
-                name="finger-print"
-                size={scale(34)}
-                color={colors.purple1}
-              />
-            </TouchableOpacity>
-
+           
+            <View>
+              <Text
+                style={{
+                  fontSize: AppSizes.FONT_12,
+                  alignSelf: 'center',
+                  color: colors.textSecondary,
+                  marginBottom:20
+                }}
+              >
+                {Platform.OS === 'ios' ? 'Sign in with Face ID' : 'Sign in with Biometrics'}
+              </Text>
+              <TouchableOpacity
+                style={[
+                  styles.biometricButton,
+                  {
+                    // backgroundColor: colors.purple1,
+                  },
+                ]}
+                onPress={handleBiometricLogin}
+                activeOpacity={0.7}
+              >
+                <Icon
+                  type="Ionicons"
+                  name={Platform.OS === 'ios' ? 'scan-outline' : 'finger-print'}
+                  size={scale(34)}
+                  color={colors.purple1}
+                />
+              </TouchableOpacity>
+            </View>
 
           </View>
         </ScrollView>
       </KeyboardAvoidingView>
 
-      <LoadingBaseModal
-        visible={isLoading}
-      />
-
+      <LoadingBaseModal visible={isLoading} />
     </SafeAreaView>
-
   );
 };
 
 const styles = StyleSheet.create({
   loaderContainer: {
     flex: 1,
-    justifyContent: "center",
-    alignItems: "center",
+    justifyContent: 'center',
+    alignItems: 'center',
   },
   container: {
     flex: 1,
@@ -164,15 +216,15 @@ const styles = StyleSheet.create({
 
   // Illustration / avatar section
   illustrationContainer: {
-    alignItems: "center",
-    justifyContent: "center",
+    alignItems: 'center',
+    justifyContent: 'center',
     paddingTop: verticalScale(4),
     paddingBottom: verticalScale(4),
   },
   logo: {
     width: scale(300),
     height: scale(140),
-    alignSelf: "center",
+    alignSelf: 'center',
   },
 
   formGroup: {
