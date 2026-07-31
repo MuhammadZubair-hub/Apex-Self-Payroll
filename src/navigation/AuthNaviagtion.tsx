@@ -4,10 +4,9 @@ import { createNativeStackNavigator } from '@react-navigation/native-stack'
 import LoginScreen from '../screen/Auth/Login/LoginScreen';
 import PasswordScreen from '../screen/Auth/Password/PasswordScree';
 
+const Stack = createNativeStackNavigator();
+
 const AuthNaviagtion = () => {
-
-    const Stack = createNativeStackNavigator();
-
     return (
         <Stack.Navigator
         screenOptions={{headerShown:false}}

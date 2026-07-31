@@ -4,12 +4,12 @@ import Home from '../screen/Home/HomeScreen';
 import LeaveRequestScreen from '../screen/LeaveRequest/LeaveRequestScreen';
 import CustomTabBar from './CustomTabBar';
 
-const BottomNaviagtion = () => {
-    const Tabs = createBottomTabNavigator()
+const Tabs = createBottomTabNavigator();
 
+const BottomNaviagtion = () => {
     return (
         <Tabs.Navigator
-            screenOptions={{ headerShown: false }}
+            screenOptions={{ headerShown: false, freezeOnBlur: true }}
             tabBar={(props) => <CustomTabBar {...props} />}
         >
             <Tabs.Screen name="Home" component={Home} options={{ title: 'Home' }} />

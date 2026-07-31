@@ -28,11 +28,10 @@ const RequestLetterScreen = () => {
 
   return (
     <SafeAreaView style={[styles.container, { backgroundColor: colors.primaryColor }]}>
-      <StatusBar backgroundColor={colors.primarayheaderColor} barStyle={theme === 'dark' ? 'light-content' : 'dark-content'} />
       <PrimaryHeader headerText="Request Letter" />
 
       <ScrollView showsVerticalScrollIndicator={false} contentContainerStyle={styles.scrollContent}>
-        <Animated.View entering={FadeInUp.duration(400).springify()}>
+        <Animated.View entering={FadeInUp.duration(250)}>
           <View style={[styles.infoBanner, { backgroundColor: colors.lightPurple }]}>
             <Icon type="Ionicons" name="mail-outline" size={AppSizes.ICON_20} color={colors.purple1} />
             <View style={{ flex: 1, marginLeft: scale(10) }}>
@@ -44,7 +43,7 @@ const RequestLetterScreen = () => {
           </View>
         </Animated.View>
 
-        <Animated.View entering={FadeInUp.duration(400).delay(100).springify()}>
+        <Animated.View entering={FadeInUp.duration(250).delay(60)}>
           <Text style={[styles.fieldLabel, { color: colors.textPrimary }]}>Subject</Text>
           <TouchableOpacity
             style={[styles.formField, { borderColor: colors.borderColor, backgroundColor: colors.secondPrimaryColor }]}

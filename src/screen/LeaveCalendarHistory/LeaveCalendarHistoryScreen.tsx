@@ -58,7 +58,7 @@ const LeaveCalendarHistoryScreen = () => {
       <PrimaryHeader headerText="Leave Calendar" alignTextCenter />
 
       <ScrollView showsVerticalScrollIndicator={false} contentContainerStyle={styles.scrollContent}>
-        <Animated.View entering={FadeInDown.duration(350).springify()}>
+        <Animated.View entering={FadeInDown.duration(250)}>
           <TouchableOpacity
             style={[styles.monthNavRow, { backgroundColor: colors.secondPrimaryColor }]}
             onPress={() => setMonthPickerVisible(true)}
@@ -71,7 +71,7 @@ const LeaveCalendarHistoryScreen = () => {
           </TouchableOpacity>
         </Animated.View>
 
-        <Animated.View entering={FadeInDown.duration(350).delay(50).springify()}>
+        <Animated.View entering={FadeInDown.duration(250).delay(40)}>
           <TouchableOpacity
             style={[styles.departmentField, { borderColor: colors.borderColor, backgroundColor: colors.secondPrimaryColor }]}
             onPress={() => setDepartmentPickerVisible(true)}
@@ -86,7 +86,7 @@ const LeaveCalendarHistoryScreen = () => {
           </TouchableOpacity>
         </Animated.View>
 
-        <Animated.View entering={FadeInDown.duration(400).delay(100).springify()}>
+        <Animated.View entering={FadeInDown.duration(250).delay(80)}>
           <View style={[styles.calendarCard, { backgroundColor: colors.secondPrimaryColor }]}>
             {loading ? (
               <View style={styles.loadingBox}>
@@ -115,7 +115,7 @@ const LeaveCalendarHistoryScreen = () => {
           </View>
         </Animated.View>
 
-        <Animated.View entering={FadeInDown.duration(400).delay(150).springify()}>
+        <Animated.View entering={FadeInDown.duration(250).delay(120)}>
           <View style={styles.sectionTitleRow}>
             <Text style={[styles.sectionTitle, { color: colors.textPrimary }]}>
               {detailsVisible ? 'Selected Day' : `All Leaves in ${MONTH_NAMES[month - 1]}`}

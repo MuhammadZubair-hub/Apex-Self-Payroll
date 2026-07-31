@@ -18,14 +18,14 @@ const AboutScreen = () => {
   const colors = useMemo(() => getColors(theme), [theme]);
   const currentYear = new Date().getFullYear();
 
-   const BACKGROUND_HEIGHT = Dimensions.get('window').height * 0.38;
-   const navigation = useNavigation();
+  const BACKGROUND_HEIGHT = Dimensions.get('window').height * 0.38;
+  const navigation = useNavigation();
 
-   const isDark = theme === 'dark';
+  const isDark = theme === 'dark';
 
   return (
     <View style={{ flex: 1, backgroundColor: colors.primaryColor }}>
-      <StatusBar translucent backgroundColor="transparent" barStyle={isDark ? 'light-content' : 'dark-content'}/>
+      <StatusBar translucent backgroundColor="transparent" barStyle={isDark ? 'light-content' : 'dark-content'} />
 
       {/* Background Pattern */}
       <ImageBackground
@@ -41,7 +41,7 @@ const AboutScreen = () => {
       </ImageBackground>
       <SafeAreaView style={{ flex: 1 }} edges={['top', 'left', 'right']}>
 
-       <View style={premiumStyles.headerContainer}>
+        <View style={premiumStyles.headerContainer}>
           <Icon
             type="Ionicons"
             name="arrow-back"
@@ -76,7 +76,7 @@ const AboutScreen = () => {
               <Text style={[styles.versionBadgeText, { color: colors.purple1 }]}>Version {APP_VERSION}</Text>
             </View>
             <Text style={[styles.tagline, { color: colors.textSecondary }]}>
-              Employee Self Service — attendance, leave and profile management in one place.
+              Employee Self Service - attendance, leave and profile management in one place.
             </Text>
           </View>
 

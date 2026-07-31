@@ -1,5 +1,5 @@
 import { DrawerContentScrollView, DrawerItem } from "@react-navigation/drawer";
-import { useState } from "react";
+import React, { useState } from "react";
 import { Image, StatusBar, StyleSheet, Text, TouchableOpacity, View } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import Icon from "./Icons";
@@ -47,7 +47,6 @@ const CustomDrawerContent = (props: any) => {
 
   return (
     <SafeAreaView style={[styles.container, { backgroundColor: colors.primaryColor }]}>
-      <StatusBar backgroundColor={colors.primarayheaderColor} />
       {/* Top Header - User Profile Section */}
       <View style={[styles.profileSection, { backgroundColor: colors.primarayheaderColor }]}>
         <View style={styles.profileContent}>
@@ -198,7 +197,7 @@ const CustomDrawerContent = (props: any) => {
             icon={({ size }) => (
               <Icon name="settings-outline" type="Ionicons" size={size} color={tintFor('settings')} />
             )}
-            onPress={() => props.navigation.navigate('settings')}
+            onPress={() => props.navigation.navigate('settings', { screen: 'SettingsHome' })}
             focused={isActive('settings')}
             activeBackgroundColor={colors.lightPurple}
             activeTintColor={colors.purple1}
@@ -273,7 +272,7 @@ const CustomDrawerContent = (props: any) => {
   );
 };
 
-export default CustomDrawerContent
+export default CustomDrawerContent;
 
 const styles = StyleSheet.create({
   container: {

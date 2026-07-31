@@ -1,6 +1,5 @@
 import React, { useCallback } from 'react';
 import { FlatList, RefreshControl, Text, TouchableOpacity, View } from 'react-native';
-import Animated, { FadeInDown } from 'react-native-reanimated';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import Ionicons from '@react-native-vector-icons/ionicons';
 import PrimaryHeader from '../../components/header/PrimaryHeader';
@@ -44,12 +43,10 @@ const AttendanceScreen = () => {
   } = useAttendance();
 
   const renderItem = useCallback(
-    ({ item, index }: { item: any; index: number }) => (
-      <Animated.View entering={FadeInDown.duration(350).delay(Math.min(index * 40, 400)).springify()}>
-        <TouchableOpacity activeOpacity={0.8} onPress={() => openRecordModal(item)}>
-          <AttendanceRecordCard item={item} colors={colors} />
-        </TouchableOpacity>
-      </Animated.View>
+    ({ item }: { item: any }) => (
+      <TouchableOpacity activeOpacity={0.8} onPress={() => openRecordModal(item)}>
+        <AttendanceRecordCard item={item} colors={colors} />
+      </TouchableOpacity>
     ),
     [colors, openRecordModal]
   );
@@ -62,64 +59,64 @@ const AttendanceScreen = () => {
     <SafeAreaView style={[styles.container, { backgroundColor: colors.primaryColor }]}>
       <PrimaryHeader headerText="Attendance" alignTextCenter />
 
-      {/* Managed Employees Filter for Managers */}
-      {hasManagedEmployees && (
-        <Animated.View entering={FadeInDown.duration(300).springify()} style={styles.filterSection}>
-          <TouchableOpacity
-            style={[
-              styles.employeeSelector,
-              {
-                backgroundColor: colors.secondPrimaryColor,
-                borderColor: colors.borderColor || colors.purple1 + '30',
-              },
-            ]}
-            onPress={openEmployeePicker}
-            activeOpacity={0.7}
-          >
-            <View style={styles.employeeSelectorLeft}>
-              <View style={[styles.employeeAvatar, { backgroundColor: colors.purple1 + '20' }]}>
-                <Ionicons name="person-outline" size={AppSizes.ICON_16} color={colors.purple1} />
+      <View>
+        {/* Managed Employees Filter for Managers */}
+        {hasManagedEmployees && (
+          <View style={styles.filterSection}>
+            <TouchableOpacity
+              style={[
+                styles.employeeSelector,
+                {
+                  backgroundColor: colors.secondPrimaryColor,
+                  borderColor: colors.borderColor || colors.purple1 + '30',
+                },
+              ]}
+              onPress={openEmployeePicker}
+              activeOpacity={0.7}
+            >
+              <View style={styles.employeeSelectorLeft}>
+                <View style={[styles.employeeAvatar, { backgroundColor: colors.purple1 + '20' }]}>
+                  <Ionicons name="person-outline" size={AppSizes.ICON_16} color={colors.purple1} />
+                </View>
+                <View style={styles.employeeTextInfo}>
+                  <Text style={[styles.employeeLabel, { color: colors.textSecondary }]}>Select Employee</Text>
+                  <Text style={[styles.employeeName, { color: colors.textPrimary }]} numberOfLines={1}>
+                    {selectedEmployee?.name || 'Select Employee'}
+                    {selectedEmployee?.code ? ` (${selectedEmployee.code})` : ''}
+                  </Text>
+                </View>
               </View>
-              <View style={styles.employeeTextInfo}>
-                <Text style={[styles.employeeLabel, { color: colors.textSecondary }]}>Select Employee</Text>
-                <Text style={[styles.employeeName, { color: colors.textPrimary }]} numberOfLines={1}>
-                  {selectedEmployee?.name || 'Select Employee'}
-                  {selectedEmployee?.code ? ` (${selectedEmployee.code})` : ''}
-                </Text>
-              </View>
-            </View>
-            <Ionicons name="chevron-down-outline" size={AppSizes.ICON_20} color={colors.purple1} />
-          </TouchableOpacity>
-        </Animated.View>
-      )}
+              <Ionicons name="chevron-down-outline" size={AppSizes.ICON_20} color={colors.purple1} />
+            </TouchableOpacity>
+          </View>
+        )}
 
-      <Animated.View entering={FadeInDown.duration(350).delay(50).springify()}>
         <TouchableOpacity style={styles.monthNavRow} onPress={openMonthPicker} activeOpacity={0.7}>
           <Text style={[styles.monthNavText, { color: colors.textPrimary }]}>
             {MONTH_NAMES[month - 1]} {year}
           </Text>
           <Ionicons name="calendar-outline" size={AppSizes.ICON_20} color={colors.purple1} />
         </TouchableOpacity>
-      </Animated.View>
 
-      <Animated.View entering={FadeInDown.duration(350).delay(100).springify()} style={[styles.summaryRow, { backgroundColor: colors.secondPrimaryColor }]}>
-        <View style={styles.summaryItem}>
-          <Text style={[styles.summaryValue, { color: colors.greenColor }]}>{summary.present}</Text>
-          <Text style={[styles.summaryLabel, { color: colors.textSecondary }]}>Present</Text>
+        <View style={[styles.summaryRow, { backgroundColor: colors.secondPrimaryColor }]}>
+          <View style={styles.summaryItem}>
+            <Text style={[styles.summaryValue, { color: colors.greenColor }]}>{summary.present}</Text>
+            <Text style={[styles.summaryLabel, { color: colors.textSecondary }]}>Present</Text>
+          </View>
+          <View style={styles.summaryItem}>
+            <Text style={[styles.summaryValue, { color: colors.redColor }]}>{summary.absent}</Text>
+            <Text style={[styles.summaryLabel, { color: colors.textSecondary }]}>Absent</Text>
+          </View>
+          <View style={styles.summaryItem}>
+            <Text style={[styles.summaryValue, { color: colors.orangeColor }]}>{summary.pending}</Text>
+            <Text style={[styles.summaryLabel, { color: colors.textSecondary }]}>Pending</Text>
+          </View>
+          <View style={styles.summaryItem}>
+            <Text style={[styles.summaryValue, { color: colors.purple1 }]}>{summary.leave}</Text>
+            <Text style={[styles.summaryLabel, { color: colors.textSecondary }]}>Leave</Text>
+          </View>
         </View>
-        <View style={styles.summaryItem}>
-          <Text style={[styles.summaryValue, { color: colors.redColor }]}>{summary.absent}</Text>
-          <Text style={[styles.summaryLabel, { color: colors.textSecondary }]}>Absent</Text>
-        </View>
-        <View style={styles.summaryItem}>
-          <Text style={[styles.summaryValue, { color: colors.orangeColor }]}>{summary.pending}</Text>
-          <Text style={[styles.summaryLabel, { color: colors.textSecondary }]}>Pending</Text>
-        </View>
-        <View style={styles.summaryItem}>
-          <Text style={[styles.summaryValue, { color: colors.purple1 }]}>{summary.leave}</Text>
-          <Text style={[styles.summaryLabel, { color: colors.textSecondary }]}>Leave</Text>
-        </View>
-      </Animated.View>
+      </View>
 
       {loading && !refreshing ? (
         <AttendanceListSkeleton colors={colors} />

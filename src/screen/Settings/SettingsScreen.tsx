@@ -2,7 +2,7 @@ import { useNavigation } from '@react-navigation/native';
 import React, { useEffect, useState, useCallback } from 'react';
 import { Image, ScrollView, StatusBar, Text, View, ImageBackground, Dimensions, StyleSheet, KeyboardAvoidingView, Platform, Switch } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
-import Animated, { FadeInUp } from 'react-native-reanimated';
+import FocusAwareStatusBar from '../../components/FocusAwareStatusBar';
 import LinearGradient from 'react-native-linear-gradient';
 import Icon from '../../components/Icons';
 import MyButton from '../../components/MyButton';
@@ -143,7 +143,7 @@ const SettingsScreen = () => {
 
   return (
     <View style={[styles.container, { backgroundColor: colors.primaryColor, flex: 1 }]}>
-      <StatusBar translucent backgroundColor="transparent" barStyle={isDark ? 'light-content' : 'dark-content'} />
+      <FocusAwareStatusBar translucent backgroundColor="transparent" barStyle={isDark ? 'light-content' : 'dark-content'} />
 
       {/* Background Pattern */}
       <ImageBackground
@@ -190,9 +190,8 @@ const SettingsScreen = () => {
         </View>
 
         <ScrollView showsVerticalScrollIndicator={false} contentContainerStyle={premiumStyles.scrollContent}>
-
-          {/* Profile Card with Premium Glassmorphism Look */}
-          <Animated.View entering={FadeInUp.duration(400).springify()}>
+          <View>
+            {/* Profile Card with Premium Glassmorphism Look */}
             <View style={[premiumStyles.premiumCard, { backgroundColor: cardBg, borderColor: cardBorder, marginTop: verticalScale(10) }]}>
               <View style={premiumStyles.avatarContainer}>
                 {profileImage ? (
@@ -210,21 +209,23 @@ const SettingsScreen = () => {
                 {designation}
               </Text>
             </View>
-          </Animated.View>
 
-          {/* Preferences Section */}
-          <Animated.View entering={FadeInUp.duration(400).delay(100).springify()}>
+            {/* Preferences Section */}
             <Text style={[premiumStyles.premiumSectionTitle, { color: colors.textPrimary }]}>PREFERENCES</Text>
             <View style={[premiumStyles.premiumCard, premiumStyles.compactCard, { backgroundColor: cardBg, borderColor: cardBorder }]}>
               <SettingsRow
                 icon={isDark ? 'moon' : 'sunny'}
-                label={isDark ? 'Dark Mode' : 'Light Mode'}
+                label="App Theme"
+                subtitle={isDark ? 'Dark Mode Active' : 'Light Mode Active'}
+                subtitleColor={colors.purple1}
                 colors={colors}
                 rightElement={<ThemeToggle theme={theme} colors={colors} onToggle={toggleTheme} />}
               />
               <SettingsRow
                 icon="finger-print"
                 label="Biometric Login"
+                subtitle={biometricEnabled ? 'Activated' : 'Deactivated'}
+                subtitleColor={biometricEnabled ? colors.greenColor || colors.purple1 : colors.textSecondary}
                 colors={colors}
                 isLast
                 rightElement={
@@ -236,10 +237,8 @@ const SettingsScreen = () => {
                 }
               />
             </View>
-          </Animated.View>
 
-          {/* Account Section */}
-          <Animated.View entering={FadeInUp.duration(400).delay(200).springify()}>
+            {/* Account Section */}
             <Text style={[premiumStyles.premiumSectionTitle, { color: colors.textPrimary }]}>ACCOUNT SERVICES</Text>
             <View style={[premiumStyles.premiumCard, { backgroundColor: cardBg, borderColor: cardBorder, }]}>
               <SettingsRow icon="person-outline" label="My Profile" colors={colors} onPress={goToProfile} />
@@ -253,17 +252,15 @@ const SettingsScreen = () => {
               <SettingsRow icon="help-circle-outline" label="Help & Support" colors={colors} onPress={goToSupport} />
               <SettingsRow icon="information-circle-outline" label="About ESS" colors={colors} onPress={goToAbout} isLast />
             </View>
-          </Animated.View>
 
-          {/* Clean Redesigned Sign Out Button */}
-          <Animated.View entering={FadeInUp.duration(400).delay(300).springify()}>
+            {/* Clean Redesigned Sign Out Button */}
             <MyButton
-              text="Sign Out"
+              text="Log Out"
               onPress={handleLogout}
-              textColor={colors.redColor}
+              textColor={colors.whiteColor1}
               style={premiumStyles.logoutButton}
             />
-          </Animated.View>
+          </View>
         </ScrollView>
       </SafeAreaView>
 
@@ -485,7 +482,7 @@ const premiumStyles = StyleSheet.create({
   },
   logoutButton: {
     marginTop: verticalScale(12),
-    backgroundColor: 'rgba(239, 68, 68, 0.25)',
+    backgroundColor: 'rgba(239, 68, 68, 1)',
     borderRadius: scale(16),
     height: verticalScale(52),
     justifyContent: 'center',

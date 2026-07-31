@@ -12,18 +12,26 @@ export const ActivityTracker: React.FC<ActivityTrackerProps> = ({
   onActivity,
   ...props
 }) => {
-  // Stable ref so PanResponder is created once but always calls the latest callback
   const onActivityRef = useRef(onActivity);
   onActivityRef.current = onActivity;
+  const lastTriggerTime = useRef<number>(0);
+
+  const triggerActivity = () => {
+    const now = Date.now();
+    if (now - lastTriggerTime.current > 15000) {
+      lastTriggerTime.current = now;
+      onActivityRef.current?.();
+    }
+  };
 
   const panResponder = useRef(
     PanResponder.create({
       onStartShouldSetPanResponderCapture: () => {
-        onActivityRef.current?.();
+        triggerActivity();
         return false;
       },
       onMoveShouldSetPanResponderCapture: () => {
-        onActivityRef.current?.();
+        triggerActivity();
         return false;
       },
     }),

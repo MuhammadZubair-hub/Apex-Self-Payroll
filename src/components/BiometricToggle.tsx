@@ -16,26 +16,26 @@ const BiometricToggle = ({ enabled, colors, onToggle }: BiometricToggleProps) =>
       styles.container,
       {
         backgroundColor: colors.secondPrimaryColor,
-        borderColor: colors.primarayheaderColor,
+        borderColor: colors.borderColor || colors.purple1 + '30',
       },
     ]}
     onPress={() => onToggle(!enabled)}
     activeOpacity={0.8}
   >
-    <View style={[styles.pillButton, !enabled && styles.pillActive]}>
+    <View style={[styles.pillButton, !enabled && [styles.pillActive, { backgroundColor: colors.borderColor || 'rgba(150,150,150,0.2)', borderRadius: 30 }]]}>
       <Icon
         name="close-outline"
         type="Ionicons"
         size={AppSizes.ICON_16}
-        color={!enabled ? colors.purple1 : colors.textSecondary}
+        color={!enabled ? colors.textPrimary : colors.textSecondary}
       />
     </View>
-    <View style={[styles.pillButton, enabled && styles.pillActive]}>
+    <View style={[styles.pillButton, enabled && [styles.pillActive, { backgroundColor: colors.purple1, borderRadius: 30 }]]}>
       <Icon
         name="finger-print"
         type="Ionicons"
         size={AppSizes.ICON_16}
-        color={enabled ? colors.purple1 : colors.textSecondary}
+        color={enabled ? '#fff' : colors.textSecondary}
       />
     </View>
   </TouchableOpacity>
@@ -46,15 +46,16 @@ export default React.memo(BiometricToggle);
 const styles = StyleSheet.create({
   container: {
     flexDirection: 'row',
-    borderRadius: AppSizes.RADIUS_20,
+    borderRadius: scale(20),
     padding: scale(3),
-    width: AppSizes.W_80,
+    width: scale(64),
+    alignItems: 'center',
     justifyContent: 'space-between',
     borderWidth: 1,
   },
   pillButton: {
-    flex: 1,
-    height: verticalScale(26),
+    width: scale(26),
+    height: scale(26),
     borderRadius: scale(13),
     justifyContent: 'center',
     alignItems: 'center',

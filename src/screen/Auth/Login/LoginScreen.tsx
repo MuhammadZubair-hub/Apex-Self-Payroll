@@ -10,7 +10,7 @@ import {
   TouchableOpacity,
   View,
 } from 'react-native';
-import Animated, { FadeInDown, FadeInUp, ZoomIn } from 'react-native-reanimated';
+import Animated, { ZoomIn } from 'react-native-reanimated';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { useThemeContext } from '../../../theme/ThemeContex';
 import { getColors } from '../../../theme/color/theme';
@@ -41,8 +41,8 @@ const LoginScreen = () => {
       style={[styles.container, { backgroundColor: colors.primaryColor }]}
     >
       <StatusBar
-        backgroundColor={colors.primarayheaderColor}
-        barStyle="light-content"
+        backgroundColor={colors.primaryColor}
+        barStyle={theme === 'dark' ? 'light-content' : 'dark-content'}
       />
 
       <KeyboardAvoidingView
@@ -55,7 +55,7 @@ const LoginScreen = () => {
           showsVerticalScrollIndicator={false}
           automaticallyAdjustKeyboardInsets={true}
         >
-          <Animated.View entering={FadeInDown.duration(400).springify()}>
+          <View>
             <Text
               style={{
                 fontFamily: 'PlusJakartaSans-Bold',
@@ -84,12 +84,8 @@ const LoginScreen = () => {
               style={styles.logo}
               resizeMode="cover"
             />
-          </Animated.View>
 
-          <Animated.View
-            entering={FadeInUp.duration(500).delay(150).springify()}
-            style={styles.formGroup}
-          >
+            <View style={styles.formGroup}>
             <View>
               <Text
                 style={{
@@ -185,8 +181,8 @@ const LoginScreen = () => {
                 />
               </TouchableOpacity>
             </Animated.View>
-
-          </Animated.View>
+          </View>
+        </View>
         </ScrollView>
       </KeyboardAvoidingView>
 

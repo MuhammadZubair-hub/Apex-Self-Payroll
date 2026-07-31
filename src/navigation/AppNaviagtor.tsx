@@ -5,12 +5,8 @@ import HomeScreen from '../screen/Home/HomeScreen';
 import DrawerNaviagation from './DrawerNaviagation';
 
 const AppNaviagtor = () => {
-
-    const Stack = createNativeStackNavigator();
-
-
     return (
-        <DrawerNaviagation></DrawerNaviagation>
+        <DrawerNaviagation />
     )
 }
 

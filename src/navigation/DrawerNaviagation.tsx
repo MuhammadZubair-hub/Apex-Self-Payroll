@@ -11,24 +11,27 @@ import SettingsStackNavigator from './SettingsStackNavigator';
 import RequestLetterScreen from '../screen/RequestLetter/RequestLetterScreen';
 import LeaveCalendarHistoryScreen from '../screen/LeaveCalendarHistory/LeaveCalendarHistoryScreen';
 
+const Drawer = createDrawerNavigator();
+
 const DrawerNaviagation = () => {
     const { theme } = useThemeContext();
     const colors = getColors(theme);
 
-    const Drawer = createDrawerNavigator();
+    const renderDrawerContent = React.useCallback((props: any) => <CustomDrawerContent {...props} />, []);
 
     return (
         <GestureHandlerRootView style={{ flex: 1 }}>
             <Drawer.Navigator
-                drawerContent={(props) => <CustomDrawerContent {...props} />}
+                drawerContent={renderDrawerContent}
                 screenOptions={{
                     headerShown: false,
                     headerStyle: { backgroundColor: colors.purple1 },
                     headerTintColor: colors.secondPrimaryColor,
-                    // drawerActiveTintColor: colors.purple1,
-                    // drawerInactiveTintColor: colors.text,
+                    freezeOnBlur: true,
+                    drawerType: 'front',
+                    overlayColor: 'rgba(0, 0, 0, 0.5)',
                     drawerStyle: {
-                        width: '70%',
+                        width: '75%',
                     },
                 }}
             >

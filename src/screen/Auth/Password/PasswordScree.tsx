@@ -30,8 +30,8 @@ const PasswordScreen = () => {
     <SafeAreaView style={[styles.container, { backgroundColor: colors.primaryColor }]}>
 
       <StatusBar
-        backgroundColor={colors.primarayheaderColor}
-        barStyle="light-content"
+        backgroundColor={colors.primaryColor}
+        barStyle={theme === 'dark' ? 'light-content' : 'dark-content'}
       />
 
       <KeyboardAvoidingView

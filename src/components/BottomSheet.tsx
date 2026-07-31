@@ -1,6 +1,5 @@
 import React from 'react';
 import { DimensionValue, Modal, ScrollView, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
-import Animated, { FadeIn, FadeOut, SlideInDown, SlideOutDown } from 'react-native-reanimated';
 import Icon from './Icons';
 import ModalFlashMessage from './ModalFlashMessage';
 import { scale, verticalScale, moderateScale } from '../utils/responsive';
@@ -36,19 +35,13 @@ const BottomSheet = ({
     ? { showsVerticalScrollIndicator: false, contentContainerStyle: styles.scrollContent }
     : {};
 
-  if (!visible) return null;
-
   return (
-    <Modal visible={visible} transparent animationType="none" onRequestClose={onClose}>
+    <Modal visible={visible} transparent animationType="slide" onRequestClose={onClose}>
       <ModalFlashMessage visible={visible} />
-      <Animated.View entering={FadeIn.duration(200)} exiting={FadeOut.duration(200)} style={styles.overlay}>
+      <View style={styles.overlay}>
         <TouchableOpacity style={StyleSheet.absoluteFill} activeOpacity={1} onPress={onClose} />
 
-        <Animated.View
-          entering={SlideInDown.springify().damping(18).stiffness(140)}
-          exiting={SlideOutDown.duration(200)}
-          style={[styles.container, { backgroundColor: colors.secondPrimaryColor, maxHeight: maxHeight ?? '88%' }]}
-        >
+        <View style={[styles.container, { backgroundColor: colors.secondPrimaryColor, maxHeight: maxHeight ?? '88%' }]}>
           <View style={[styles.handle, { backgroundColor: colors.purple1 }]} />
 
           {title ? (
@@ -61,8 +54,8 @@ const BottomSheet = ({
           <Content {...contentProps}>{children}</Content>
 
           {footer}
-        </Animated.View>
-      </Animated.View>
+        </View>
+      </View>
     </Modal>
   );
 };

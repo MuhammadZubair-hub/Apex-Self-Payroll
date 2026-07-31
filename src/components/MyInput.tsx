@@ -6,7 +6,6 @@ import {
   View,
   ViewStyle
 } from 'react-native';
-import Animated, { useAnimatedStyle, useSharedValue, withTiming } from 'react-native-reanimated';
 import { scale, verticalScale } from '../utils/responsive';
 import { useThemeContext } from '../theme/ThemeContex';
 import { getColors } from '../theme/color/theme';
@@ -16,7 +15,7 @@ import Icon from './Icons';
 interface Props {
   value: string;
   placeholder: string;
-  onChangeText: (t: string) => void;
+  onChangeText?: (t: string) => void;
   onFocus?: () => void;
   onBlur?: () => void;
   iconType?: string;
@@ -47,18 +46,16 @@ const MyInput = ({
   const { theme } = useThemeContext();
   const colors = getColors(theme);
   const [isFocused, setIsFocused] = useState(false);
-  const focusAnim = useSharedValue(0);
-
-  const animatedContainerStyle = useAnimatedStyle(() => ({
-    transform: [{ scale: withTiming(focusAnim.value ? 1.01 : 1, { duration: 180 }) }],
-  }));
 
   return (
     <View>
-      {label ?
-      <Text style={{color: colors.textPrimary,marginBottom:verticalScale(8),fontSize:AppSizes.FONT_14,fontFamily:'PlusJakartaSans-Bold'}}>{label}</Text> : null}
+      {label ? (
+        <Text style={{ color: colors.textPrimary, marginBottom: verticalScale(8), fontSize: AppSizes.FONT_14, fontFamily: 'PlusJakartaSans-Bold' }}>
+          {label}
+        </Text>
+      ) : null}
 
-      <Animated.View
+      <View
         style={[
           styles.container,
           {
@@ -67,7 +64,6 @@ const MyInput = ({
             backgroundColor: colors.secondPrimaryColor,
           },
           containerStyle,
-          animatedContainerStyle,
         ]}
       >
         {iconName && (
@@ -86,12 +82,10 @@ const MyInput = ({
           onChangeText={onChangeText}
           onFocus={() => {
             setIsFocused(true);
-            focusAnim.value = 1;
             onFocus?.();
           }}
           onBlur={() => {
             setIsFocused(false);
-            focusAnim.value = 0;
             onBlur?.();
           }}
           secureTextEntry={secure}
@@ -101,7 +95,7 @@ const MyInput = ({
         />
 
         {rightComponent}
-      </Animated.View>
+      </View>
     </View>
   );
 };

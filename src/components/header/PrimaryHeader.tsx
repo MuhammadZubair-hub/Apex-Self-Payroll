@@ -6,6 +6,7 @@ import { scale, xdHeight } from '../../utils/responsive';
 import Icon from '../Icons';
 import { useThemeContext } from '../../theme/ThemeContex';
 import { getColors } from '../../theme/color/theme';
+import FocusAwareStatusBar from '../FocusAwareStatusBar';
 
 interface PrimaryHeaderProps {
   headerText: string;
@@ -35,49 +36,52 @@ const PrimaryHeader = ({
   const colors = getColors(theme);
 
   return (
-    <View
-      style={[
-        styles.headerMaincontainer,
-        {
-          backgroundColor: colors.primarayheaderColor,
-          height: profile ? xdHeight(162) : xdHeight(100),
-          borderBottomLeftRadius: !profile ? AppSizes.RADIUS_30 : 0,
-          borderBottomRightRadius: !profile ? AppSizes.RADIUS_30 : 0,
-        },
-      ]}
-    >
-      <View style={styles.iconZone}>
-        {showBackButton ? (
-          <Icon type="Ionicons" name="chevron-back" size={iconsize} color="#fff" onPress={() => navigation.goBack()} />
-        ) : (
-          <Icon type="Ionicons" name="menu-outline" size={iconsize} color="#fff" onPress={() => navigation.toggleDrawer()} />
-        )}
-      </View>
+    <>
+      <FocusAwareStatusBar backgroundColor={colors.primarayheaderColor} barStyle="light-content" translucent={false} />
+      <View
+        style={[
+          styles.headerMaincontainer,
+          {
+            backgroundColor: colors.primarayheaderColor,
+            height: profile ? xdHeight(162) : xdHeight(100),
+            borderBottomLeftRadius: !profile ? AppSizes.RADIUS_30 : 0,
+            borderBottomRightRadius: !profile ? AppSizes.RADIUS_30 : 0,
+          },
+        ]}
+      >
+        <View style={styles.iconZone}>
+          {showBackButton ? (
+            <Icon type="Ionicons" name="chevron-back" size={iconsize} color="#fff" onPress={() => navigation.goBack()} />
+          ) : (
+            <Icon type="Ionicons" name="menu-outline" size={iconsize} color="#fff" onPress={() => navigation.toggleDrawer()} />
+          )}
+        </View>
 
-      <View style={[styles.titleZone, alignTextCenter ? styles.titleZoneCenter : styles.titleZoneLeft]}>
-        <Text
-          numberOfLines={2}
-          ellipsizeMode="tail"
-          style={[styles.headerText, { color: '#fff', textAlign: alignTextCenter ? 'center' : 'left' }]}
-        >
-          {headerText}
-        </Text>
-        {showDate && (
+        <View style={[styles.titleZone, alignTextCenter ? styles.titleZoneCenter : styles.titleZoneLeft]}>
           <Text
-            numberOfLines={1}
-            style={[styles.headerText, { color: '#fff', fontSize: AppSizes.FONT_14, textAlign: alignTextCenter ? 'center' : 'left' }]}
+            numberOfLines={2}
+            ellipsizeMode="tail"
+            style={[styles.headerText, { color: '#fff', textAlign: alignTextCenter ? 'center' : 'left' }]}
           >
-            {new Date().toISOString().split('T', 1)}
+            {headerText}
           </Text>
-        )}
-      </View>
+          {showDate && (
+            <Text
+              numberOfLines={1}
+              style={[styles.headerText, { color: '#fff', fontSize: AppSizes.FONT_14, textAlign: alignTextCenter ? 'center' : 'left' }]}
+            >
+              {new Date().toISOString().split('T', 1)}
+            </Text>
+          )}
+        </View>
 
-      <View style={styles.iconZone}>
-        {rightIconName && (
-          <Icon type={rightIconType} name={rightIconName} size={AppSizes.ICON_24} color="#fff" onPress={onRightIconPress} />
-        )}
+        <View style={styles.iconZone}>
+          {rightIconName && (
+            <Icon type={rightIconType} name={rightIconName} size={AppSizes.ICON_24} color="#fff" onPress={onRightIconPress} />
+          )}
+        </View>
       </View>
-    </View>
+    </>
   );
 };
 

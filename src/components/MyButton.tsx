@@ -1,6 +1,6 @@
 import React from "react";
-import { Pressable, StyleSheet, Text, ViewStyle } from "react-native";
-import Animated, { useAnimatedStyle, useSharedValue, withSpring } from "react-native-reanimated";
+import { Pressable, StyleProp, StyleSheet, Text, ViewStyle } from "react-native";
+import Animated, { useAnimatedStyle, useSharedValue, withTiming } from "react-native-reanimated";
 import { Fold } from "react-native-animated-spinkit";
 import { scale } from "../utils/responsive";
 import { AppSizes } from "../utils/AppSizes";
@@ -12,7 +12,7 @@ interface Props {
   onPress: () => void;
   disabled?: boolean;
   loading?: boolean;
-  style?: ViewStyle;
+  style?: StyleProp<ViewStyle>;
   textColor?: string;
 }
 
@@ -30,13 +30,13 @@ const MyButton = ({ text, onPress, disabled, loading, style, textColor = "#fff" 
 
   const handlePressIn = () => {
     if (!disabled && !loading) {
-      scaleValue.value = withSpring(0.96, { damping: 15, stiffness: 300 });
+      scaleValue.value = withTiming(0.97, { duration: 100 });
     }
   };
 
   const handlePressOut = () => {
     if (!disabled && !loading) {
-      scaleValue.value = withSpring(1, { damping: 15, stiffness: 300 });
+      scaleValue.value = withTiming(1, { duration: 100 });
     }
   };
 

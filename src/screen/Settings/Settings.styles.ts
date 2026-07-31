@@ -98,7 +98,11 @@ export const settingsStyles = StyleSheet.create({
   rowLabel: {
     fontSize: AppSizes.FONT_14,
     fontFamily: 'PlusJakartaSans-Medium',
-    flex: 1,
+  },
+  rowSubtitle: {
+    fontSize: moderateScale(11),
+    fontFamily: 'PlusJakartaSans-Medium',
+    marginTop: verticalScale(2),
   },
   signOutButton: {
     marginTop: scale(8),
