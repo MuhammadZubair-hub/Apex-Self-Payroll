@@ -1,6 +1,5 @@
 import React, { useState } from 'react';
 import { ScrollView, Text, TouchableOpacity, View } from 'react-native';
-import Animated, { FadeInDown } from 'react-native-reanimated';
 import { Fold } from 'react-native-animated-spinkit';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import Icon from '../../components/Icons';
@@ -58,7 +57,7 @@ const LeaveCalendarHistoryScreen = () => {
       <PrimaryHeader headerText="Leave Calendar" alignTextCenter />
 
       <ScrollView showsVerticalScrollIndicator={false} contentContainerStyle={styles.scrollContent}>
-        <Animated.View entering={FadeInDown.duration(250)}>
+        <View>
           <TouchableOpacity
             style={[styles.monthNavRow, { backgroundColor: colors.secondPrimaryColor }]}
             onPress={() => setMonthPickerVisible(true)}
@@ -69,9 +68,9 @@ const LeaveCalendarHistoryScreen = () => {
             </Text>
             <Icon type="Ionicons" name="calendar-outline" size={AppSizes.ICON_20} color={colors.purple1} />
           </TouchableOpacity>
-        </Animated.View>
+        </View>
 
-        <Animated.View entering={FadeInDown.duration(250).delay(40)}>
+        <View>
           <TouchableOpacity
             style={[styles.departmentField, { borderColor: colors.borderColor, backgroundColor: colors.secondPrimaryColor }]}
             onPress={() => setDepartmentPickerVisible(true)}
@@ -84,9 +83,9 @@ const LeaveCalendarHistoryScreen = () => {
             </Text>
             <Icon type="Ionicons" name="chevron-down" size={AppSizes.ICON_16} color={colors.textSecondary} />
           </TouchableOpacity>
-        </Animated.View>
+        </View>
 
-        <Animated.View entering={FadeInDown.duration(250).delay(80)}>
+        <View>
           <View style={[styles.calendarCard, { backgroundColor: colors.secondPrimaryColor }]}>
             {loading ? (
               <View style={styles.loadingBox}>
@@ -113,9 +112,9 @@ const LeaveCalendarHistoryScreen = () => {
               </View>
             </View>
           </View>
-        </Animated.View>
+        </View>
 
-        <Animated.View entering={FadeInDown.duration(250).delay(120)}>
+        <View>
           <View style={styles.sectionTitleRow}>
             <Text style={[styles.sectionTitle, { color: colors.textPrimary }]}>
               {detailsVisible ? 'Selected Day' : `All Leaves in ${MONTH_NAMES[month - 1]}`}
@@ -127,7 +126,7 @@ const LeaveCalendarHistoryScreen = () => {
             )}
           </View>
           <LeaveRecordsList colors={colors} records={detailsVisible ? detailsRecords : records} />
-        </Animated.View>
+        </View>
       </ScrollView>
 
       <MonthYearPickerSheet

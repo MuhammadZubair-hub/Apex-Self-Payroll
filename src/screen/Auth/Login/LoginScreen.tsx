@@ -10,7 +10,6 @@ import {
   TouchableOpacity,
   View,
 } from 'react-native';
-import Animated, { ZoomIn } from 'react-native-reanimated';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { useThemeContext } from '../../../theme/ThemeContex';
 import { getColors } from '../../../theme/color/theme';
@@ -157,7 +156,7 @@ const LoginScreen = () => {
               />
             </View>
            
-            <Animated.View entering={ZoomIn.duration(300).delay(300)}>
+            <View>
               <Text
                 style={{
                   fontSize: AppSizes.FONT_12,
@@ -180,7 +179,7 @@ const LoginScreen = () => {
                   color={colors.purple1}
                 />
               </TouchableOpacity>
-            </Animated.View>
+            </View>
           </View>
         </View>
         </ScrollView>

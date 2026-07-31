@@ -1,6 +1,5 @@
 import React from 'react';
 import { ScrollView, StatusBar, Text, TextInput, TouchableOpacity, View } from 'react-native';
-import Animated, { FadeInUp } from 'react-native-reanimated';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import PrimaryHeader from '../../components/header/PrimaryHeader';
 import Icon from '../../components/Icons';
@@ -31,7 +30,7 @@ const RequestLetterScreen = () => {
       <PrimaryHeader headerText="Request Letter" />
 
       <ScrollView showsVerticalScrollIndicator={false} contentContainerStyle={styles.scrollContent}>
-        <Animated.View entering={FadeInUp.duration(250)}>
+        <View>
           <View style={[styles.infoBanner, { backgroundColor: colors.lightPurple }]}>
             <Icon type="Ionicons" name="mail-outline" size={AppSizes.ICON_20} color={colors.purple1} />
             <View style={{ flex: 1, marginLeft: scale(10) }}>
@@ -41,9 +40,9 @@ const RequestLetterScreen = () => {
               </Text>
             </View>
           </View>
-        </Animated.View>
+        </View>
 
-        <Animated.View entering={FadeInUp.duration(250).delay(60)}>
+        <View>
           <Text style={[styles.fieldLabel, { color: colors.textPrimary }]}>Subject</Text>
           <TouchableOpacity
             style={[styles.formField, { borderColor: colors.borderColor, backgroundColor: colors.secondPrimaryColor }]}
@@ -68,7 +67,7 @@ const RequestLetterScreen = () => {
           </View>
 
           <MyButton text="Send Request" onPress={handleSubmit} loading={submitting} style={{ backgroundColor: colors.purple1 }} />
-        </Animated.View>
+        </View>
       </ScrollView>
 
       <SubjectPickerSheet visible={subjectPickerVisible} colors={colors} selected={subject} onSelect={setSubject} onClose={closeSubjectPicker} />

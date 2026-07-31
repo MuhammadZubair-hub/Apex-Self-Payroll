@@ -1,6 +1,5 @@
 import React, { useCallback } from 'react';
 import { FlatList, RefreshControl, Text, TextInput, TouchableOpacity, View } from 'react-native';
-import Animated, { FadeIn, FadeInDown, ZoomIn } from 'react-native-reanimated';
 import { useBottomTabBarHeight } from '@react-navigation/bottom-tabs';
 import Icon from '../../../components/Icons';
 import { sharedStyles } from '../components/sharedStyles';
@@ -112,15 +111,13 @@ const SubmittedLeaveScreen = ({ colors, employeeId, state }: SubmittedLeaveScree
         />
       )}
 
-      <Animated.View entering={ZoomIn.duration(250).delay(150)} style={[styles.fab, { backgroundColor: colors.purple1, bottom: (styles.fab.bottom as number) + tabBarHeight }]}>
-        <TouchableOpacity
-          style={{ width: '100%', height: '100%', justifyContent: 'center', alignItems: 'center' }}
-          onPress={openFormModal}
-          activeOpacity={0.85}
-        >
-          <Icon type="Ionicons" name="add" size={scale(22)} color="#fff" />
-        </TouchableOpacity>
-      </Animated.View>
+      <TouchableOpacity
+        style={[styles.fab, { backgroundColor: colors.purple1, bottom: (styles.fab.bottom as number) + tabBarHeight }]}
+        onPress={openFormModal}
+        activeOpacity={0.85}
+      >
+        <Icon type="Ionicons" name="add" size={scale(22)} color="#fff" />
+      </TouchableOpacity>
 
       <LeaveFilterModal
         visible={filterModalVisible}
