@@ -85,103 +85,107 @@ const LoginScreen = () => {
             />
 
             <View style={styles.formGroup}>
-            <View>
-              <Text
-                style={{
-                  fontFamily: 'PlusJakartaSans-Bold',
-                  fontSize: AppSizes.FONT_24,
-                  alignSelf: 'center',
-                  color: colors.textPrimary,
-                }}
-              >
-                Welcome Back!
-              </Text>
-
-              <Text
-                style={{
-                  fontFamily: 'PlusJakartaSans-SemiBold',
-                  fontSize: AppSizes.FONT_14,
-                  alignSelf: 'center',
-                  color: colors.textSecondary,
-                }}
-              >
-                Sign In to access your employee account{' '}
-              </Text>
-            </View>
-            <MyInput
-              placeholder="Enter your Usercode"
-              label="User Code"
-              value={userCredentials.email}
-              onChangeText={v => {
-                setUserCredentials(prev => ({ ...prev, email: v }));
-              }}
-              iconType="Ionicons"
-              iconName="person-outline"
-              containerStyle={styles.inputContainer}
-            />
-
-            <MyInput
-              placeholder="Enter Password"
-              label="Password"
-              value={userCredentials.password}
-              onChangeText={v => {
-                setUserCredentials(prev => ({ ...prev, password: v }));
-              }}
-              iconType="Ionicons"
-              iconName="lock-closed-outline"
-              secure={isSecure}
-              containerStyle={styles.inputContainer}
-              rightComponent={
-                <Icon
-                  name={isSecure ? 'eye-off-outline' : 'eye-outline'}
-                  onPress={() => {
-                    setIsSecure(prev => !prev);
+              <View>
+                <Text
+                  style={{
+                    fontFamily: 'PlusJakartaSans-Bold',
+                    fontSize: AppSizes.FONT_24,
+                    alignSelf: 'center',
+                    color: colors.textPrimary,
                   }}
-                  type={'Ionicons'}
-                  color={colors.textSecondary}
-                />
-              }
-            />
+                >
+                  Welcome Back!
+                </Text>
 
-            <View style={styles.loginRow}>
-              <MyButton
-                text="Sign In"
-                style={StyleSheet.flatten([
-                  styles.loginButton,
-                  { backgroundColor: colors.purple1 },
-                ])}
-                onPress={() => {
-                  handleLogin();
+                <Text
+                  style={{
+                    fontFamily: 'PlusJakartaSans-SemiBold',
+                    fontSize: AppSizes.FONT_14,
+                    alignSelf: 'center',
+                    color: colors.textSecondary,
+                  }}
+                >
+                  Login to access your employee account{' '}
+                </Text>
+              </View>
+              <MyInput
+                placeholder="Enter your Usercode"
+                label="User Code"
+                value={userCredentials.email}
+                onChangeText={v => {
+                  setUserCredentials(prev => ({ ...prev, email: v }));
                 }}
+                iconType="Ionicons"
+                iconName="person-outline"
+                containerStyle={styles.inputContainer}
               />
-            </View>
-           
-            <View>
-              <Text
-                style={{
-                  fontSize: AppSizes.FONT_12,
-                  alignSelf: 'center',
-                  color: colors.textSecondary,
-                  marginBottom: 20
+
+              <MyInput
+                placeholder="Enter Password"
+                label="Password"
+                value={userCredentials.password}
+                onChangeText={v => {
+                  setUserCredentials(prev => ({ ...prev, password: v }));
                 }}
-              >
-                {Platform.OS === 'ios' ? 'Sign in with Face ID' : 'Sign in with Biometrics'}
-              </Text>
-              <TouchableOpacity
-                style={styles.biometricButton}
-                onPress={handleBiometricLogin}
-                activeOpacity={0.7}
-              >
-                <Icon
-                  type="Ionicons"
-                  name={Platform.OS === 'ios' ? 'scan-outline' : 'finger-print'}
-                  size={scale(34)}
-                  color={colors.purple1}
+                iconType="Ionicons"
+                iconName="lock-closed-outline"
+                secure={isSecure}
+                containerStyle={styles.inputContainer}
+                rightComponent={
+                  <Icon
+                    name={isSecure ? 'eye-off-outline' : 'eye-outline'}
+                    onPress={() => {
+                      setIsSecure(prev => !prev);
+                    }}
+                    type={'Ionicons'}
+                    color={colors.textSecondary}
+                  />
+                }
+              />
+
+              <View style={styles.loginRow}>
+                <MyButton
+                  text="Log In"
+                  style={StyleSheet.flatten([
+                    styles.loginButton,
+                    { backgroundColor: colors.purple1 },
+                  ])}
+                  onPress={() => {
+                    handleLogin();
+                  }}
                 />
-              </TouchableOpacity>
+              </View>
+
+              <View>
+                <Text
+                  style={{
+                    fontSize: AppSizes.FONT_12,
+                    alignSelf: 'center',
+                    color: colors.textSecondary,
+                    marginBottom: 10,
+                  }}
+                >
+                  {Platform.OS === 'ios'
+                    ? 'Login in with Face ID'
+                    : 'Login in with Biometrics'}
+                </Text>
+                <TouchableOpacity
+                  style={styles.biometricButton}
+                  onPress={handleBiometricLogin}
+                  activeOpacity={0.7}
+                >
+                  <Icon
+                    type="Ionicons"
+                    name={
+                      Platform.OS === 'ios' ? 'scan-outline' : 'finger-print'
+                    }
+                    size={scale(35)}
+                    color={colors.purple1}
+                  />
+                </TouchableOpacity>
+              </View>
             </View>
           </View>
-        </View>
         </ScrollView>
       </KeyboardAvoidingView>
 

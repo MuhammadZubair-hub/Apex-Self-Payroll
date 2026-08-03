@@ -88,7 +88,6 @@ export const useHome = () => {
   const fetchDashboardData = useCallback(
     async (force = false) => {
       if (!userData?.employeeId) return;
-      console.log('getTodayAttendance: ',todayAttendance)
       try {
         const [holidaysResult, leaveResult, todayAttendanceResult, , pendingRequestResult] = await Promise.all([
           HomeService.getUpcomingHolidays(userData.employeeId),
