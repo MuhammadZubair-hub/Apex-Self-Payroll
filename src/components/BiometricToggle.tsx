@@ -1,5 +1,5 @@
 import React from 'react';
-import { StyleSheet, TouchableOpacity, View } from 'react-native';
+import { Platform, StyleSheet, TouchableOpacity, View } from 'react-native';
 import Icon from './Icons';
 import { scale, verticalScale } from '../utils/responsive';
 import { AppSizes } from '../utils/AppSizes';
@@ -32,7 +32,7 @@ const BiometricToggle = ({ enabled, colors, onToggle }: BiometricToggleProps) =>
     </View>
     <View style={[styles.pillButton, enabled && [styles.pillActive, { backgroundColor: colors.purple1, borderRadius: 30 }]]}>
       <Icon
-        name="finger-print"
+        name={Platform.OS === 'ios' ? 'scan-outline' : 'finger-print'}
         type="Ionicons"
         size={AppSizes.ICON_16}
         color={enabled ? '#fff' : colors.textSecondary}

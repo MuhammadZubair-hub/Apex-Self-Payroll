@@ -64,6 +64,7 @@ const SettingsScreen = () => {
 
   // Biometric toggle state
   const [biometricEnabled, setBiometricEnabled] = useState(false);
+  const biometryLabel = Platform.OS === 'ios' ? 'FaceID' : 'Biometric';
 
   useEffect(() => {
     const loadBiometricState = async () => {
@@ -78,16 +79,16 @@ const SettingsScreen = () => {
       const result = await enableBiometric();
       if (result.success) {
         setBiometricEnabled(true);
-        showThemedMessage(colors, { message: 'Biometric login enabled', type: 'success' });
+        showThemedMessage(colors, { message: `${biometryLabel} login enabled`, type: 'success' });
       } else {
-        showThemedMessage(colors, { message: result.error || 'Failed to enable biometric', type: 'danger' });
+        showThemedMessage(colors, { message: result.error || `Failed to enable ${biometryLabel}`, type: 'danger' });
       }
     } else {
       await disableBiometric();
       setBiometricEnabled(false);
-      showThemedMessage(colors, { message: 'Biometric login disabled', type: 'success' });
+      showThemedMessage(colors, { message: `${biometryLabel} login disabled`, type: 'success' });
     }
-  }, [colors]);
+  }, [colors, biometryLabel]);
   const userData = useSelector(getUser);
 
 
@@ -222,8 +223,8 @@ const SettingsScreen = () => {
                 rightElement={<ThemeToggle theme={theme} colors={colors} onToggle={toggleTheme} />}
               />
               <SettingsRow
-                icon="finger-print"
-                label="Biometric Login"
+                icon={Platform.OS === 'ios' ? 'scan-outline' : 'finger-print'}
+                label={`${biometryLabel} Login`}
                 subtitle={biometricEnabled ? 'Activated' : 'Deactivated'}
                 subtitleColor={biometricEnabled ? colors.greenColor || colors.purple1 : colors.textSecondary}
                 colors={colors}
