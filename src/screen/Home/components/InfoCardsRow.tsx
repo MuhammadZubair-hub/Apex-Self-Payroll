@@ -21,7 +21,7 @@ const InfoCardsRow = ({ colors, totalLeaveBalance, upcomingHolidays, onPressLeav
       activeOpacity={0.85}
     >
       <View style={[styles.infoIconBox, { backgroundColor: colors.lightPurple }]}>
-        <Ionicons name="airplane-outline" size={AppSizes.ICON_30} color={colors.purple1} />
+        <Ionicons name="wallet-outline" size={AppSizes.ICON_30} color={colors.purple1} />
       </View>
       <Text style={[styles.infoCardTitle, { color: colors.textPrimary }]}>Leave Balance</Text>
 

@@ -23,7 +23,7 @@ const TodayAttendanceCard = ({ colors, todayAttendance, todayStatusMeta, todayBo
 
     <View style={styles.attendanceTimeRow}>
       {/* <Text style={[styles.checkInTime, { color: colors.textPrimary }]}>{formatTime(todayAttendance?.startTime)}</Text> */}
-      <Text style={[styles.checkInTime, { color: colors.textPrimary }]}>{todayAttendance?.startTime.split(' ')[3]}</Text>
+      <Text style={[styles.checkInTime, { color: colors.textPrimary }]}>{todayAttendance?.startTime.split(' ')[4]}</Text>
       <View style={[styles.iconCircle, { backgroundColor: colors.blueTint }]}>
         <Ionicons name="calendar-outline" size={AppSizes.ICON_30} color={colors.purple1} />
       </View>

@@ -70,7 +70,7 @@ const PrimaryHeader = ({
               numberOfLines={1}
               style={[styles.headerText, { color: '#fff', fontSize: AppSizes.FONT_14, textAlign: alignTextCenter ? 'center' : 'left' }]}
             >
-              {new Date().toISOString().split('T', 1)}
+              {new Date().toLocaleDateString('en-US', { weekday: 'long', month: 'short', day: 'numeric',year: 'numeric' })}
             </Text>
           )}
         </View>
