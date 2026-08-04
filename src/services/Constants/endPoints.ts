@@ -38,6 +38,10 @@ export const endPoints = {
   GetApprovedLeavesCalenderESS: 'ESSDashboard/GetApprovedLeavesCalenderESS',
   GetAllManagers: 'ESSDashboard/GetAllManagers',
 
+  PostWFHApplication: 'WFHApplication/PostWFHApplication',
+  GetWFHApplication: 'WFHApplication/GetWFHApplicationByEmployeeId',
+  PendingWFHApplicationsList: 'WFHApplication/PendingWFHApplicationsList',
+
 
 
 

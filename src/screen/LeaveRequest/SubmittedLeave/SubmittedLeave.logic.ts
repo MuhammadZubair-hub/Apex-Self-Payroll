@@ -48,7 +48,7 @@ export const useSubmittedLeave = (employeeId: number | string | undefined, profi
   const fetchLeaveTypes = useCallback(async () => {
     try {
       const r = await LeaveService.getLeaveTypes(employeeId!);
-      console.log('leave types are this :',r);
+      console.log('leave types are this :', r);
       setLeaveType(r.data?.status ? r.data.data || [] : []);
     } catch (error) {
       console.log('error fetching leave types', error);
@@ -127,9 +127,10 @@ export const useSubmittedLeave = (employeeId: number | string | undefined, profi
 
   const handleNewRequestSubmit = useCallback(
     async (payload: NewLeaveRequestPayload) => {
-      const selectedDays = daysBetweenInclusive(payload.fromDate, payload.toDate);
-      const selectedLeaveType = leaveType.find((t) => (t.id ?? t.leaveID) === payload.leaveTypeId);
+      const targetLeaveID = payload.leaveID ?? payload.leaveTypeId;
+      const selectedLeaveType = leaveType.find((t) => (t.leaveID) === targetLeaveID);
       const availableBalance = selectedLeaveType?.leaveBalance ?? 0;
+      const selectedDays = daysBetweenInclusive(payload.fromDate, payload.toDate);
       if (selectedLeaveType && selectedDays > availableBalance) {
         showThemedMessage(colors, {
           message: `You only have ${availableBalance} day${availableBalance === 1 ? '' : 's'} remaining for ${payload.leaveTypeLabel}`,
@@ -159,7 +160,7 @@ export const useSubmittedLeave = (employeeId: number | string | undefined, profi
             flgApproved: false,
             fromDate: toMidnightISOString(payload.fromDate),
             id: 0,
-            leaveID: payload.leaveTypeId,
+            leaveID: targetLeaveID,
             noOfDayRecom: 0,
             noOfDaysApp: 0,
             noOfDaysLeaveReq: daysBetweenInclusive(payload.fromDate, payload.toDate),
@@ -173,7 +174,12 @@ export const useSubmittedLeave = (employeeId: number | string | undefined, profi
           },
         };
 
+
+        // console.log("leave body", body);
+        // return;
         const r = await LeaveService.submitLeaveApplication(body);
+
+        // console.log('leave submit response', JSON.stringify(r));
 
         if (!r.success) {
           showThemedMessage(colors, { message: r.message || 'Failed to submit leave request', type: 'danger' });

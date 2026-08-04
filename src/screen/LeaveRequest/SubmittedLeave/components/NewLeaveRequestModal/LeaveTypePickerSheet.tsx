@@ -10,6 +10,7 @@ interface LeaveTypeOption {
   id: number | string;
   label: string;
   leaveBalance: number;
+  leaveID: number | string;
 }
 
 interface LeaveTypePickerSheetProps {
@@ -24,15 +25,16 @@ interface LeaveTypePickerSheetProps {
 const LeaveTypePickerSheet = ({ visible, colors, types, selectedId, onSelect, onClose }: LeaveTypePickerSheetProps) => {
   const renderItem = useCallback(
     ({ item }: { item: LeaveTypeOption }) => {
-      const isSelected = selectedId === item.id;
+      const itemLeaveId = item.leaveID;
+      const isSelected = selectedId === itemLeaveId;
       return (
         <TouchableOpacity
           style={[
             styles.optionRow,
             { borderBottomColor: colors.borderColor },
-            isSelected && { backgroundColor: colors.lightPurple, borderRadius: AppSizes.RADIUS_10, paddingHorizontal: AppSizes.PH_10,borderBottomWidth:0 },
+            isSelected && { backgroundColor: colors.lightPurple, borderRadius: AppSizes.RADIUS_10, paddingHorizontal: AppSizes.PH_10, borderBottomWidth: 0 },
           ]}
-          onPress={() => onSelect(item.id)}
+          onPress={() => onSelect(itemLeaveId)}
         >
           <View style={styles.optionTextWrap}>
             <Text

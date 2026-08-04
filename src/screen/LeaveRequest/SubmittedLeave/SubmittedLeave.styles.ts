@@ -3,6 +3,9 @@ import { scale, verticalScale } from '../../../utils/responsive';
 import { AppSizes } from '../../../utils/AppSizes';
 
 export const submittedLeaveStyles = StyleSheet.create({
+  container: {
+    flex: 1,
+  },
   searchFilterRow: {
     flexDirection: 'row',
     alignItems: 'center',

@@ -77,7 +77,7 @@ export const useLoginUser = () => {
 
 
         const tokenClaims = decodeJwt(loginData.token);
-        console.log('the tokeclaims are this :', tokenClaims);
+        // console.log('the tokeclaims are this :', tokenClaims);
         const firstTimeLogged = tokenClaims?.FirstTimeLogged === '0';
         console.log(firstTimeLogged);
 

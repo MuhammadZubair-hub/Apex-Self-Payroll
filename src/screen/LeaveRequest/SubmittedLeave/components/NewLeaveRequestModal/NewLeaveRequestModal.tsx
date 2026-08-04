@@ -194,8 +194,8 @@ const NewLeaveRequestModal = ({ visible, colors, leaveTypes, employeeId, onClose
         colors={colors}
         types={normalizedTypes}
         selectedId={leaveTypeId}
-        onSelect={(id) => {
-          setLeaveTypeId(id);
+        onSelect={(leaveID) => {
+          setLeaveTypeId(leaveID);
           setTypePickerVisible(false);
         }}
         onClose={() => setTypePickerVisible(false)}

@@ -11,11 +11,13 @@ import { scale } from '../utils/responsive';
 const ICON_BY_ROUTE: Record<string, { active: any; inactive: any }> = {
   Home: { active: 'home', inactive: 'home-outline' },
   leaveRequest: { active: 'document-text', inactive: 'document-text-outline' },
+  wfhRequest: { active: 'laptop', inactive: 'laptop-outline' },
 };
 
 const LABEL_BY_ROUTE: Record<string, string> = {
   Home: 'Home',
   leaveRequest: 'Leave',
+  wfhRequest: 'WFH',
 };
 
 // Only the focused tab widens into a colored pill with an icon+label row - every other tab
@@ -89,8 +91,8 @@ const styles = StyleSheet.create({
     position: 'absolute',
     // left: AppSizes.MH_50,
     // right: AppSizes.MH_50,
-    left: scale(60),
-    right: scale(60),
+    left: scale(30),
+    right: scale(30),
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'space-between',

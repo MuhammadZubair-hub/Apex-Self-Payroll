@@ -39,8 +39,9 @@ const CustomDrawerContent = (props: any) => {
   const homeTabRoute = props.state.routes.find((r: any) => r.name === 'HomeTab');
   const activeHomeTabScreen = homeTabRoute?.state?.routes?.[homeTabRoute.state.index ?? 0]?.name;
   const isActive = (routeName: string) => {
-    if (routeName === 'HomeTab') return activeRouteName === 'HomeTab' && activeHomeTabScreen !== 'leaveRequest';
+    if (routeName === 'HomeTab') return activeRouteName === 'HomeTab' && activeHomeTabScreen !== 'leaveRequest' && activeHomeTabScreen !== 'wfhRequest';
     if (routeName === 'leaveRequest') return activeRouteName === 'HomeTab' && activeHomeTabScreen === 'leaveRequest';
+    if (routeName === 'wfhRequest') return activeRouteName === 'HomeTab' && activeHomeTabScreen === 'wfhRequest';
     return activeRouteName === routeName;
   };
   const tintFor = (routeName: string) => (isActive(routeName) ? colors.purple1 : colors.textSecondary);
@@ -119,6 +120,21 @@ const CustomDrawerContent = (props: any) => {
             )}
             onPress={() => props.navigation.navigate('HomeTab', { screen: 'leaveRequest' })}
             focused={isActive('leaveRequest')}
+            activeBackgroundColor={colors.lightPurple}
+            activeTintColor={colors.purple1}
+            inactiveTintColor={colors.textSecondary}
+            labelStyle={styles.drawerLabel}
+            style={styles.drawerItem}
+          />
+
+          {/* WFH Request */}
+          <DrawerItem
+            label="WFH Request"
+            icon={({ size }) => (
+              <Icon name="laptop-outline" type="Ionicons" size={size} color={tintFor('wfhRequest')} />
+            )}
+            onPress={() => props.navigation.navigate('HomeTab', { screen: 'wfhRequest' })}
+            focused={isActive('wfhRequest')}
             activeBackgroundColor={colors.lightPurple}
             activeTintColor={colors.purple1}
             inactiveTintColor={colors.textSecondary}

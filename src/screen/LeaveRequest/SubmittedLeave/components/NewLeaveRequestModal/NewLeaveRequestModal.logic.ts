@@ -23,6 +23,7 @@ export interface NewLeaveRequestPayload {
   toDate: Date;
   remarks: string;
   attachmentPath: string;
+  leaveID: number | string;
 }
 
 interface UseNewLeaveRequestFormArgs {
@@ -54,15 +55,16 @@ export const useNewLeaveRequestForm = ({ leaveTypes, employeeId, onSubmit, onClo
   const normalizedTypes = useMemo(
     () =>
       leaveTypes.map((t) => ({
-        id: t.id ?? t.leaveID,
+        id: t.leaveID,
         label: t.leaveName?.trim?.() ?? t.name ?? t.leaveType ?? 'Leave',
         leaveBalance: t.leaveBalance ?? 0,
+        leaveID: t.leaveID,
       })),
     [leaveTypes]
   );
 
   const selectedLeaveType = useMemo(
-    () => normalizedTypes.find((t) => t.id === leaveTypeId),
+    () => normalizedTypes.find((t) => (t.leaveID ?? t.id) === leaveTypeId),
     [normalizedTypes, leaveTypeId]
   );
 
@@ -87,7 +89,7 @@ export const useNewLeaveRequestForm = ({ leaveTypes, employeeId, onSubmit, onClo
       const extension = EXTENSION_BY_MIME[asset.type || ''] || 'jpg';
       const fileName = asset.fileName || `attachment_${Date.now()}.${extension}`;
 
-    
+
       setAttachmentUploading(true);
       try {
         const formData = new FormData();
@@ -152,9 +154,9 @@ export const useNewLeaveRequestForm = ({ leaveTypes, employeeId, onSubmit, onClo
           if (result.didCancel || result.errorCode || !result.assets?.[0]) return;
           const fileSize = result.assets[0].fileSize
           if (fileSize && fileSize > MAX_ATTACHMENT_SIZE_BYTES) {
-            showThemedMessage(colors, { 
-              message: 'File size exceeds 2MB limit. Please choose a smaller file.', 
-              type: 'danger' 
+            showThemedMessage(colors, {
+              message: 'File size exceeds 2MB limit. Please choose a smaller file.',
+              type: 'danger'
             });
             return;
           }
@@ -172,11 +174,11 @@ export const useNewLeaveRequestForm = ({ leaveTypes, employeeId, onSubmit, onClo
         });
 
         if (result.didCancel || result.errorCode || !result.assets?.[0]) return;
-        const fileSize = result.assets[0].fileSize ;
+        const fileSize = result.assets[0].fileSize;
         if (fileSize && fileSize > MAX_ATTACHMENT_SIZE_BYTES) {
-          showThemedMessage(colors, { 
-            message: 'File size exceeds 2MB limit. Please choose a smaller file.', 
-            type: 'danger' 
+          showThemedMessage(colors, {
+            message: 'File size exceeds 2MB limit. Please choose a smaller file.',
+            type: 'danger'
           });
           return;
         }
@@ -191,11 +193,11 @@ export const useNewLeaveRequestForm = ({ leaveTypes, employeeId, onSubmit, onClo
     setAttachmentSourceVisible(false);
     const result = await launchImageLibrary({ mediaType: 'photo', quality: 0.7 });
     if (result.didCancel || result.errorCode || !result.assets?.[0]) return;
-    const fileSize = result.assets[0].fileSize ;
+    const fileSize = result.assets[0].fileSize;
     if (fileSize && fileSize > MAX_ATTACHMENT_SIZE_BYTES) {
-      showThemedMessage(colors, { 
-        message: 'File size exceeds 2MB limit. Please choose a smaller file.', 
-        type: 'danger' 
+      showThemedMessage(colors, {
+        message: 'File size exceeds 2MB limit. Please choose a smaller file.',
+        type: 'danger'
       });
       return;
     }
@@ -206,11 +208,11 @@ export const useNewLeaveRequestForm = ({ leaveTypes, employeeId, onSubmit, onClo
     setAttachmentSourceVisible(false);
     try {
       const [result] = await pick({ type: [types.pdf] });
-       const fileSize = result.size ;
+      const fileSize = result.size;
       if (fileSize && fileSize > MAX_ATTACHMENT_SIZE_BYTES) {
-        showThemedMessage(colors, { 
-          message: 'File size exceeds 2MB limit. Please choose a smaller file.', 
-          type: 'danger' 
+        showThemedMessage(colors, {
+          message: 'File size exceeds 2MB limit. Please choose a smaller file.',
+          type: 'danger'
         });
         return;
       }
@@ -276,13 +278,15 @@ export const useNewLeaveRequestForm = ({ leaveTypes, employeeId, onSubmit, onClo
     if (!selectedLeaveType || !fromDate || !toDate) return;
 
     setSubmitting(true);
+    const targetLeaveID = selectedLeaveType.leaveID ?? selectedLeaveType.id;
     const success = await onSubmit({
-      leaveTypeId: selectedLeaveType.id,
+      leaveTypeId: targetLeaveID,
       leaveTypeLabel: selectedLeaveType.label,
       fromDate,
       toDate,
       remarks,
       attachmentPath: attachment?.remotePath || '',
+      leaveID: targetLeaveID,
     });
     setSubmitting(false);
     // Only close on success - on failure the confirm sheet (and its held flash message toast)
