@@ -40,11 +40,9 @@ const SubmittedLeaveScreen = ({ colors, employeeId, state }: SubmittedLeaveScree
     openFilterModal,
     closeFilterModal,
     filterFromDate,
+    setFilterFromDate,
     filterToDate,
-    filterDatePicker,
-    openFilterDatePicker,
-    closeFilterDatePicker,
-    confirmFilterDate,
+    setFilterToDate,
     resetFilters,
     onRefresh,
     openApprovalChain,
@@ -122,15 +120,19 @@ const SubmittedLeaveScreen = ({ colors, employeeId, state }: SubmittedLeaveScree
       <LeaveFilterModal
         visible={filterModalVisible}
         colors={colors}
-        statusFilter={statusFilter}
-        onSelectStatus={setStatusFilter}
-        fromDate={filterFromDate}
-        toDate={filterToDate}
-        datePicker={filterDatePicker}
-        onOpenDatePicker={openFilterDatePicker}
-        onCloseDatePicker={closeFilterDatePicker}
-        onConfirmDate={confirmFilterDate}
-        onReset={resetFilters}
+        initialStatus={statusFilter}
+        initialFromDate={filterFromDate}
+        initialToDate={filterToDate}
+        onApply={(status, from, to) => {
+          setStatusFilter(status);
+          if (from !== undefined) setFilterFromDate(from);
+          if (to !== undefined) setFilterToDate(to);
+          closeFilterModal();
+        }}
+        onReset={() => {
+          resetFilters();
+          closeFilterModal();
+        }}
         onClose={closeFilterModal}
       />
 

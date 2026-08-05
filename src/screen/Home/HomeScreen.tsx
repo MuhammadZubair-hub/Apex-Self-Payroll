@@ -13,6 +13,7 @@ import LeaveBalanceModal from './components/LeaveBalanceModal';
 import HolidaysModal from './components/HolidaysModal';
 import RequestLetterCard from './components/RequestLetterCard';
 import PendingApprovalCard from './components/PendingApprovalCard';
+import PendingApprovalsModal from './components/PendingApprovalsModal';
 import AttendanceCalendarCard from './components/AttendanceCalendar/AttendanceCalendarCard';
 import { AppSizes } from '../../utils/AppSizes';
 import AttendanceBarChart from '../Attandance/components/AttendanceBarChart';
@@ -34,13 +35,19 @@ const HomeScreen = () => {
     leaveModalVisible,
     holidayModalVisible,
     pendingrequ,
+    pendingWfhRequ,
+    totalPendingApprovals,
+    pendingApprovalsModalVisible,
     openLeaveModal,
     closeLeaveModal,
     openHolidayModal,
     closeHolidayModal,
+    openPendingApprovalsModal,
+    closePendingApprovalsModal,
     goToAttendance,
     goToRequestLetter,
-    goToPendingApprovals,
+    goToPendingLeaveApprovals,
+    goToPendingWfhApprovals,
   } = useHome();
 
   const tabBarHeight = useBottomTabBarHeight();
@@ -65,8 +72,8 @@ const HomeScreen = () => {
           todayStatusMeta={todayStatusMeta}
           todayBottomText={todayBottomText}
         />
-        {pendingrequ.length > 0 && (
-          <PendingApprovalCard colors={colors} count={pendingrequ.length} onPress={goToPendingApprovals} />
+        {totalPendingApprovals > 0 && (
+          <PendingApprovalCard colors={colors} count={totalPendingApprovals} onPress={openPendingApprovalsModal} />
         )}
         <AttendanceOverviewCard colors={colors} summary={attendanceSummary} onPress={goToAttendance} />
         <AttendanceBarChart records={records} colors={colors} />
@@ -94,6 +101,16 @@ const HomeScreen = () => {
         colors={colors}
         holidays={upcomingHolidays}
         onClose={closeHolidayModal}
+      />
+
+      <PendingApprovalsModal
+        visible={pendingApprovalsModalVisible}
+        colors={colors}
+        pendingLeaveCount={pendingrequ.length}
+        pendingWfhCount={pendingWfhRequ.length}
+        onPressLeave={goToPendingLeaveApprovals}
+        onPressWfh={goToPendingWfhApprovals}
+        onClose={closePendingApprovalsModal}
       />
 
       <LoadingBaseModal visible={loading} />

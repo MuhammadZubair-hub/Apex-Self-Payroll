@@ -249,6 +249,8 @@ export const homeStyles = StyleSheet.create({
   leaveTypeValue: {
     fontSize: AppSizes.FONT_14,
     fontFamily: 'PlusJakartaSans-SemiBold',
+  alignSelf:'center',
+  textAlign:'center'
   },
   totalRow: {
     flexDirection: 'row',

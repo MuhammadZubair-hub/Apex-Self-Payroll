@@ -4,6 +4,7 @@ import { useSelector } from 'react-redux';
 import { getUser } from '../../redux/slices/authSlice';
 import { AttendanceService } from '../../services/AttendanceService';
 import { HomeService } from '../../services/HomeService';
+import { WFHService } from '../../services/WFHService';
 import { getColors } from '../../theme/color/theme';
 import { useThemeContext } from '../../theme/ThemeContex';
 import { formatTime } from '../../utils/dateTime';
@@ -28,10 +29,14 @@ export const useHome = () => {
   const [refreshing, setRefreshing] = useState(false);
   const [upcomingHolidays, setUpcomingHolidays] = useState<any[]>([]);
   const [pendingrequ, SetPendingLeaveRequest] = useState<any[]>([]);
+  const [pendingWfhRequ, setPendingWfhRequ] = useState<any[]>([]);
   const [leaveBalance, setLeaveBalance] = useState<any[]>([]);
   const [todayAttendance, setTodayAttendance] = useState<any>(null);
   const [leaveModalVisible, setLeaveModalVisible] = useState(false);
   const [holidayModalVisible, setHolidayModalVisible] = useState(false);
+  const [pendingApprovalsModalVisible, setPendingApprovalsModalVisible] = useState(false);
+
+  const totalPendingApprovals = pendingrequ.length + pendingWfhRequ.length;
 
   const totalLeaveBalance = useMemo(
     () => leaveBalance.reduce((sum, item) => sum + (Number(item?.leaveBalance) || 0), 0),
@@ -89,21 +94,29 @@ export const useHome = () => {
     async (force = false) => {
       if (!userData?.employeeId) return;
       try {
-        const [holidaysResult, leaveResult, todayAttendanceResult, , pendingRequestResult] = await Promise.all([
+        const [holidaysResult, leaveResult, todayAttendanceResult, , pendingRequestResult, pendingWfhResult] = await Promise.all([
           HomeService.getUpcomingHolidays(userData.employeeId),
           HomeService.getEmployeeLeavesInfo(userData.employeeId),
           AttendanceService.getTodayAttendance(userData.employeeId),
           fetchMonthlyAttendance(force),
           HomeService.getPendingLeaveApplications(userData.employeeId),
+          WFHService.getPendingWFHApprovals(userData.employeeId),
         ]);
 
-        console.log('att: ', todayAttendanceResult.data.data )
-        console.log('att2: ', pendingRequestResult.data.data )
+        // console.log('att: ', todayAttendanceResult.data.data )
+        // console.log('att2: ', pendingRequestResult.data.data )
 
         if (holidaysResult.data?.status) setUpcomingHolidays(holidaysResult.data.data || []);
         if (leaveResult.data?.status) setLeaveBalance(leaveResult.data.data || []);
         if (todayAttendanceResult.data?.status) setTodayAttendance(todayAttendanceResult.data.data || null);
         if (pendingRequestResult.data?.status) SetPendingLeaveRequest(pendingRequestResult.data.data || []);
+
+        const wfhPendingList = pendingWfhResult.data?.status
+          ? pendingWfhResult.data.data
+          : Array.isArray(pendingWfhResult.data)
+            ? pendingWfhResult.data
+            : pendingWfhResult.data?.data || [];
+        setPendingWfhRequ(Array.isArray(wfhPendingList) ? wfhPendingList : []);
       } catch (err) {
         console.error('Error fetching dashboard data:', err);
         showThemedMessage(colors, { message: `Error fetching dashboard data: ${err}`, type: 'danger' });
@@ -128,12 +141,18 @@ export const useHome = () => {
   const closeLeaveModal = useCallback(() => setLeaveModalVisible(false), []);
   const openHolidayModal = useCallback(() => setHolidayModalVisible(true), []);
   const closeHolidayModal = useCallback(() => setHolidayModalVisible(false), []);
+  const openPendingApprovalsModal = useCallback(() => setPendingApprovalsModalVisible(true), []);
+  const closePendingApprovalsModal = useCallback(() => setPendingApprovalsModalVisible(false), []);
   const goToAttendance = useCallback(() => navigation.navigate('attendance'), [navigation]);
   const goToRequestLetter = useCallback(() => navigation.navigate('requestLetter'), [navigation]);
-  const goToPendingApprovals = useCallback(
-    () => navigation.navigate('leaveRequest', { section: 'APPROVALS' }),
-    [navigation]
-  );
+  const goToPendingLeaveApprovals = useCallback(() => {
+    setPendingApprovalsModalVisible(false);
+    navigation.navigate('leaveRequest', { section: 'APPROVALS' });
+  }, [navigation]);
+  const goToPendingWfhApprovals = useCallback(() => {
+    setPendingApprovalsModalVisible(false);
+    navigation.navigate('wfhRequest', { section: 'APPROVALS' });
+  }, [navigation]);
 
   return {
     colors,
@@ -150,12 +169,18 @@ export const useHome = () => {
     leaveModalVisible,
     holidayModalVisible,
     pendingrequ,
+    pendingWfhRequ,
+    totalPendingApprovals,
+    pendingApprovalsModalVisible,
     openLeaveModal,
     closeLeaveModal,
     openHolidayModal,
     closeHolidayModal,
+    openPendingApprovalsModal,
+    closePendingApprovalsModal,
     goToAttendance,
     goToRequestLetter,
-    goToPendingApprovals,
+    goToPendingLeaveApprovals,
+    goToPendingWfhApprovals,
   };
 };

@@ -43,6 +43,14 @@ const BottomSheet = ({
 
         <View style={[styles.container, { backgroundColor: colors.secondPrimaryColor, maxHeight: maxHeight ?? '88%' }]}>
           <View style={[styles.handle, { backgroundColor: colors.purple1 }]} />
+          {/* <Icon
+          name="close"
+          type="Ionicons"
+          size={scale(20)}
+          color={colors.redColor}
+          style={{ position: 'absolute', top: scale(10), right: scale(10) }}
+          onPress={onClose}
+          /> */}
 
           {title ? (
             <View style={styles.headerRow}>

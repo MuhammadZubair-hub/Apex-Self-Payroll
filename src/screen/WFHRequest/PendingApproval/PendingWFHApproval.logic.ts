@@ -14,12 +14,22 @@ export const usePendingWFHApprovals = (employeeId: number | string | undefined) 
   const [loadingApprovals, setLoadingApprovals] = useState(true);
   const [refreshing, setRefreshing] = useState(false);
   const [actionTarget, setActionTarget] = useState<{ item: any; decision: Decision } | null>(null);
+  const [searchText, setSearchText] = useState('');
+
+  const filteredApprovals = useMemo(() => {
+    if (!searchText.trim()) return pendingApprovals;
+    const lowerSearch = searchText.trim().toLowerCase();
+    return pendingApprovals.filter((item) => {
+      const haystack = `${item.reason || item.Reason || ''} ${item.employeeName || item.EmployeeName || item.empName || item.EmpName || item.name || item.Name || ''}`.toLowerCase();
+      return haystack.includes(lowerSearch);
+    });
+  }, [pendingApprovals, searchText]);
 
   const fetchPendingApprovals = useCallback(async () => {
     if (!employeeId) return;
     try {
       const r = await WFHService.getPendingWFHApprovals(employeeId);
-      console.log('pending wfh approvals response', r)
+      // console.log('pending wfh approvals response', r)
         ; const dataList = r.data?.status ? r.data.data : Array.isArray(r.data) ? r.data : (r.data?.data || []);
       setPendingApprovals(Array.isArray(dataList) ? dataList : []);
     } catch (error) {
@@ -96,7 +106,9 @@ export const usePendingWFHApprovals = (employeeId: number | string | undefined) 
   );
 
   return {
-    pendingApprovals,
+    pendingApprovals: filteredApprovals,
+    searchText,
+    setSearchText,
     loadingApprovals,
     refreshing,
     actionTarget,

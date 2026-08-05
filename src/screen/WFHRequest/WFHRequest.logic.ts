@@ -9,6 +9,8 @@ import { showThemedMessage } from '../../utils/flashMessage';
 import { daysBetweenInclusive } from '../LeaveRequest/leaveRequest.constants';
 import { NewWFHRequestPayload } from './components/NewWFHRequestModal/NewWFHRequestModal.logic';
 import { usePendingWFHApprovals } from './PendingApproval/PendingWFHApproval.logic';
+import axios from 'axios';
+import { baseUrl, endPoints } from '../../services/Constants/endPoints';
 
 export type WFHRequestSection = 'SUBMITTED' | 'APPROVALS';
 
@@ -36,13 +38,13 @@ export const useWFHRequest = () => {
   const [filterModalVisible, setFilterModalVisible] = useState(false);
   const [filterFromDate, setFilterFromDate] = useState<Date | null>(null);
   const [filterToDate, setFilterToDate] = useState<Date | null>(null);
-  const [filterDatePicker, setFilterDatePicker] = useState<{ visible: boolean; mode: 'from' | 'to' }>({
-    visible: false,
-    mode: 'from',
-  });
 
   const [selectedApplication, setSelectedApplication] = useState<any>(null);
   const [formModalVisible, setFormModalVisible] = useState(false);
+
+  const [approvalChainFor, setApprovalChainFor] = useState<any>(null);
+  const [approvalChain, setApprovalChain] = useState<any[]>([]);
+  const [approvalChainLoading, setApprovalChainLoading] = useState(false);
 
   const pendingApprovals = usePendingWFHApprovals(employeeId);
 
@@ -68,11 +70,13 @@ export const useWFHRequest = () => {
     if (!employeeId) return;
     try {
       const r = await WFHService.getWFHApplications(employeeId);
+      // const w = await axios.get(`${baseUrl}${endPoints.GetWFHApplication}?EmployeeId=${employeeId}`)
+      // console.log("w", w.data);
       const rawData = r.data?.data ?? r.data;
       const dataList = Array.isArray(rawData) ? rawData : r.data?.status && Array.isArray(r.data?.data) ? r.data.data : [];
       setWfhApplications(dataList);
     } catch (error) {
-      console.log('error fetching WFH applications', error);
+      // console.log('error fetching WFH applications', error);
       showThemedMessage(colors, { message: 'Failed to fetch WFH applications', type: 'danger' });
     } finally {
       setLoadingApplications(false);
@@ -89,28 +93,28 @@ export const useWFHRequest = () => {
     fetchWFHApplications();
   }, [fetchWFHApplications]);
 
+  const openApprovalChain = useCallback(async (item: any) => {
+    setApprovalChainFor(item);
+    setApprovalChainLoading(true);
+    setApprovalChain([]);
+    try {
+      const wfhId = item.wfhId ?? item.id ?? item.Id;
+      const r = await WFHService.getApprovalChain(wfhId);
+      setApprovalChain(r.data?.status ? r.data.data || [] : []);
+    } catch (error) {
+      console.log('error fetching WFH approval chain', error);
+    } finally {
+      setApprovalChainLoading(false);
+    }
+  }, []);
+
+  const closeApprovalChain = useCallback(() => setApprovalChainFor(null), []);
   const closeSelectedApplication = useCallback(() => setSelectedApplication(null), []);
   const openFormModal = useCallback(() => setFormModalVisible(true), []);
   const closeFormModal = useCallback(() => setFormModalVisible(false), []);
 
   const openFilterModal = useCallback(() => setFilterModalVisible(true), []);
   const closeFilterModal = useCallback(() => setFilterModalVisible(false), []);
-
-  const openFilterDatePicker = useCallback((mode: 'from' | 'to') => setFilterDatePicker({ visible: true, mode }), []);
-  const closeFilterDatePicker = useCallback(() => setFilterDatePicker((prev) => ({ ...prev, visible: false })), []);
-
-  const confirmFilterDate = useCallback(
-    (date: Date | null) => {
-      if (filterDatePicker.mode === 'from') {
-        setFilterFromDate(date);
-        if (date && filterToDate && filterToDate < date) setFilterToDate(null);
-      } else {
-        setFilterToDate(date);
-      }
-      setFilterDatePicker((prev) => ({ ...prev, visible: false }));
-    },
-    [filterDatePicker.mode, filterToDate]
-  );
 
   const resetFilters = useCallback(() => {
     setStatusFilter('ALL');
@@ -146,11 +150,15 @@ export const useWFHRequest = () => {
         };
 
         const r = await WFHService.submitWFHApplication(body);
-        console.log('wfh request body', JSON.stringify(body));
-        console.log('wfh response', r);
+        // console.log('wfh request body', JSON.stringify(body));
+        // console.log('wfh response', r);
 
-        if (!r.success && r.data?.status === false) {
+        if (!r.success) {
           showThemedMessage(colors, { message: r.data?.message || r.message || 'Failed to submit WFH request', type: 'danger' });
+          return false;
+        }
+        if (r.data?.status === 0 || r.data?.status === false) {
+          showThemedMessage(colors, { message: r.data?.message || 'Failed to submit WFH request', type: 'danger' });
           return false;
         }
 
@@ -189,11 +197,9 @@ export const useWFHRequest = () => {
     openFilterModal,
     closeFilterModal,
     filterFromDate,
+    setFilterFromDate,
     filterToDate,
-    filterDatePicker,
-    openFilterDatePicker,
-    closeFilterDatePicker,
-    confirmFilterDate,
+    setFilterToDate,
     resetFilters,
     onRefresh,
     closeSelectedApplication,
@@ -202,5 +208,10 @@ export const useWFHRequest = () => {
     setSelectedApplication,
     handleNewRequestSubmit,
     pendingApprovals,
+    approvalChainFor,
+    approvalChain,
+    approvalChainLoading,
+    openApprovalChain,
+    closeApprovalChain,
   };
 };

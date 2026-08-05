@@ -16,6 +16,7 @@ import NewWFHRequestModal from './components/NewWFHRequestModal/NewWFHRequestMod
 import WFHFilterModal from './components/WFHFilterModal';
 import PendingWFHApprovalScreen from './PendingApproval/PendingWFHApprovalScreen';
 import ListSkeleton from '../LeaveRequest/components/ListSkeleton';
+import ApprovalChainModal from '../LeaveRequest/SubmittedLeave/components/ApprovalChainModal';
 
 const WFHRequestScreen = () => {
   const {
@@ -37,11 +38,9 @@ const WFHRequestScreen = () => {
     openFilterModal,
     closeFilterModal,
     filterFromDate,
+    setFilterFromDate,
     filterToDate,
-    filterDatePicker,
-    openFilterDatePicker,
-    closeFilterDatePicker,
-    confirmFilterDate,
+    setFilterToDate,
     resetFilters,
     onRefresh,
     closeSelectedApplication,
@@ -50,15 +49,20 @@ const WFHRequestScreen = () => {
     setSelectedApplication,
     handleNewRequestSubmit,
     pendingApprovals,
+    approvalChainFor,
+    approvalChain,
+    approvalChainLoading,
+    openApprovalChain,
+    closeApprovalChain,
   } = useWFHRequest();
 
   const isSubmitted = activeSection === 'SUBMITTED';
 
   const renderItem = useCallback(
     ({ item }: { item: any }) => (
-      <WFHApplicationCard item={item} colors={colors} onPress={setSelectedApplication} />
+      <WFHApplicationCard item={item} colors={colors} onPress={setSelectedApplication} onPressApprovalChain={openApprovalChain} />
     ),
-    [colors, setSelectedApplication]
+    [colors, setSelectedApplication, openApprovalChain]
   );
 
   const keyExtractor = useCallback((item: any, index: number) => String(item.wfhId ?? item.id ?? item.Id ?? index), []);
@@ -156,19 +160,31 @@ const WFHRequestScreen = () => {
           <WFHFilterModal
             visible={filterModalVisible}
             colors={colors}
-            statusFilter={statusFilter}
-            onSelectStatus={setStatusFilter}
-            fromDate={filterFromDate}
-            toDate={filterToDate}
-            datePicker={filterDatePicker}
-            onOpenDatePicker={openFilterDatePicker}
-            onCloseDatePicker={closeFilterDatePicker}
-            onConfirmDate={confirmFilterDate}
-            onReset={resetFilters}
+            initialStatus={statusFilter}
+            initialFromDate={filterFromDate}
+            initialToDate={filterToDate}
+            onApply={(status, from, to) => {
+              setStatusFilter(status);
+              if (from !== undefined) setFilterFromDate(from);
+              if (to !== undefined) setFilterToDate(to);
+              closeFilterModal();
+            }}
+            onReset={() => {
+              resetFilters();
+              closeFilterModal();
+            }}
             onClose={closeFilterModal}
           />
 
           <WFHDetailModal visible={!!selectedApplication} item={selectedApplication} colors={colors} onClose={closeSelectedApplication} />
+
+          <ApprovalChainModal
+            visible={!!approvalChainFor}
+            loading={approvalChainLoading}
+            chain={approvalChain}
+            colors={colors}
+            onClose={closeApprovalChain}
+          />
 
           <NewWFHRequestModal
             visible={formModalVisible}

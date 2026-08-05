@@ -10,9 +10,10 @@ interface WFHApplicationCardProps {
   item: any;
   colors: any;
   onPress: (item: any) => void;
+  onPressApprovalChain: (item: any) => void;
 }
 
-const WFHApplicationCard = ({ item, colors, onPress }: WFHApplicationCardProps) => {
+const WFHApplicationCard = ({ item, colors, onPress, onPressApprovalChain }: WFHApplicationCardProps) => {
   const statusMeta = useMemo(() => {
     const rawStatus = item.requestStatus || item.RequestStatus || (item.flgApproved ? 'Approved' : 'Pending');
     return getStatusMeta(colors)[rawStatus] || getStatusMeta(colors).Pending;
@@ -31,8 +32,8 @@ const WFHApplicationCard = ({ item, colors, onPress }: WFHApplicationCardProps) 
       onPress={() => onPress(item)}
       activeOpacity={0.8}
     >
-      <View style={[sharedStyles.cardIconBox, { backgroundColor: colors.lightPurple }]}>
-        <Icon type="Ionicons" name="laptop-outline" size={AppSizes.ICON_20} color={colors.purple1} />
+      <View style={[sharedStyles.cardIconBox, { backgroundColor: colors.greenTint }]}>
+        <Icon type="Ionicons" name="laptop-outline" size={AppSizes.ICON_20} color={colors.greenColor} />
       </View>
 
       <View style={sharedStyles.cardBody}>
@@ -65,6 +66,13 @@ const WFHApplicationCard = ({ item, colors, onPress }: WFHApplicationCardProps) 
         >
           <Icon type="Ionicons" name="eye-outline" size={AppSizes.ICON_20} color={colors.purple1} />
         </TouchableOpacity>
+        <TouchableOpacity
+          style={styles.actionButton}
+          onPress={() => onPressApprovalChain(item)}
+          hitSlop={{ top: 8, bottom: 8, left: 8, right: 8 }}
+        >
+          <Icon type="Ionicons" name="git-branch-outline" size={AppSizes.ICON_20} color={colors.purple1} />
+        </TouchableOpacity>
       </View>
     </TouchableOpacity>
   );
@@ -79,7 +87,7 @@ const styles = StyleSheet.create({
   actionsColumn: {
     alignItems: 'center',
     paddingLeft: scale(8),
-    justifyContent: 'center',
+    gap: scale(10),
   },
   actionButton: {},
 });

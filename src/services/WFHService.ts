@@ -4,7 +4,7 @@ import { apicall } from './index';
 export const WFHService = {
   getWFHApplications: (employeeId: number | string) =>
     apicall({
-      endpoint: `${baseUrl}${endPoints.GetWFHApplication}?empid=${employeeId}`,
+      endpoint: `${baseUrl}${endPoints.GetWFHApplication}?EmployeeId=${employeeId}`,
       method: 'GET',
     }),
 
@@ -14,6 +14,12 @@ export const WFHService = {
       method: 'POST',
       data: body,
       silent: true,
+    }),
+
+  getApprovalChain: (wfhId: number | string) =>
+    apicall({
+      endpoint: `${baseUrl}${endPoints.GetApprovalDetailESS}?DocType=WFH&ApplicationId=${wfhId}`,
+      method: 'GET',
     }),
 
   getPendingWFHApprovals: (userId: number | string) =>

@@ -18,10 +18,6 @@ export const useSubmittedLeave = (employeeId: number | string | undefined, profi
   const [filterModalVisible, setFilterModalVisible] = useState(false);
   const [filterFromDate, setFilterFromDate] = useState<Date | null>(null);
   const [filterToDate, setFilterToDate] = useState<Date | null>(null);
-  const [filterDatePicker, setFilterDatePicker] = useState<{ visible: boolean; mode: 'from' | 'to' }>({
-    visible: false,
-    mode: 'from',
-  });
 
   const [leaveType, setLeaveType] = useState<any[]>([]);
 
@@ -101,22 +97,6 @@ export const useSubmittedLeave = (employeeId: number | string | undefined, profi
 
   const openFilterModal = useCallback(() => setFilterModalVisible(true), []);
   const closeFilterModal = useCallback(() => setFilterModalVisible(false), []);
-
-  const openFilterDatePicker = useCallback((mode: 'from' | 'to') => setFilterDatePicker({ visible: true, mode }), []);
-  const closeFilterDatePicker = useCallback(() => setFilterDatePicker((prev) => ({ ...prev, visible: false })), []);
-
-  const confirmFilterDate = useCallback(
-    (date: Date | null) => {
-      if (filterDatePicker.mode === 'from') {
-        setFilterFromDate(date);
-        if (date && filterToDate && filterToDate < date) setFilterToDate(null);
-      } else {
-        setFilterToDate(date);
-      }
-      setFilterDatePicker((prev) => ({ ...prev, visible: false }));
-    },
-    [filterDatePicker.mode, filterToDate]
-  );
 
   const resetFilters = useCallback(() => {
     setStatusFilter('ALL');
@@ -228,11 +208,9 @@ export const useSubmittedLeave = (employeeId: number | string | undefined, profi
     openFilterModal,
     closeFilterModal,
     filterFromDate,
+    setFilterFromDate,
     filterToDate,
-    filterDatePicker,
-    openFilterDatePicker,
-    closeFilterDatePicker,
-    confirmFilterDate,
+    setFilterToDate,
     resetFilters,
     onRefresh,
     openApprovalChain,

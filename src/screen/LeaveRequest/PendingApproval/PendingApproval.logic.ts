@@ -14,6 +14,16 @@ export const usePendingApprovals = (employeeId: number | string | undefined) => 
   const [loadingApprovals, setLoadingApprovals] = useState(true);
   const [refreshing, setRefreshing] = useState(false);
   const [actionTarget, setActionTarget] = useState<{ item: any; decision: Decision } | null>(null);
+  const [searchText, setSearchText] = useState('');
+
+  const filteredApprovals = useMemo(() => {
+    if (!searchText.trim()) return pendingApprovals;
+    const lowerSearch = searchText.trim().toLowerCase();
+    return pendingApprovals.filter((item) => {
+      const haystack = `${item.leaveName || item.LeaveName || ''} ${item.employeeName || item.EmployeeName || item.empName || item.EmpName || item.name || item.Name || ''}`.toLowerCase();
+      return haystack.includes(lowerSearch);
+    });
+  }, [pendingApprovals, searchText]);
 
   const fetchPendingApprovals = useCallback(async () => {
     if (!employeeId) return;
@@ -88,7 +98,9 @@ export const usePendingApprovals = (employeeId: number | string | undefined) => 
   );
 
   return {
-    pendingApprovals,
+    pendingApprovals: filteredApprovals,
+    searchText,
+    setSearchText,
     loadingApprovals,
     refreshing,
     actionTarget,

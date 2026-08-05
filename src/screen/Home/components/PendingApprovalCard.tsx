@@ -18,7 +18,7 @@ const PendingApprovalCard = ({ colors, count, onPress }: PendingApprovalCardProp
     <View style={styles.requestLetterBody}>
       <Text style={[styles.cardTitle, { color: colors.redColor, marginBottom: AppSizes.MV_2 }]}>Pending Approvals</Text>
       <Text style={[styles.leaveLabel, { color: colors.redColor }]}>
-        {count} leave request{count === 1 ? '' : 's'} waiting for your approval
+        {count} request{count === 1 ? '' : 's'} waiting for your approval
       </Text>
     </View>
     <Ionicons name="chevron-forward" size={verticalScale(18)} color={colors.redColor} />

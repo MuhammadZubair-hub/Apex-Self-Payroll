@@ -1,5 +1,5 @@
 import React, { useCallback } from 'react';
-import { FlatList, RefreshControl, Text, View } from 'react-native';
+import { FlatList, RefreshControl, Text, View, TextInput } from 'react-native';
 import { useBottomTabBarHeight } from '@react-navigation/bottom-tabs';
 import { usePendingWFHApprovals } from './PendingWFHApproval.logic';
 import PendingWFHApprovalCard from './components/PendingWFHApprovalCard';
@@ -7,7 +7,8 @@ import ListSkeleton from '../../LeaveRequest/components/ListSkeleton';
 import { sharedStyles } from '../../LeaveRequest/components/sharedStyles';
 import Icon from '../../../components/Icons';
 import ApproveRejectModal from '../../LeaveRequest/PendingApproval/components/ApproveRejectModal';
-import { verticalScale } from '../../../utils/responsive';
+import { verticalScale, scale } from '../../../utils/responsive';
+import { submittedLeaveStyles } from '../../LeaveRequest/SubmittedLeave/SubmittedLeave.styles';
 // import Icon from '../../components/Icons';
 // import { sharedStyles } from '../LeaveRequest/components/sharedStyles';
 // import { verticalScale } from '../../utils/responsive';
@@ -25,6 +26,8 @@ const PendingWFHApprovalScreen = ({ colors, state }: PendingWFHApprovalScreenPro
   const {
     pendingApprovals,
     loadingApprovals,
+    searchText,
+    setSearchText,
     refreshing,
     actionTarget,
     onRefresh,
@@ -45,6 +48,18 @@ const PendingWFHApprovalScreen = ({ colors, state }: PendingWFHApprovalScreenPro
 
   return (
     <>
+      <View style={{ paddingHorizontal: scale(16), paddingTop: scale(16), paddingBottom: scale(8) }}>
+        <View style={[submittedLeaveStyles.searchRow, { borderColor: colors.borderColor, backgroundColor: colors.secondPrimaryColor, flex: undefined }]}>
+          <Icon type="Ionicons" name="search" size={scale(18)} color={colors.textSecondary} />
+          <TextInput
+            value={searchText}
+            onChangeText={setSearchText}
+            placeholder="Search by reason or employee name"
+            placeholderTextColor={colors.textSecondary}
+            style={[submittedLeaveStyles.searchInput, { color: colors.textPrimary }]}
+          />
+        </View>
+      </View>
       {loadingApprovals && pendingApprovals.length === 0 ? (
         <ListSkeleton colors={colors} />
       ) : (
