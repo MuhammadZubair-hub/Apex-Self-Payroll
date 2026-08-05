@@ -1,5 +1,5 @@
 import { useNavigation } from "@react-navigation/native";
-import { useMemo, useState } from "react";
+import { useMemo, useState, useEffect } from "react";
 import { useDispatch } from "react-redux";
 import { API_Config } from "../../../services/apiServices";
 import { loginSuccess } from "../../../redux/slices/authSlice";
@@ -12,6 +12,7 @@ import {
   authenticateAndGetCredentials,
   isBiometricEnabled,
 } from "../../../utils/biometricService";
+import { requestLocationPermission } from "../../../utils/location";
 
 export const useLoginUser = () => {
   const { theme } = useThemeContext();
@@ -25,6 +26,12 @@ export const useLoginUser = () => {
   //   const router = useRouter();
 
   const navigation = useNavigation<any>();
+
+  useEffect(() => {
+    // Request location permission as soon as the login screen opens
+    requestLocationPermission();
+  }, []);
+
   const fetchProfileData = async (employeeId: any) => {
     if (!employeeId) {
       // setLoading(false);
@@ -66,20 +73,23 @@ export const useLoginUser = () => {
         password.trim(),
       );
 
-      console.log("API Response:", response);
+      // console.log("API Response:", response);
       if (response?.success && response.data.status == "1") {
         const loginData = response.data.data.data;
 
-        console.log(loginData);
+        // console.log(loginData);
 
         // `firstTimeLogged` isn't in the login response body yet, so it's read off the JWT
         // claims instead. Defaults to true (normal flow) until the token actually carries it.
 
 
         const tokenClaims = decodeJwt(loginData.token);
-        // console.log('the tokeclaims are this :', tokenClaims);
+        console.log('the tokeclaims are this :', tokenClaims);
         const firstTimeLogged = tokenClaims?.FirstTimeLogged === '0';
         console.log(firstTimeLogged);
+        
+        const isWFH = String(tokenClaims?.isWFH).toLowerCase() === 'true';
+        loginData.isWFH = isWFH;
 
         if (!firstTimeLogged) {
           navigation.navigate('ChangePassword', {

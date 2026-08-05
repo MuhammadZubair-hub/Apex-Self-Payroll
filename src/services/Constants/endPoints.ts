@@ -41,6 +41,7 @@ export const endPoints = {
   PostWFHApplication: 'WFHApplication/PostWFHApplication',
   GetWFHApplication: 'WFHApplication/GetWFHApplicationByEmployeeId',
   PendingWFHApplicationsList: 'WFHApplication/PendingWFHApplicationsList',
+  PostWFHAttendance: "ESSDailytimesheet/PostWFHAttendance",
 
 
 

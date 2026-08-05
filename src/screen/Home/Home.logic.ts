@@ -10,7 +10,7 @@ import { useThemeContext } from '../../theme/ThemeContex';
 import { formatTime } from '../../utils/dateTime';
 import { showThemedMessage } from '../../utils/flashMessage';
 import { useMonthlyAttendance } from '../../hooks/useMonthlyAttendance';
-// import { useMonthlyAttendance } from '../../hooks/useMonthlyAttendance';
+import { requestLocationPermission, getCurrentLocation } from '../../utils/location';
 
 export const useHome = () => {
   const { theme } = useThemeContext();
@@ -26,6 +26,7 @@ export const useHome = () => {
   );
 
   const [loading, setLoading] = useState(true);
+  const [wfhLoading, setWfhLoading] = useState(false);
   const [refreshing, setRefreshing] = useState(false);
   const [upcomingHolidays, setUpcomingHolidays] = useState<any[]>([]);
   const [pendingrequ, SetPendingLeaveRequest] = useState<any[]>([]);
@@ -86,7 +87,8 @@ export const useHome = () => {
     ? 'No attendance record yet'
     : todayAttendance.attendanceStatus === 'Present'
       ? todayAttendance.endTime
-        ? `Checked out at ${formatTime(todayAttendance.endTime)}`
+        ? `Checked out at ${(todayAttendance?.endTime?.split(' ')[4] ? todayAttendance?.endTime?.split(' ')[4] : todayAttendance?.endTime?.split(' ')[3])}
+        `
         : 'Checked in'
       : todayStatusMeta.label;
 
@@ -127,6 +129,50 @@ export const useHome = () => {
     },
     [userData?.employeeId, colors, fetchMonthlyAttendance]
   );
+
+  const isWFH = userData?.isWFH === true;
+
+  const handleWFHCheckInOut = useCallback(async (type: 'IN' | 'OUT') => {
+    if (!userData?.employeeId) return;
+
+    setWfhLoading(true);
+    try {
+      const hasPermission = await requestLocationPermission();
+      if (!hasPermission) {
+        showThemedMessage(colors, { message: 'Location permission is required for attendance', type: 'danger' });
+        setWfhLoading(false);
+        return;
+      }
+
+      const location = await getCurrentLocation();
+      const coordinates = `${location.latitude}, ${location.longitude}`;
+      console.log('coordinates: ', JSON.stringify({
+        employeeId: userData.employeeId,
+        type,
+        coordinates,
+      }))
+      // return;
+      const r = await AttendanceService.postWFHAttendance({
+        employeeId: userData.employeeId,
+        type,
+        coordinates,
+      });
+      console.log('r: ', r);
+
+      if (r.success && (r.data?.status === 1 || r.data?.status === true || r.data?.status === "1")) {
+        showThemedMessage(colors, { message: `Checked ${type.toLowerCase()} successfully`, type: 'success' });
+        const todayAttendanceResult = await AttendanceService.getTodayAttendance(userData.employeeId);
+        if (todayAttendanceResult.data?.status) setTodayAttendance(todayAttendanceResult.data.data || null);
+      } else {
+        showThemedMessage(colors, { message: r.data?.message || `Failed to check ${type.toLowerCase()}`, type: 'danger' });
+      }
+    } catch (error: any) {
+      console.log('Error in WFH attendance:', error);
+      showThemedMessage(colors, { message: error.message || 'Error updating attendance', type: 'danger' });
+    } finally {
+      setWfhLoading(false);
+    }
+  }, [userData?.employeeId, colors]);
 
   useEffect(() => {
     fetchDashboardData();
@@ -182,5 +228,8 @@ export const useHome = () => {
     goToRequestLetter,
     goToPendingLeaveApprovals,
     goToPendingWfhApprovals,
+    isWFH,
+    wfhLoading,
+    handleWFHCheckInOut,
   };
 };

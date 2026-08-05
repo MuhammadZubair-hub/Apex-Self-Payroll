@@ -9,7 +9,7 @@ export interface User {
   refreshToken: string;
   phoneNumber: string;
   firstTimeLogged?: boolean;
-
+  isWFH?: boolean;
 };
 
 interface todayAttend {

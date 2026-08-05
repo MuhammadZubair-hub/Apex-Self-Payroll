@@ -7,6 +7,7 @@ import LoadingBaseModal from '../../components/Loader/LoadingBaseModal';
 import { homeStyles as styles } from './Home.styles';
 import { useHome } from './Home.logic';
 import TodayAttendanceCard from './components/TodayAttendanceCard';
+import WFHAttendanceCard from './components/WFHAttendanceCard';
 import AttendanceOverviewCard from './components/AttendanceOverviewCard';
 import InfoCardsRow from './components/InfoCardsRow';
 import LeaveBalanceModal from './components/LeaveBalanceModal';
@@ -48,6 +49,9 @@ const HomeScreen = () => {
     goToRequestLetter,
     goToPendingLeaveApprovals,
     goToPendingWfhApprovals,
+    isWFH,
+    wfhLoading,
+    handleWFHCheckInOut,
   } = useHome();
 
   const tabBarHeight = useBottomTabBarHeight();
@@ -66,12 +70,21 @@ const HomeScreen = () => {
         refreshControl={<RefreshControl refreshing={refreshing} onRefresh={onRefresh} tintColor={colors.purple1} />}
         contentContainerStyle={[styles.scrollContent, { paddingBottom: styles.scrollContent.paddingVertical as number + tabBarHeight }]}
       >
-        <TodayAttendanceCard
-          colors={colors}
-          todayAttendance={todayAttendance}
-          todayStatusMeta={todayStatusMeta}
-          todayBottomText={todayBottomText}
-        />
+        {isWFH && !(todayAttendance?.startTime && todayAttendance?.endTime) ? (
+          <WFHAttendanceCard
+            colors={colors}
+            todayAttendance={todayAttendance}
+            onCheckInOut={handleWFHCheckInOut}
+            loading={wfhLoading}
+          />
+        ) : (
+          <TodayAttendanceCard
+            colors={colors}
+            todayAttendance={todayAttendance}
+            todayStatusMeta={todayStatusMeta}
+            todayBottomText={todayBottomText}
+          />
+        )}
         {totalPendingApprovals > 0 && (
           <PendingApprovalCard colors={colors} count={totalPendingApprovals} onPress={openPendingApprovalsModal} />
         )}

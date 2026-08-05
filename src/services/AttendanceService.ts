@@ -10,4 +10,11 @@ export const AttendanceService = {
       endpoint: `${baseUrl}${endPoints.MonthlyAttendance}?EmployeeId=${employeeId}&Month=${month}&Year=${year}`,
       method: 'GET',
     }),
+
+  postWFHAttendance: (data: { employeeId: number | string; type: 'IN' | 'OUT'; coordinates: string }) =>
+    apicall({
+      endpoint: `${baseUrl}${endPoints.PostWFHAttendance}`,
+      method: 'POST',
+      data: data,
+    }),
 };
