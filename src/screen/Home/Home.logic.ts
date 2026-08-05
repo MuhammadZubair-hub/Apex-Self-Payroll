@@ -87,8 +87,7 @@ export const useHome = () => {
     ? 'No attendance record yet'
     : todayAttendance.attendanceStatus === 'Present'
       ? todayAttendance.endTime
-        ? `Checked out at ${(todayAttendance?.endTime?.split(' ')[4] ? todayAttendance?.endTime?.split(' ')[4] : todayAttendance?.endTime?.split(' ')[3])}
-        `
+        ? `Checked out at ${(todayAttendance?.endTime?.split(' ')[4] || todayAttendance?.endTime?.split(' ')[3])}`
         : 'Checked in'
       : todayStatusMeta.label;
 
@@ -146,18 +145,11 @@ export const useHome = () => {
 
       const location = await getCurrentLocation();
       const coordinates = `${location.latitude}, ${location.longitude}`;
-      console.log('coordinates: ', JSON.stringify({
-        employeeId: userData.employeeId,
-        type,
-        coordinates,
-      }))
-      // return;
       const r = await AttendanceService.postWFHAttendance({
         employeeId: userData.employeeId,
         type,
         coordinates,
       });
-      console.log('r: ', r);
 
       if (r.success && (r.data?.status === 1 || r.data?.status === true || r.data?.status === "1")) {
         showThemedMessage(colors, { message: `Checked ${type.toLowerCase()} successfully`, type: 'success' });
@@ -167,7 +159,7 @@ export const useHome = () => {
         showThemedMessage(colors, { message: r.data?.message || `Failed to check ${type.toLowerCase()}`, type: 'danger' });
       }
     } catch (error: any) {
-      console.log('Error in WFH attendance:', error);
+      // console.log('Error in WFH attendance:', error);
       showThemedMessage(colors, { message: error.message || 'Error updating attendance', type: 'danger' });
     } finally {
       setWfhLoading(false);

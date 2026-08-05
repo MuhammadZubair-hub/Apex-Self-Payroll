@@ -36,7 +36,7 @@ const BottomSheet = ({
     : {};
 
   return (
-    <Modal visible={visible} transparent animationType="none" onRequestClose={onClose}>
+    <Modal visible={visible} transparent statusBarTranslucent animationType="slide" onRequestClose={onClose}>
       <ModalFlashMessage visible={visible} />
       <View style={styles.overlay}>
         <TouchableOpacity style={StyleSheet.absoluteFill} activeOpacity={1} onPress={onClose} />
@@ -73,10 +73,13 @@ export default React.memo(BottomSheet);
 const styles = StyleSheet.create({
   overlay: {
     flex: 1,
+    width: '100%',
+    height: '100%',
     justifyContent: 'flex-end',
     backgroundColor: 'rgba(0,0,0,0.4)',
   },
   container: {
+    width: '100%',
     borderTopLeftRadius: scale(22),
     borderTopRightRadius: scale(22),
     paddingHorizontal: scale(20),

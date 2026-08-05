@@ -128,7 +128,7 @@ const LoadingBaseModal = ({ visible, minDurationMs = 600 }: LoadingModalProps) =
   if (!internalVisible) return null;
 
   return (
-    <Modal visible={internalVisible} transparent animationType="none" statusBarTranslucent>
+    <Modal visible={internalVisible} transparent animationType="fade" statusBarTranslucent>
       <Animated.View entering={FadeIn.duration(200)} exiting={FadeOut.duration(200)} style={styles.overlay}>
         <View
           style={[
@@ -169,6 +169,8 @@ const LoadingBaseModal = ({ visible, minDurationMs = 600 }: LoadingModalProps) =
 const styles = StyleSheet.create({
   overlay: {
     ...StyleSheet.absoluteFillObject,
+    width: '100%',
+    height: '100%',
     justifyContent: 'center',
     alignItems: 'center',
     backgroundColor: 'rgba(0, 0, 0, 0.45)',

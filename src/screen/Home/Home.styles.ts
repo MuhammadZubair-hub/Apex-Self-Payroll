@@ -78,7 +78,9 @@ export const homeStyles = StyleSheet.create({
   },
   checkInText: {
     fontSize: moderateScale(13),
+    // lineHeight: moderateScale(16),
     fontFamily: 'PlusJakartaSans-Regular',
+    includeFontPadding: false,
   },
 
   // Attendance Overview
