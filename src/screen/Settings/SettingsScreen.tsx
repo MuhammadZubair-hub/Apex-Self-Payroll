@@ -125,7 +125,7 @@ const SettingsScreen = () => {
 
     try {
       const response = await API_Config.changePassword(userData?.employeeId, oldPassword, newPassword);
-      console.log('the password update is :', response);
+      // console.log('the password update is :', response);
       if (response?.success && response.data.status) {
         // navigation.reset({ index: 0, routes: [{ name: 'Logn' }] });
         setPasswordModal(false);

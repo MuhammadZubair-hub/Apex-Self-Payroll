@@ -48,7 +48,7 @@ export const saveCredentials = async (
     await AsyncStorage.setItem(BIO_EMAIL_KEY, email);
     await AsyncStorage.setItem(BIO_PASSWORD_KEY, password);
   } catch (error) {
-    console.warn('Failed to save biometric credentials:', error);
+    // console.warn('Failed to save biometric credentials:', error);
   }
 };
 

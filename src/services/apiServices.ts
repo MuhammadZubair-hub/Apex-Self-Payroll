@@ -3,7 +3,7 @@ import { apicall } from "./index";
 
 export const API_Config = {
   loginUser: async (UserName: string, Password: string) => {
-    console.log(UserName, Password);
+   
     return apicall({
       endpoint: `${baseUrl}${endPoints.login}`,
       method: "POST",
@@ -11,7 +11,7 @@ export const API_Config = {
     });
   },
    changePassword: async (employeeId: string, oldPassword: string,newPassword:string) => {
-    console.log(employeeId, oldPassword,newPassword,`${baseUrl}${endPoints.changePassword}`)
+    // console.log(employeeId, oldPassword,newPassword,`${baseUrl}${endPoints.changePassword}`)
     return apicall({
       endpoint: `${baseUrl}${endPoints.changePassword}`,
       method: "POST",

@@ -31,7 +31,7 @@ export const usePendingApprovals = (employeeId: number | string | undefined) => 
       const r = await LeaveService.getPendingApprovals(employeeId);
       setPendingApprovals(r.data?.status ? r.data.data || [] : []);
     } catch (error) {
-      console.log('error fetching pending approvals', error);
+      // console.log('error fetching pending approvals', error);
       showThemedMessage(colors, { message: 'Failed to fetch pending approvals', type: 'danger' });
     } finally {
       setLoadingApprovals(false);
@@ -90,7 +90,7 @@ export const usePendingApprovals = (employeeId: number | string | undefined) => 
         }, 300);
         fetchPendingApprovals();
       } catch (error) {
-        console.log('error approving/rejecting leave request', error);
+        // console.log('error approving/rejecting leave request', error);
         showThemedMessage(colors, { message: `Failed to ${decision.toLowerCase()} request`, type: 'danger' });
       }
     },

@@ -26,7 +26,7 @@ export const downloadAttachment = async (attachmentPath: string | null | undefin
   const mime = getMimeType(fileName);
   const localPath = `${ReactNativeBlobUtil.fs.dirs.CacheDir}/${fileName}`;
   const url = `${baseUrl}${endPoints.DownloadFileESS}?filePath=${attachmentPath}`;
-  console.log('tha attachment path is :', url);
+  // console.log('tha attachment path is :', url);
   try {
     // Fetch into memory and write it ourselves instead of using config({ path }) streaming mode -
     // that mode rejects with "Download interrupted." whenever the server's Content-Length header
@@ -42,7 +42,6 @@ export const downloadAttachment = async (attachmentPath: string | null | undefin
       await ReactNativeBlobUtil.android.actionViewIntent(localPath, mime);
     }
   } catch (error) {
-    console.log('error downloading attachment', error);
     showThemedMessage(colors, { message: 'Failed to download attachment', type: 'danger' });
   }
 };

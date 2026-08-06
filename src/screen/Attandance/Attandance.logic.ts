@@ -68,7 +68,7 @@ export const useAttendance = () => {
           setSelectedEmployee(selfOption);
         }
       } catch (err) {
-        console.error('Error fetching managed employees:', err);
+        // console.error('Error fetching managed employees:', err);
       } finally {
         if (isMounted) setEmployeesLoading(false);
       }
@@ -94,7 +94,7 @@ export const useAttendance = () => {
         setLoading(true);
         await fetchMonthlyAttendance(force);
       } catch (err) {
-        console.error('Error fetching attendance:', err);
+        // console.error('Error fetching attendance:', err);
         showThemedMessage(colors, { message: `Error fetching attendance: ${err}`, type: 'danger' });
       } finally {
         setLoading(false);

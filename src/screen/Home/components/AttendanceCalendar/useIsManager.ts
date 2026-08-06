@@ -22,7 +22,7 @@ export const useIsManager = () => {
         const managerIds: any[] = result.data?.data || [];
         setIsManager(managerIds.some((id) => Number(id) === Number(userData.employeeId)));
       } catch (err) {
-        console.error('Error checking manager access:', err);
+        // console.error('Error checking manager access:', err);
         setIsManager(false);
       } finally {
         setCheckingAccess(false);

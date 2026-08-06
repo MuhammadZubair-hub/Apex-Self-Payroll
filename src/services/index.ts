@@ -67,8 +67,7 @@ export const apicall = async <T = any>({
     const statusCode = error?.response?.status || 500;
     const message =
       error?.response?.data?.message || error.message || 'Something went wrong';
-    console.log('The error calling API is:', error?.response?.data || message);
-console.log('error:',error)
+   
     // Only screens that don't already show their own failure message rely on this - callers
     // that check `!result.success` and show a specific toast pass `silent: true` to avoid
     // showing the error twice.

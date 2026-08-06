@@ -103,7 +103,7 @@ const AboutScreen = () => {
               <Text style={[styles.infoLabel, { color: colors.textSecondary }]}>Version</Text>
               <Text style={[styles.infoValue, { color: colors.textPrimary }]}>{APP_VERSION}</Text>
             </View>
-            <View style={styles.infoRow}>
+            <View style={[styles.infoRow, { borderBottomWidth: 0 }]}>
               <Text style={[styles.infoLabel, { color: colors.textSecondary }]}>Platform</Text>
               <Text style={[styles.infoValue, { color: colors.textPrimary }]}>{Platform.OS === 'ios' ? 'iOS' : 'Android'}</Text>
             </View>

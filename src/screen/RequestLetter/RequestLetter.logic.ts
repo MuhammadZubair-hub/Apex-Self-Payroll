@@ -61,7 +61,7 @@ export const useRequestLetter = () => {
       showThemedMessage(colors, { message: `${r.data.message}`, type: 'success' });
       resetForm();
     } catch (error) {
-      console.log('error sending request letter', error);
+      // console.log('error sending request letter', error);
       showThemedMessage(colors, { message: 'Failed to submit request', type: 'danger' });
     } finally {
       setSubmitting(false);

@@ -50,7 +50,7 @@ export const useAttendanceCalendar = () => {
         const payload = result.data;
         setRecords(Array.isArray(payload) ? payload : payload?.data || []);
       } catch (err) {
-        console.error('Error fetching leave calendar:', err);
+        // console.error('Error fetching leave calendar:', err);
         showThemedMessage(colors, { message: `Error fetching leave calendar: ${err}`, type: 'danger' });
         setRecords([]);
       } finally {
@@ -74,7 +74,7 @@ export const useAttendanceCalendar = () => {
       if (defaultDept != null) fetchLeaveCalendar(defaultDept, month, year);
       else setLoading(false);
     } catch (err) {
-      console.error('Error fetching departments:', err);
+      // console.error('Error fetching departments:', err);
       showThemedMessage(colors, { message: `Error fetching departments: ${err}`, type: 'danger' });
       setLoading(false);
     } finally {

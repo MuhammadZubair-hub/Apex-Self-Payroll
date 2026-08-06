@@ -114,7 +114,7 @@ export const useNewLeaveRequestForm = ({ leaveTypes, employeeId, onSubmit, onClo
           setAttachment({ name: fileName, remotePath });
         }
       } catch (error) {
-        console.log('error uploading attachment', error);
+        // console.log('error uploading attachment', error);
         showThemedMessage(colors, { message: 'Failed to upload attachment', type: 'danger' });
       } finally {
         setAttachmentUploading(false);
@@ -162,7 +162,7 @@ export const useNewLeaveRequestForm = ({ leaveTypes, employeeId, onSubmit, onClo
           }
           uploadAttachment(result.assets[0]);
         } else {
-          console.log('Camera permission denied');
+          // console.log('Camera permission denied');
           // Show alert to user about permission
         }
       } else {
@@ -185,7 +185,7 @@ export const useNewLeaveRequestForm = ({ leaveTypes, employeeId, onSubmit, onClo
         uploadAttachment(result.assets[0]);
       }
     } catch (error) {
-      console.log('Error opening camera:', error);
+      // console.log('Error opening camera:', error);
     }
   }, [uploadAttachment]);
 
@@ -219,7 +219,7 @@ export const useNewLeaveRequestForm = ({ leaveTypes, employeeId, onSubmit, onClo
       uploadAttachment({ uri: result.uri, fileName: result.name || undefined, type: result.type || 'application/pdf' });
     } catch (error) {
       if (isErrorWithCode(error) && error.code === errorCodes.OPERATION_CANCELED) return;
-      console.log('error picking document', error);
+      // console.log('error picking document', error);
       showThemedMessage(colors, { message: 'Failed to open document picker', type: 'danger' });
     }
   }, [uploadAttachment, colors]);

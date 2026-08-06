@@ -37,7 +37,7 @@ export const useChangePassword = () => {
 
     try {
       const response = await API_Config.changePassword(employeeId, oldPassword, newPassword);
-console.log('the password update is :',response);
+// console.log('the password update is :',response);
       if (response?.success && response.data.status) {
         showThemedMessage(colors, { message: 'Password updated successfully', type: 'success' });
         navigation.reset({ index: 0, routes: [{ name: 'Logn' }] });

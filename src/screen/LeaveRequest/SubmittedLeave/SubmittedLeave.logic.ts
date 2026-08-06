@@ -44,10 +44,10 @@ export const useSubmittedLeave = (employeeId: number | string | undefined, profi
   const fetchLeaveTypes = useCallback(async () => {
     try {
       const r = await LeaveService.getLeaveTypes(employeeId!);
-      console.log('leave types are this :', r);
+      // console.log('leave types are this :', r);
       setLeaveType(r.data?.status ? r.data.data || [] : []);
     } catch (error) {
-      console.log('error fetching leave types', error);
+      // console.log('error fetching leave types', error);
     }
   }, [employeeId]);
 
@@ -57,7 +57,7 @@ export const useSubmittedLeave = (employeeId: number | string | undefined, profi
       const r = await LeaveService.getLeaveApplications(employeeId);
       setLeaveApplications(r.data?.status ? r.data.data || [] : []);
     } catch (error) {
-      console.log('error fetching leave applications', error);
+      // console.log('error fetching leave applications', error);
       showThemedMessage(colors, { message: 'Failed to fetch leave applications', type: 'danger' });
     } finally {
       setLoadingApplications(false);
@@ -84,7 +84,7 @@ export const useSubmittedLeave = (employeeId: number | string | undefined, profi
       const r = await LeaveService.getApprovalChain(item.id);
       setApprovalChain(r.data?.status ? r.data.data || [] : []);
     } catch (error) {
-      console.log('error fetching approval chain', error);
+      // console.log('error fetching approval chain', error);
     } finally {
       setApprovalChainLoading(false);
     }
@@ -180,7 +180,7 @@ export const useSubmittedLeave = (employeeId: number | string | undefined, profi
         fetchLeaveApplications();
         return true;
       } catch (error) {
-        console.log('error submitting leave request', error);
+        // console.log('error submitting leave request', error);
         showThemedMessage(colors, { message: 'Failed to submit leave request', type: 'danger' });
         return false;
       }
