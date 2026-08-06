@@ -1,8 +1,11 @@
 
-const newApexURl = 'https://ait.vdc.services:1410/api/'
-// const newApexURl = 'https://syi.superyachtinteriors.ae:2001/api/'
+ const testApexURl = 'https://ait.vdc.services:1410' // test DB
+ const liveApexURl = 'https://ait.vdc.services:5009' // live DB
 
-export const baseUrl = newApexURl;
+
+export const activeApexURl = liveApexURl; 
+
+export const baseUrl = `${activeApexURl}/api/`;
 
 export const endPoints = {
   login: "Account/Login",
@@ -48,7 +51,7 @@ export const endPoints = {
 
 
 
-  //dummy
+  //dummy url tha
   RegisterUser: "Registeruser",
   // changePassword: "changePassword",
   deleteUser: "deleteUser",

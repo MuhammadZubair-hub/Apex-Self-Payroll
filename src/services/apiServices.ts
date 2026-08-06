@@ -1,25 +1,25 @@
-import { baseUrl, endPoints } from "./Constants/endPoints";
+import { baseUrl, endPoints, activeApexURl } from "./Constants/endPoints";
 import { apicall } from "./index";
 
 export const API_Config = {
   loginUser: async (UserName: string, Password: string) => {
-   
+
     return apicall({
       endpoint: `${baseUrl}${endPoints.login}`,
       method: "POST",
-      data: { UserName, Password, BackEndUrl: 'https://ait.vdc.services:1410' },
+      data: { UserName, Password, BackEndUrl: activeApexURl },
     });
   },
-   changePassword: async (employeeId: string, oldPassword: string,newPassword:string) => {
+  changePassword: async (employeeId: string, oldPassword: string, newPassword: string) => {
     // console.log(employeeId, oldPassword,newPassword,`${baseUrl}${endPoints.changePassword}`)
     return apicall({
       endpoint: `${baseUrl}${endPoints.changePassword}`,
       method: "POST",
-      data: { 
-      employeeId: parseInt(employeeId), 
-      oldPassword, 
-      newPassword 
-    },
+      data: {
+        employeeId: parseInt(employeeId),
+        oldPassword,
+        newPassword
+      },
     });
   },
 

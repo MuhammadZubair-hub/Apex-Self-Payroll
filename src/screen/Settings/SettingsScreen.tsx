@@ -28,6 +28,7 @@ import {
   enableBiometric,
   disableBiometric,
 } from '../../utils/biometricService';
+import { baseUrl, activeApexURl } from '../../services/Constants/endPoints';
 
 
 const SettingsScreen = () => {
@@ -196,7 +197,7 @@ const SettingsScreen = () => {
             <View style={[premiumStyles.premiumCard, { backgroundColor: cardBg, borderColor: cardBorder, marginTop: verticalScale(10) }]}>
               <View style={premiumStyles.avatarContainer}>
                 {profileImage ? (
-                  <Image source={{ uri: `https://ait.vdc.services:1410${profileImage}` }} style={premiumStyles.premiumAvatar} />
+                  <Image source={{ uri: `${activeApexURl}${profileImage}` }} style={premiumStyles.premiumAvatar} />
                 ) : (
                   <View style={[premiumStyles.premiumAvatar, { backgroundColor: '#0062e3' }]}>
                     <Text style={premiumStyles.avatarInitial}>{fullName.charAt(0).toUpperCase()}</Text>

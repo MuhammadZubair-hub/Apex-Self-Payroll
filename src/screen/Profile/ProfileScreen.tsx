@@ -9,6 +9,7 @@ import { useProfile } from './Profile.logic';
 import ProfileInfoRow from './components/ProfileInfoRow';
 import { AppSizes } from '../../utils/AppSizes';
 import { scale, verticalScale } from '../../utils/responsive';
+import { activeApexURl } from '../../services/Constants/endPoints';
 
 const ProfileScreen = () => {
   const {
@@ -79,7 +80,7 @@ const ProfileScreen = () => {
               <View style={premiumStyles.topRow}>
                 <View style={premiumStyles.avatarContainer}>
                   {profileImage ? (
-                    <Image source={{ uri: `https://ait.vdc.services:1410${profileImage}` }} style={premiumStyles.premiumAvatar} />
+                <Image source={{ uri: `${activeApexURl}${profileImage}` }} style={premiumStyles.premiumAvatar} />
                   ) : (
                     <View style={[premiumStyles.premiumAvatar, { backgroundColor: '#0062e3' }]}>
                       <Text style={premiumStyles.avatarInitial}>{fullName.charAt(0).toUpperCase()}</Text>

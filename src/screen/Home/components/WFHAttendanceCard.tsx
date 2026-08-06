@@ -58,12 +58,11 @@ const WFHAttendanceCard = ({ colors, todayAttendance, loading, onCheckInOut }: W
           disabled={loading}
         >
           {loading ? (
-            // <ActivityIndicator color="#fff" />
             <Fold size={AppSizes.ICON_20} color={'#fff'} />
 
           ) : (
             <>
-              {/* <Ionicons name="location-outline" size={AppSizes.ICON_20} color="#fff" style={{ marginRight: scale(8) }} /> */}
+              
               <Text style={{ color: '#fff', fontFamily: 'PlusJakartaSans-SemiBold', fontSize: AppSizes.FONT_16 }}>
                 {buttonText}
               </Text>
