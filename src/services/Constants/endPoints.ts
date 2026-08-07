@@ -51,39 +51,4 @@ export const endPoints = {
 
 
 
-  //dummy url tha
-  RegisterUser: "Registeruser",
-  // changePassword: "changePassword",
-  deleteUser: "deleteUser",
-  updateUser: "updateUser",
-
-  getAllUsers: "getAllUsers",
-  attendance: "attendanceSignIn", // signin
-  attendancesignout: "attendancesignout", // signout
-  userAttendaceRecord: "userAttendaceRecord", // userattendanceRecord
-
-  AssignTask: "AssignTask",
-  getallTask: "getallTask",
-  updateTask: "updateTask",
-
-  LeaveRequest: "LeaveRequest",
-  updateLeaveRequest: "updateLeaveRequest",
-  getallLeaveRequest: "getallLeaveRequest",
-
-  LoanRequest: "LoanRequest",
-  updateLoanRequest: "updateLoanRequest",
-  getallLoanRequest: "getallLoanRequest",
-
-  claimRequest: "claimRequest",
-  updateClaimExpenseRequest: "updateClaimExpenseRequest",
-  getallClaimexpenseRequest: "getallClaimexpenseRequest",
-
-  CreateAnnouncement: "CreateAnnouncement",
-  updateAnnouncement: "updateAnnouncement",
-  deleteAnnouncement: "deleteAnnouncement",
-  getAllAnnouncement: "getAllAnnouncement",
-
-  getTeamMembers: "getTeamMembers",
-  getUperManagement: "getUperManagement",
-  getLowwerManagement: "getLowwerManagement",
 };

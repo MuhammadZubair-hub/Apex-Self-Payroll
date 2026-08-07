@@ -48,20 +48,7 @@ export const API_Config = {
     });
   },
 
-  RegisterUser: async (
-    fullName: string,
-    userName: string,
-    password: string,
-    user_Role: string,
-    parentId: string,
-    Cnic: string,
-  ) => {
-    return apicall({
-      endpoint: `${baseUrl}${endPoints.RegisterUser}`,
-      method: "POST",
-      data: { fullName, userName, user_Role, Cnic, password, parentId },
-    });
-  },
+ 
 
   UpdatePassword: async (password: string, Cnic: string) => {
     return apicall({
@@ -71,20 +58,7 @@ export const API_Config = {
     });
   },
 
-  UpdatedUserProfile: async (data: any) => {
-    return apicall({
-      endpoint: `${baseUrl}${endPoints.updateUser}`,
-      method: "POST",
-      data: data,
-    });
-  },
-  getAllAnnouncement: async () => {
-    return apicall({
-      endpoint: `${baseUrl}${endPoints.getAllAnnouncement}`,
-      method: "GET",
-      data: {},
-    });
-  },
+ 
   getLeaveTypes: async () => {
     return apicall({
       endpoint: `${baseUrl}admin/leave-types?filter=ACTIVE&page=0&size=1`,
