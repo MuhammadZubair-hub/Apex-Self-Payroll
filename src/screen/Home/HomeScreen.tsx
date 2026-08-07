@@ -47,6 +47,7 @@ const HomeScreen = () => {
     closePendingApprovalsModal,
     goToAttendance,
     goToRequestLetter,
+    goToSettings,
     goToPendingLeaveApprovals,
     goToPendingWfhApprovals,
     isWFH,
@@ -63,6 +64,9 @@ const HomeScreen = () => {
       <PrimaryHeader
         headerText="Dashboard"
         showDate
+        rightIconName="settings-outline"
+        rightLabel="Settings"
+        onRightIconPress={goToSettings}
       />
 
       <ScrollView

@@ -183,6 +183,7 @@ export const useHome = () => {
   const closePendingApprovalsModal = useCallback(() => setPendingApprovalsModalVisible(false), []);
   const goToAttendance = useCallback(() => navigation.navigate('attendance'), [navigation]);
   const goToRequestLetter = useCallback(() => navigation.navigate('requestLetter'), [navigation]);
+  const goToSettings = useCallback(() => navigation.navigate('settings'), [navigation]);
   const goToPendingLeaveApprovals = useCallback(() => {
     setPendingApprovalsModalVisible(false);
     navigation.navigate('leaveRequest', { section: 'APPROVALS' });
@@ -218,6 +219,7 @@ export const useHome = () => {
     closePendingApprovalsModal,
     goToAttendance,
     goToRequestLetter,
+    goToSettings,
     goToPendingLeaveApprovals,
     goToPendingWfhApprovals,
     isWFH,

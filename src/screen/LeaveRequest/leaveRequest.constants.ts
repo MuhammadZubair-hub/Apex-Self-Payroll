@@ -21,6 +21,18 @@ export const getLeaveIconMeta = (colors: any, leaveName?: string) => {
   return { name: 'document-text-outline', bg: colors.lightPurple, color: colors.purple1 };
 };
 
+export const getStatusIconMeta = (colors: any, status?: string) => {
+  switch (status) {
+    case 'Approved':
+      return { name: 'checkmark-circle-outline', bg: colors.greenTint, color: colors.greenColor };
+    case 'Rejected':
+      return { name: 'close-circle-outline', bg: colors.redTint, color: colors.redColor };
+    case 'Pending':
+    default:
+      return { name: 'time-outline', bg: colors.orangeTint, color: colors.orangeColor };
+  }
+};
+
 export const STATUS_TABS = [
   { key: 'ALL', label: 'All' },
   { key: 'Pending', label: 'Pending' },

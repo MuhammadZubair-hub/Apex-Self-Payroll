@@ -3,7 +3,7 @@
  const liveApexURl = 'https://ait.vdc.services:5009' // live DB
 
 
-export const activeApexURl = liveApexURl; 
+export const activeApexURl = testApexURl; 
 
 export const baseUrl = `${activeApexURl}/api/`;
 

@@ -2,7 +2,7 @@ import React, { useMemo } from 'react';
 import { StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 import Icon from '../../../components/Icons';
 import { sharedStyles } from '../../LeaveRequest/components/sharedStyles';
-import { formatDateRange, formatShortDate, getStatusMeta } from '../../LeaveRequest/leaveRequest.constants';
+import { formatDateRange, formatShortDate, getStatusMeta, getStatusIconMeta } from '../../LeaveRequest/leaveRequest.constants';
 import { scale } from '../../../utils/responsive';
 import { AppSizes } from '../../../utils/AppSizes';
 
@@ -14,10 +14,9 @@ interface WFHApplicationCardProps {
 }
 
 const WFHApplicationCard = ({ item, colors, onPress, onPressApprovalChain }: WFHApplicationCardProps) => {
-  const statusMeta = useMemo(() => {
-    const rawStatus = item.requestStatus || item.RequestStatus || (item.flgApproved ? 'Approved' : 'Pending');
-    return getStatusMeta(colors)[rawStatus] || getStatusMeta(colors).Pending;
-  }, [colors, item]);
+  const rawStatus = item.requestStatus || item.RequestStatus || (item.flgApproved ? 'Approved' : 'Pending');
+  const statusMeta = useMemo(() => getStatusMeta(colors)[rawStatus] || getStatusMeta(colors).Pending, [colors, rawStatus]);
+  const iconMeta = useMemo(() => getStatusIconMeta(colors, rawStatus), [colors, rawStatus]);
 
   const days = item.noOfDaysWFHReq || item.NoOfDaysWFHReq || 1;
   const titleText = item.reason || item.Reason || 'Work From Home';
@@ -32,8 +31,8 @@ const WFHApplicationCard = ({ item, colors, onPress, onPressApprovalChain }: WFH
       onPress={() => onPress(item)}
       activeOpacity={0.8}
     >
-      <View style={[sharedStyles.cardIconBox, { backgroundColor: colors.greenTint }]}>
-        <Icon type="Ionicons" name="laptop-outline" size={AppSizes.ICON_20} color={colors.greenColor} />
+      <View style={[sharedStyles.cardIconBox, { backgroundColor: iconMeta.bg }]}>
+        <Icon type="Ionicons" name={iconMeta.name} size={AppSizes.ICON_20} color={iconMeta.color} />
       </View>
 
       <View style={sharedStyles.cardBody}>

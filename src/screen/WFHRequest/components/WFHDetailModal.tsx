@@ -4,7 +4,7 @@ import BottomSheet from '../../../components/BottomSheet';
 import MyButton from '../../../components/MyButton';
 import Icon from '../../../components/Icons';
 import { sharedStyles } from '../../LeaveRequest/components/sharedStyles';
-import { formatDateRange, formatShortDate, getStatusMeta } from '../../LeaveRequest/leaveRequest.constants';
+import { formatDateRange, formatShortDate, getStatusMeta, getStatusIconMeta } from '../../LeaveRequest/leaveRequest.constants';
 import { scale, verticalScale, moderateScale } from '../../../utils/responsive';
 import { AppSizes } from '../../../utils/AppSizes';
 
@@ -46,6 +46,7 @@ const WFHDetailModal = ({ visible, item, colors, onClose }: WFHDetailModalProps)
 
   const rawStatus = item.requestStatus || item.RequestStatus || (item.flgApproved ? 'Approved' : 'Pending');
   const statusMeta = getStatusMeta(colors)[rawStatus] || getStatusMeta(colors).Pending;
+  const iconMeta = getStatusIconMeta(colors, rawStatus);
 
   const days = item.noOfDaysWFHReq || item.NoOfDaysWFHReq || 1;
   const reasonText = item.reason || item.Reason || 'Work From Home';
@@ -76,8 +77,8 @@ const WFHDetailModal = ({ visible, item, colors, onClose }: WFHDetailModalProps)
       footer={<MyButton text="Close" onPress={onClose} style={{ backgroundColor: colors.purple1, marginTop: scale(6) }} />}
     >
       <View style={styles.topRow}>
-        <View style={[sharedStyles.cardIconBox, { backgroundColor: colors.successBg }]}>
-          <Icon type="Ionicons" name="laptop-outline" size={AppSizes.ICON_20} color={colors.greenColor} />
+        <View style={[sharedStyles.cardIconBox, { backgroundColor: iconMeta.bg }]}>
+          <Icon type="Ionicons" name={iconMeta.name} size={AppSizes.ICON_20} color={iconMeta.color} />
         </View>
         <View style={{ flex: 1, marginLeft: scale(12) }}>
           <Text style={[styles.title, { color: colors.textPrimary }]}>Work From Home</Text>

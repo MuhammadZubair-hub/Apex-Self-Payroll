@@ -1,6 +1,6 @@
 import { useNavigation } from '@react-navigation/native';
 import React from 'react';
-import { StyleSheet, Text, View } from 'react-native';
+import { StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 import { AppSizes } from '../../utils/AppSizes';
 import { scale, xdHeight } from '../../utils/responsive';
 import Icon from '../Icons';
@@ -15,6 +15,7 @@ interface PrimaryHeaderProps {
   showBackButton?: boolean;
   rightIconName?: string;
   rightIconType?: string;
+  rightLabel?: string;
   showDate?: boolean;
   alignTextCenter?: boolean;
   onRightIconPress?: () => void;
@@ -27,6 +28,7 @@ const PrimaryHeader = ({
   showBackButton = false,
   rightIconName,
   rightIconType = 'Ionicons',
+  rightLabel,
   showDate = false,
   alignTextCenter = false,
   onRightIconPress,
@@ -75,10 +77,15 @@ const PrimaryHeader = ({
           )}
         </View>
 
-        <View style={styles.iconZone}>
-          {rightIconName && (
+        <View style={[styles.iconZone, rightLabel && styles.rightPillZone]}>
+          {rightIconName && rightLabel ? (
+            <TouchableOpacity style={styles.glassPill} onPress={onRightIconPress} activeOpacity={0.75}>
+              <Icon type={rightIconType} name={rightIconName} size={AppSizes.ICON_16} color="#fff" />
+              <Text style={styles.glassPillText}>{rightLabel}</Text>
+            </TouchableOpacity>
+          ) : rightIconName ? (
             <Icon type={rightIconType} name={rightIconName} size={AppSizes.ICON_24} color="#fff" onPress={onRightIconPress} />
-          )}
+          ) : null}
         </View>
       </View>
     </>
@@ -97,6 +104,26 @@ const styles = StyleSheet.create({
     width: scale(40),
     alignItems: 'flex-start',
     justifyContent: 'center',
+  },
+  rightPillZone: {
+    width: undefined,
+    alignItems: 'flex-end',
+  },
+  glassPill: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: scale(6),
+    paddingHorizontal: scale(10),
+    paddingVertical: scale(7),
+    borderRadius: AppSizes.RADIUS_20,
+    backgroundColor: 'rgba(255,255,255,0.18)',
+    borderWidth: 1,
+    borderColor: 'rgba(255,255,255,0.3)',
+  },
+  glassPillText: {
+    color: '#fff',
+    fontSize: AppSizes.FONT_12,
+    fontFamily: 'PlusJakartaSans-SemiBold',
   },
   titleZone: {
     flex: 1,
